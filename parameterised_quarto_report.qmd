@@ -1,0 +1,679 @@
+---
+title: "Producing Parameterised Reports using {purrr} and {quarto}" 
+subtitle: "Reprex of a workflow for producing parameterised reports using the {nycflights13} dataset"
+institute: "Newcastle upon Tyne Hospitals NHS Foundation Trust"
+author: "Daniel Weiand" 
+#date: "`r format(Sys.time(), '%a %B %d %Y')`" 
+date: today
+date-format: "dddd, D MMMM, YYYY"
+self-contained: true
+
+#html formation options
+format: 
+  html:
+    code-fold: false
+    code_download: true
+    embed-resources: true
+    standalone: true
+    toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+    toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
+    toc_float: TRUE
+    highlight-style: pygments
+    fig-path: 'figures/'
+    fig-width: 7 #default is 7
+    fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+    fig-align: 'left' #Possible values are default, left, right, and center.
+    fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+    fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+    theme:
+    #- mystyle.scss
+    - default 
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  echo: FALSE 
+  warning: FALSE 
+  error: TRUE 
+  message: FALSE 
+  cache: FALSE 
+
+editor: source
+
+# parameters for report
+
+params:
+  dest: "NA"
+  origin: "NA"
+  month: "NA"
+  carrier: "NA"
+  
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: project setup
+
+#Project setup
+options(stringsAsFactors = FALSE)
+options(scipen = 1, digits = 2)
+options(knitr.kable.NA = '')
+ggplot2::theme_set(ggplot2::theme_minimal())
+
+#renv
+library(renv)
+# renv::init()
+renv::activate()
+# renv::snapshot()
+
+#package load
+library(tidyverse) # includes the {purrr} package
+library(lubridate) # for working with date-time datasets
+library(here) # for correctly loading files/data
+library(knitr) # for dynamic report generation in R
+library(quarto) # new open-source technical publishing system from RStudio/Posit
+library(nycflights13) # for flights data 
+library(skimr) # for quick analysis of larger datasets
+
+#set up {here}
+here::set_here()
+here::here()
+
+```
+
+```{r data_import}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: data_import
+
+# data import -------------------------------------------------------------
+
+# library(nycflights13) #flights data included in this package 
+
+flights <- nycflights13::flights
+
+```
+
+```{r params_wrangle}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: params_wrangle
+
+# # parameters for report (in YAML)
+#
+# params:
+#   dest: "NA"
+#   origin: "NA"
+#   month: "NA"
+#   carrier: "NA"
+  
+# set up params / parameterised reporting --------------------------------------
+
+# Can render an individual parameterised report by typing the below into the RStudio terminal and replacing XXXXX with one of the parameter's subcategories, e.g. for origin:"EWR", or "LGA", or "JFK"  
+# quarto render parameterised_quarto_report.qmd -P origin:XXXXX
+
+# params for dest
+
+if (!is.na(params$dest) && params$dest != "NA") {
+  flights <- flights[flights$dest == params$dest, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `dest`?")
+}
+
+# params for origin
+
+if (!is.na(params$origin) && params$origin != "NA") {
+  flights <- flights[flights$origin == params$origin, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `origin`?")
+}
+
+# params for month
+
+if (!is.na(params$month) && params$month != "NA") {
+  flights <- flights[flights$month == params$month, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `month`?")
+}
+
+# params for carrier
+
+if (!is.na(params$carrier) && params$carrier != "NA") {
+  flights <- flights[flights$carrier == params$carrier, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `carrier`?")
+}
+
+```
+
+```{r data_wrangle}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: data_wrangle
+
+# Wrangle -------------------------------------------------------
+flights <- flights |> 
+  mutate(gain=arr_delay -dep_delay,
+         speed= distance /air_time * 60,
+         hour=dep_time %/% 100, #Integer Division (%/%)
+         minute=dep_time %% 100) #remainder (%%) 
+new_flights <- flights %>% 
+  group_by(dest) %>%
+  summarize(
+    count = n(),
+    dist = mean(distance, na.rm = TRUE),
+    delay = mean(arr_delay, na.rm = TRUE)
+  )
+
+not_cancelled <- flights %>% 
+  filter(!is.na(arr_delay), !is.na(dep_delay)) 
+
+planes_with_delays <- not_cancelled %>% 
+  group_by(tailnum) %>%
+  summarize(
+    count = n(),
+    avg_delay = mean(arr_delay)
+  )
+
+max_delay <- planes_with_delays %>% 
+  arrange(-avg_delay)
+
+by_day <- flights |> 
+  group_by(year, month, day) |> 
+  summarize(delay=mean(dep_delay, na.rm=TRUE))
+
+by_dest <- flights |> 
+  group_by(dest)
+
+delay <- summarize(by_dest, count=n(), dist=mean(distance, na.rm=TRUE), delay=mean(arr_delay, na.rm = TRUE))
+delay <- filter(delay, count>20, dest !="HNL")
+delay
+
+```
+
+# Aim
+
+To run through a reproducible example (reprex) of a workflow for producing parameterised reports using {purrr}, {quarto} and the {nycflights13} dataset
+
+# Why produce parameterised reports?
+
+Creating parameterised reports (i.e., documents with outputs—text, plots, tables, etc—that change based on the values of the parameters that you select) is a really common task for data analysts, and it’s a task that can be made much easier with {quarto}.
+
+# What is Quarto?
+
+Quarto is a new open-source technical publishing system from RStudio/Posit:
+
+- Similar in many ways to R Markdown 
+- Supports more languages (incl both R and Python) 
+- Combines the functionality of many R Markdown packages, e.g., {xaringan}, {bookdown}.
+- Supports many different output formats (incl HTML, Word, PDF, revealjs, powerpoint, and so on)
+
+# Background to the {nycflights13} package
+
+nycflights13::flights contains `r length(nycflights13::flights$origin)` detailed records of all flights that departed from NY in 2013. 
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: nycflights13 data tables
+
+?flights # all flights that departed from NYC in 2013
+?weather # hourly meterological data for each airport
+?planes # construction information about each plane
+?airports # airport names and locations
+?airlines # translation between two letter carrier codes and names
+```
+
+# Related datasets of possible interest
+
+If you're interested in other subsets of flight data, related to the {nycflights13} dataset, see:
+
+- [{nycflights}](https://github.com/jayleetx/nycflights) for flights departing from NYC in the last year.
+
+- [{anyflights}](https://github.com/simonpcouch/anyflights) for flights departing from any airport in any year.
+
+- [{airlines}](https://github.com/beanumber/airlines) to maintain a local SQL database of all flight departure data.
+
+# Selection of parameter(s) for report
+
+The nycflights13::flights dataset contains the following fields:
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: flights dataset fields
+
+year, month, day # Date of departure.
+
+dep_time, arr_time # Actual departure and arrival times (format HHMM or HMM), local timezone (tz).
+
+sched_dep_time, sched_arr_time # Scheduled departure and arrival times (format HHMM or HMM), local tz.
+
+dep_delay, arr_delay # Departure and arrival delays, in minutes. Negative times represent early departures/arrivals.
+
+carrier # Two letter carrier abbreviation. See airlines to get name.
+
+flight # Flight number.
+
+tailnum # Plane tail number. See ?planes for additional metadata.
+
+origin, dest # Origin and destination. See airports for additional metadata.
+
+air_time # Amount of time spent in the air, in minutes.
+
+distance # Distance between airports, in miles.
+
+hour, minute # Time of scheduled departure broken into hour and minutes.
+
+time_hour # Scheduled date and hour of the flight as a POSIXct date. Along with origin, can be used to join flights data to weather data.
+```
+
+# Analysing your dataset for suitable parameters
+
+For the purposes of this reprex, we can produce parameterised reports using subcategories of any variable/field included with the nycflights13::flights dataset.
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: skimr analysis of the nycflights13::flights dataset
+
+skimr::skim(nycflights13::flights) |> 
+  select(contains(c("skim", "complete", "missing", "unique", "hist"))) |> 
+  flextable::flextable() |> 
+  flextable::autofit() |> 
+  flextable::theme_vanilla() 
+```
+
+```{r}
+skimr::skim(nycflights13::flights) |> 
+  select(contains(c("skim", "complete", "missing", "unique", "hist"))) |> 
+  flextable::flextable() |> 
+  flextable::autofit() |> 
+  flextable::theme_vanilla() 
+```
+
+# Requirements to produce parameterised reports
+
+- A Quarto script, including a YAML parameter statement
+- Wrangling of the dataset into "params"
+- An R script to execute/render parameterised reports using Quarto
+
+# YAML parameter statement
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: YAML statement RE chosen parameters
+
+# parameters for report
+
+params:
+  dest: "NA"
+  origin: "NA"
+  month: "NA"
+  carrier: "NA"
+
+```
+
+# Wrangling of dataset into "params"
+
+For each variable/field, put the following code in your Quarto script **after** loading required packages and datasets and **before** any further data wrangling steps:
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: Wrangling of dataset into params
+
+# e.g. params for nycflights13::flights$origin
+
+if (!is.na(params$origin) && params$origin != "NA") {
+  flights <- flights[flights$origin == params$origin, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `origin`?")
+}
+
+```
+
+# Rendering parameterised reports using Quarto 
+
+There are three ways to render parameterised reports, in increasing order of complexity (and usefulness!)
+
+## Rendering parameterised reports using Quarto (1)
+
+1. Manually change the parameter values in the header YAML of your .qmd file and hit Render in RStudio. This is great for one-offs or for testing!
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: specify parameter(s) in YAML statement 
+
+# parameters for report
+
+params:
+  dest: "NA"
+  origin: "JFK" # JFK airport specified
+  month: "NA"
+  carrier: "NA"
+
+```
+
+## Rendering parameterised reports using Quarto (2)
+
+2. Use the RStudio terminal to specify the parameter(s) you want to use.
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: specify parameter(s) in RStudio terminal 
+
+# Replacing XXXXX with one of the parameter's subcategories, e.g. for origin:"EWR", or "LGA", or "JFK" 
+
+# quarto render parameterised_quarto_report.qmd -P origin:XXXXX
+
+# e.g. quarto render parameterised_quarto_report.qmd -P origin:JFK
+
+```
+
+## Rendering parameterised reports using Quarto (3)
+
+3. Leverage the quarto::quarto_render() function in R to automatically create a report for each parameter combination we want and name that file in a way that we specify.
+
+This code must be saved in the form of a separate R script.
+
+The {purrr} package helps to iteratively produce a report for every unique element of each specified parameter. 
+
+Use purrr:map() to iteratively produce a report for each element of one input.
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: specify parameter(s) using the quarto::quarto_render() function in R - one input
+
+# for one input, create runparams function with one input: origin ------------------------
+
+runparams_one_input <- function(origin) {
+  quarto::quarto_render(
+    "parameterised_quarto_report.qmd",
+    output_format = "html",
+    execute_params = list(origin = origin),
+    output_file = glue::glue("parameterised_quarto_report_{origin}.html")
+  )
+}
+
+# to run a single report
+
+runparams_one_input(origin = "JFK")
+
+# to run a report against every subcategory of a variable, e.g. origin airport
+
+params_origin <- unique(flights$origin)
+
+# execute with purrr:map() function
+
+purrr::map(params_origin, runparams_one_input)
+
+```
+
+Use purrr:map2() to iteratively produce a report for each element of two different inputs.
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: specify parameter(s) using the quarto::quarto_render() function in R - two inputs
+
+# for two inputs, create runparams function with two inputs: origin and month -------------
+
+runparams_two_inputs <- function(origin, month) {
+  quarto::quarto_render(
+    "parameterised_quarto_report.qmd",
+    output_format = "html",
+    execute_params = list(origin = origin, month = month),
+    output_file = glue::glue("parameterised_quarto_report_{origin}_{month}.html")
+  )
+}
+
+# to run a report against every subcategory of two variables, e.g. both origin airport and month
+
+params_origin <- unique(flights$origin)
+
+params_month <- unique(flights$month)
+
+# execute with purrr:map2() function
+
+purrr::map2(params_origin, params_month, runparams_two_inputs)
+
+```
+
+# Analysis of {nycflights13} data
+
+## Basic structure of the data
+
+```{r}
+skimr::skim(nycflights13::flights) |> 
+  select(contains(c("skim", "complete", "missing", "unique", "hist"))) |> 
+  flextable::flextable() |> 
+  flextable::autofit() |> 
+  flextable::theme_vanilla() 
+```
+
+## Flight delay distribution
+
+The figure below shows that the distribution of the  delay in arrivals is right-skewed; it has a long tail.
+
+```{r}
+ggplot(planes_with_delays, aes(avg_delay)) + 
+  geom_freqpoly() +
+  labs(x = "arrival delay (mins)",
+       y = "number of flights (n)")
+```
+
+## Distance vs delay
+
+From basic inspection we can find that there are `r length(unique(flights$carrier))` different carriers flying out of `r length(unique(flights$origin))` NYC airports. 
+
+There are `r length(unique(flights$dest))` different destination locations, serviced by `r length(unique(flights$tailnum))` unique planes.
+
+`r flights |> filter(is.na(dep_delay)) |> count()` flight departures were cancelled.
+
+## Plot of distance vs delay
+
+Let’s examine the relationship between the distance and the average delay for each location. Lets explore the output visually
+
+```{r}
+new_flights |> 
+  ggplot(aes(dist,delay)) + 
+  geom_point(aes(size = count),alpha = 0.5) + 
+  geom_smooth() + 
+  geom_jitter() +
+  labs(x = "distance travelled (miles)",
+       y = "delay (mins)")
+```
+
+## Average delay (count)
+
+The average delay was `r planes_with_delays |> filter(!is.na(avg_delay)) |> summarise(mean = mean(avg_delay))` minutes.
+
+Lets explore even further, looking at the average delay for all planes planes that took more than 20 trips.
+
+```{r}
+planes_with_delays %>%
+  filter(count > 20) %>%
+  ggplot(aes(count, avg_delay)) + 
+  geom_point(alpha=1/10) +
+  labs(x = "count (n)",
+       y = "average delay (mins)")
+```
+
+## Delay vs distance travelled
+
+The following chart shows the departure delay, in minutes, for planes that took more than 20 trips, travelling between airports less than 3000 miles apart.
+
+```{r}
+by_tailnum <- flights |> 
+  group_by(tailnum)
+
+delay <- by_tailnum |> 
+  summarise(count = n(),
+            dist = mean(distance, na.rm = TRUE),
+            delay = mean(arr_delay, na.rm = TRUE))
+
+# Subset the data to only include frequently flown planes
+# and distances < 3000 
+delay <- delay |> 
+  filter(count > 20, dist < 3000)
+
+# Plot
+ggplot(delay, aes(dist, delay)) +
+  geom_point(aes(size = count), alpha = 1/2) +
+  geom_smooth() +
+  scale_size_area() +
+  labs(x = "distance (miles)",
+       y = "delay (mins)")
+```
+
+## Delay gain per hour
+
+For planes that took more than 20 trips, where distance between airports was less than 3000 miles.
+
+```{r}
+gain.df <- flights %>% 
+  mutate(gain = dep_delay - arr_delay,
+         gain_per_hour = gain / (air_time / 60)) %>%
+  group_by(tailnum) %>%
+  summarise(count = n(),
+            av_gain = mean(gain_per_hour, na.rm = TRUE),
+            av_dep_delay = mean(dep_delay, na.rm = TRUE),
+            av_arr_delay = mean(arr_delay, na.rm = TRUE),
+            av_dist = mean(distance)
+  ) %>%
+  filter(count > 20, av_dist < 3000)
+
+ggplot(gain.df, aes(x = av_dist, y = av_gain, size = count)) +
+  geom_point(alpha = 0.3) +
+  scale_size_area() +
+  geom_smooth(show.legend = FALSE)+
+  labs(x = "average distance (miles)",
+       y = "average gain (mins)")
+```
+
+## Average departure delay (by origin airport)
+
+Flights leaving from `r flights %>% group_by(origin) %>% summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% arrange(desc(av_dep_delay)) |>   pluck(1, 1)` had an average departure delay of `r flights %>% group_by(origin) %>% summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE)) %>% arrange(desc(av_dep_delay)) |>   pluck(2, 1)` minutes.
+
+```{r}
+flights %>% 
+  group_by(origin) %>%
+  summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE)) %>%
+  ggplot(aes(x = origin, y = av_dep_delay)) + 
+  geom_bar(stat = "identity") +
+  ylab("Average departure delay") +
+  xlab("Origin airport")
+```
+
+## Average departure delay (by destination  airport)
+
+Flights leaving to `r flights %>%   group_by(dest) %>%   summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE), count = n()) %>%  ungroup() %>%  arrange(desc(av_dep_delay)) |>  pluck(1,1) ` had the longest average departure delay of  `r flights %>%   group_by(dest) %>%   summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE), count = n()) %>%  ungroup() %>%  arrange(desc(av_dep_delay)) |>  pluck(2,1) ` minutes.
+
+The following plot shows the average departure delay (by destination  airport), concentrating on destinations taking more than a 2000 flights in `r unique(flights$year)` from `r unique(flights$origin)`.
+
+```{r}
+flights %>% 
+  group_by(dest) %>%
+  summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE),
+            count = n()) %>%
+  ungroup() %>%
+  filter(count > 1000) %>%
+  arrange(desc(av_dep_delay)) |> 
+  mutate(dest = reorder(dest, av_dep_delay)) %>%
+  ggplot(aes(x = fct_reorder(dest, -av_dep_delay), y = av_dep_delay, 
+             size = count)) + 
+  geom_point(alpha = 0.5) +
+  scale_size_area() +
+  ylab("Average departure delay") +
+  xlab("Destination airport") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+
+## Carrier vs air time
+
+The following boxplot shows the mount of time spent in the air, in minutes, for each carrier departing from `r unique(flights$origin)`.
+
+```{r}
+flights |> 
+  ggplot(aes(x=fct_reorder(carrier, - air_time), y=air_time)) + 
+  geom_boxplot() +
+  labs(x = "carrier",
+       y = "air time")
+```
+
+# Further reading and kudos
+
+Note extremely [useful resource](https://meghan.rbind.io/blog/quarto-pdfs/) published by [Meghan Hall](twitter.com/meghanmhall)
+
+# Summary
+
+R benefits from a worldwide community that **freely** shares learning and resources, through e.g. [GitHub](https://github.com/send2dan/)
+
+I hope you enjoyed reading through this reprex of a workflow for producing parameterised reports using {purrr}, {quarto} and the {nycflights13} dataset.
+
+Creating parameterised documents is much easier with {quarto}, which supports languages incl both R and Python to produce reports in many different different output formats.
+
+Using the {nycflights13} dataset, which is freely available to everyone, should help any interested parties to run the necessary code from their own computers.
+
+The skimr::skim() function helps identify variables that may be of interest when producing parameterised reports. 
+
+The only prerequisites for producing parameterised reports are:
+- A Quarto script, including a YAML parameter statement
+- Wrangling of the dataset into "params"
+- An R script to execute/render parameterised reports using Quarto
+
+The {purrr} package helps to iteratively produce a report for every unique combination of specified parameters. 
+
+There are three ways to render parameterised reports, in increasing order of complexity, the third of which is by far the most useful, in that it automatically creates and names reports for each parameter combination of interest. 
+
+For copies of the code, check out my [GitHub](https://github.com/send2dan/) page.
