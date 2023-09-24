@@ -207,6 +207,18 @@ delay
 
 ```
 
+# Parameter(s) for report
+
+This report focuses on the following parameter(s):
+
+Destination airport: **`r params$dest`**
+
+Origin airport: **`r params$origin`**
+
+Month of flight: **`r params$month`**
+
+Carrier: **`r params$carrier`**
+
 # Aim
 
 To run through a reproducible example (reprex) of a workflow for producing parameterised reports using {purrr}, {quarto} and the {nycflights13} dataset
