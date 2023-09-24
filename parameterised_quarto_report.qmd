@@ -96,7 +96,7 @@ here::here()
 
 # library(nycflights13) #flights data included in this package 
 
-flights <- nycflights13::flights
+#flights <- nycflights13::flights
 
 ```
 
@@ -509,7 +509,7 @@ purrr::map2(two_inputs$x, two_inputs$y,runparams_two_inputs)
 ## Basic structure of the data
 
 ```{r}
-skimr::skim(nycflights13::flights) |> 
+skimr::skim(flights) |> 
   select(contains(c("skim", "complete", "missing", "unique", "hist"))) |> 
   flextable::flextable() |> 
   flextable::autofit() |> 

@@ -36,10 +36,10 @@ runparams_two_inputs <- function(origin, month) {
 }
 
 # execute with purrr:map2() function
-# https://stackoverflow.com/questions/54256790/is-there-a-way-i-can-recycle-elements-of-the-shorter-list-in-purrr-map2-or-pur
 
 x <- unique(flights$origin)
 y <- unique(flights$month)
-l <- max(length(y), length(x))
-purrr::map2(rep(x,len = l), rep(y,len = l),runparams_two_inputs)
+two_inputs <- tidyr::crossing(x, y)
+
+purrr::map2(two_inputs$x, two_inputs$y,runparams_two_inputs)
 
