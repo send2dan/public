@@ -8,9 +8,11 @@ date: today
 date-format: "dddd, D MMMM, YYYY"
 self-contained: true
 
-#html formation options
-format: 
+# #Some options need to be set in format > html
+format:
   html:
+    #output-file: 'file' #Output file to write to
+    #output-ext: #Extension to use for generated output file
     code-fold: false
     code_download: true
     embed-resources: true
@@ -20,22 +22,73 @@ format:
     toc_float: TRUE
     highlight-style: pygments
     fig-path: 'figures/'
-    fig-width: 7 #default is 7
+    fig-width: 9 #default is 7
     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+    # fig-height: 6 #default is 7
     fig-align: 'left' #Possible values are default, left, right, and center.
     fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+    fig-cap-location: 'top' #top bottom or margin
     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
-    theme:
-    #- mystyle.scss
-    - default 
+    df-print: paged #kable, tibble or paged. The default printing method is kable.
+    theme: 
+    - mystyle.scss
+    - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
+    
+# #Some options need to be set in format > docx
+# format:
+#   docx:
+#     reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 1 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc-title: 'Table of Contents' #The title used for the table of contents.
+#     page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+#     fig-path: 'figures/'
+#     fig-width: 5 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'center' #Possible values are default, left, right, and center.
+#     fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: default #kable, tibble or paged. The default printing method is kable.
+
+# # Some options need to be set in format > revealjs
+# format:
+#   revealjs:
+#     incremental: true #Incrementally reveal elements https://rstudio-conf-2022.github.io/get-started-quarto/materials/05-presentations.html#/lists
+#     width: 1600
+#     height: 900
+#     #css: ["mystyle.css"]
+#     default-image-extension: png
+#     theme: serif #full list of available themes: beige blood dark default league moon night serif simple sky solarized
+#     scrollable: true
+#     smaller: true
+#     transition: fade
+#     transition-speed: fast
+#     reference-location: document #If you prefer that footnotes be included at the end of the document, specify the reference-location: document option
+#     logo: Newcastlelaboratories_logo.png
+#     #footer: "Footer text"
+#     menu:
+#       side: left #Navigation Menu location
+#       width: normal    #Navigation Menu width
+#       numbers: true 	#Add slide numbers to menu items.
+#     slide-number: c/t #c/t = Slide number / total slides (default)
+#     show-slide-number: all #all = Show slide numbers in all contexts (default)
+#     embed-resources: true
+#     standalone: true
+
+# #Some referencing options need to be set in bibliography:, csl:, and link-citations: 
+# bibliography: biblio.bib  #Document bibliography (BibTeX or CSL). May be a single file or a list of files
+# csl: bmj.csl #Citation Style Language file to use for formatting references.
+# link-citations: yes
 
 #Some code chunk options need to be set in execute (credit: @rappa753)
 execute:
-  echo: FALSE 
-  warning: FALSE 
-  error: TRUE 
-  message: FALSE 
-  cache: FALSE 
+  echo: FALSE #Include cell source code in rendered output. 
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
 
 editor: source
 
@@ -260,9 +313,7 @@ nycflights13::flights contains `r length(nycflights13::flights$origin)` detailed
 If you're interested in other subsets of flight data, related to the {nycflights13} dataset, see:
 
 - [{nycflights}](https://github.com/jayleetx/nycflights) for flights departing from NYC in the last year.
-
 - [{anyflights}](https://github.com/simonpcouch/anyflights) for flights departing from any airport in any year.
-
 - [{airlines}](https://github.com/beanumber/airlines) to maintain a local SQL database of all flight departure data.
 
 # Selection of parameter(s) for report
@@ -331,11 +382,13 @@ skimr::skim(nycflights13::flights) |>
 
 # Requirements to produce parameterised reports
 
-- A Quarto script, including a YAML parameter statement
+- A Quarto script, including a parameter-specifying statements in YAML +/- body of report
 - Wrangling of the dataset into "params"
 - An R script to execute/render parameterised reports using Quarto
 
-# YAML parameter statement
+# Parameter-specifying statements
+
+## In YAML
 
 ```{r}
 #| eval: false
@@ -345,7 +398,7 @@ skimr::skim(nycflights13::flights) |>
 #| message: false
 #| label: YAML statement RE chosen parameters
 
-# parameters for report
+# parameters for report, in YAML
 
 params:
   dest: "NA"
@@ -353,6 +406,29 @@ params:
   month: "NA"
   carrier: "NA"
 
+```
+
+## In body of report
+
+```{r}
+#| eval: false
+#| include: true
+#| echo: true
+#| error: false
+#| message: false
+#| label: Body statement RE chosen parameters
+#| 
+# parameters for report, in body of text
+
+This report focuses on the following parameter(s):
+
+Destination airport: **`r params$dest`**
+
+Origin airport: **`r params$origin`**
+
+Month of flight: **`r params$month`**
+
+Carrier: **`r params$carrier`**
 ```
 
 # Wrangling of dataset into "params"
@@ -634,7 +710,7 @@ flights %>%
 
 Flights leaving to `r flights %>%   group_by(dest) %>%   summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE), count = n()) %>%  ungroup() %>%  arrange(desc(av_dep_delay)) |>  pluck(1,1) ` had the longest average departure delay of  `r flights %>%   group_by(dest) %>%   summarise(av_dep_delay = mean(dep_delay, na.rm = TRUE), count = n()) %>%  ungroup() %>%  arrange(desc(av_dep_delay)) |>  pluck(2,1) ` minutes.
 
-The following plot shows the average departure delay (by destination  airport), concentrating on destinations taking more than a 2000 flights in `r unique(flights$year)` from `r unique(flights$origin)`.
+The following plot shows the average departure delay (by destination  airport), concentrating on destinations taking more than a 1000 flights in `r unique(flights$year)` from `r unique(flights$origin)`.
 
 ```{r}
 flights %>% 
