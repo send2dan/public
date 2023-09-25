@@ -110,26 +110,26 @@ params:
 #| message: false
 #| label: project setup
 
+#renv
+library(renv)
+#renv::init()
+renv::activate()
+#renv::snapshot()
+
+#package load
+library(tidyverse) # includes the {purrr} package
+library(lubridate) # for working with date-time datasets
+library(knitr) # for dynamic report generation in R
+library(quarto) # new open-source technical publishing system from RStudio/Posit
+library(nycflights13) # for flights data 
+library(skimr) # for quick analysis of larger datasets
+library(glue) # an implementation of interpreted string literals
+
 #Project setup
 options(stringsAsFactors = FALSE)
 options(scipen = 1, digits = 2)
 options(knitr.kable.NA = '')
 ggplot2::theme_set(ggplot2::theme_minimal())
-
-#renv
-library(renv)
-# renv::init()
-renv::activate()
-# renv::snapshot()
-
-#package load
-library(tidyverse) # includes the {purrr} package
-library(lubridate) # for working with date-time datasets
-library(here) # for correctly loading files/data
-library(knitr) # for dynamic report generation in R
-library(quarto) # new open-source technical publishing system from RStudio/Posit
-library(nycflights13) # for flights data 
-library(skimr) # for quick analysis of larger datasets
 
 #set up {here}
 here::set_here()

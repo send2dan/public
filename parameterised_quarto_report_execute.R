@@ -18,7 +18,7 @@ runparams_one_input(origin = "JFK")
 
 # execute with purrr:map() function
 
-params_origin <- unique(flights$origin)
+params_origin <- unique(nycflights13::flights$origin)
 
 purrr::map(params_origin, runparams_one_input)
 
@@ -37,9 +37,18 @@ runparams_two_inputs <- function(origin, month) {
 
 # execute with purrr:map2() function
 
-x <- unique(flights$origin)
-y <- unique(flights$month)
+x <- unique(nycflights13::flights$origin)
+y <- unique(nycflights13::flights$month)
+
 two_inputs <- tidyr::crossing(x, y)
 
 purrr::map2(two_inputs$x, two_inputs$y,runparams_two_inputs)
+
+#https://stackoverflow.com/questions/18705153/generate-list-of-all-possible-combinations-of-elements-of-vector
+
+#tidyr::expand() can give both combinations of only values that appear in the data
+
+#two_inputs_expand <- tidyr::expand(flights, nesting(origin, month))
+
+
 
