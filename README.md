@@ -1,4 +1,4 @@
-# public
+# Public
 
 # Name: 
 Dr. Daniel Weiand
