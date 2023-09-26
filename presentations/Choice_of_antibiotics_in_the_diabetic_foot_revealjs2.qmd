@@ -1,0 +1,857 @@
+---
+title: "Choice of antibiotics in the diabetic foot." 
+subtitle: "Using R to Analyse and Predict Antimicrobial Resistance Rates for Isolates from Blood Cultures collected at NUTH from Q1 2019 onwards."
+institute: "Newcastle upon Tyne Hospitals NHS Foundation Trust"
+author: "Daniel Weiand (Consultant Medical Microbiologist) " # date: "`r format(Sys.time(), '%a %B %d %Y')`" 
+date: "2023-07-06"
+date-format: "dddd, D MMMM, YYYY"
+self-contained: true
+
+# #Some options need to be set in format > html
+# format:
+#   html:
+#     #output-file: 'file' #Output file to write to
+#     #output-ext: #Extension to use for generated output file
+#     code-fold: false
+#     code_download: true
+#     embed-resources: true
+#     standalone: true
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc_float: TRUE
+#     highlight-style: pygments
+#     fig-path: 'figures/'
+#     fig-width: 9 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'left' #Possible values are default, left, right, and center.
+#     fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: paged #kable, tibble or paged. The default printing method is kable.
+#     theme:
+#     - mystyle.scss
+#     - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
+    
+# #Some options need to be set in format > docx
+# format:
+#   docx:
+#     reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 1 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc-title: 'Table of Contents' #The title used for the table of contents.
+#     page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+#     fig-path: 'figures/'
+#     fig-width: 5 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'center' #Possible values are default, left, right, and center.
+#     fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: default #kable, tibble or paged. The default printing method is kable.
+
+# # Some options need to be set in format > revealjs
+format:
+  revealjs:
+    incremental: true #Incrementally reveal elements https://rstudio-conf-2022.github.io/get-started-quarto/materials/05-presentations.html#/lists
+    width: 1600
+    height: 900
+    #css: ["mystyle.css"]
+    default-image-extension: svg
+    theme: serif #full list of available themes: beige blood dark default league moon night serif simple sky solarized
+    scrollable: true
+    smaller: false
+    transition: fade
+    transition-speed: fast
+    reference-location: document #If you prefer that footnotes be included at the end of the document, specify the reference-location: document option
+    logo: Newcastlelaboratories_logo.png
+    #footer: "Footer text"
+    menu:
+      side: left #Navigation Menu location
+      width: normal  #Navigation Menu width
+      numbers: true 	#Add slide numbers to menu items.
+    slide-number: c/t #c/t = Slide number / total slides (default)
+    show-slide-number: all #all = Show slide numbers in all contexts (default)
+    embed-resources: true
+    standalone: true
+
+#Some referencing options need to be set in bibliography:, csl:, and link-citations: 
+bibliography: biblio.bib  #Document bibliography (BibTeX or CSL). May be a single file or a list of files
+csl: bmj.csl #Citation Style Language file to use for formatting references.
+link-citations: yes
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  echo: FALSE #Include cell source code in rendered output. 
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
+
+editor: source
+
+# parameterized reporting
+params:
+  directorate_recoded: "NA"
+  directorate: "NA"
+  location_code: "NA"
+  paediatric: "NA"
+  elderly_care: "NA"
+  # year: "NA"
+# location_code: {{ location_code }}
+# as_mo_genus: 'Candida'
+# year: 2021
+
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: project setup
+
+library(here)
+
+source(here("01_src", "01_initialise.R"))
+
+```
+
+```{r data_import}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: data import
+
+source(here("01_src", "02_data_import - read database.R"))
+
+```
+
+```{r params}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: params
+
+source(here("01_src", "03_wrangle - params from db.R"))
+
+```
+
+```{r functions}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: wrangle AMR data
+
+# functions ---------------------------------------------------------------
+
+source(here("01_src", "03_wrangle - functions.R"))
+
+```
+
+```{r wrangle_AMR_predict}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: wrangle AMR predict
+
+
+source(here("01_src", "03_wrangle - AMR_predict_functions.R"))
+
+```
+
+```{r wrangle_survival_data}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: wrangle survival data
+
+source(here("01_src", "03_wrangle - survival analysis.R"))
+
+```
+
+```{r import_wrangle_diabetic_data}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: import and wrangle diabetic data
+
+source(here("01_src", "02_data_import - diabetic.R"))
+
+source(here("01_src", "03_wrangle - diabetic.R"))
+
+
+```
+
+
+<!-- ## Parameter(s) for report -->
+
+<!-- This report focuses on the following parameter(s): -->
+
+<!-- Directorate: **`r params$directorate`** -->
+
+<!-- Directorate: **`r params$directorate_recoded`** -->
+
+<!-- Location of blood culture collection: **`r params$location_code`** -->
+
+<!-- Patient age (Paediatric): **`r params$paediatric`** -->
+
+<!-- Elderly care: **`r params$elderly_care`** -->
+
+<!-- Date of blood culture receipt (year): **`r params$year`** -->
+
+## Session aims
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+1. Introduce R
+
+2. Run through a working example of a project completed using R, exploring AMR rates in patients with diabetes
+
+3. Summarise learning points with regards to choice of antibiotics in the diabetic foot
+
+:::
+
+::: {.column width="40%"}
+
+![](NHS-R/objectives.png)
+
+:::
+
+::::
+
+## What is R?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- R is one of the most commonly used languages for data science, together with Python.
+
+- R is a powerful, **free** open source data science and statistics environment, used in industry, academia and major corporations (eg Microsoft, Google, Facebook).
+
+- R benefits from a worldwide community that **freely** shares learning and resources, through e.g. [GitHub](https://github.com/send2dan/)
+
+:::
+
+::: {.column width="40%"}
+![](NHS-R/rpython.png)
+
+:::
+
+::::
+
+## Why use R for data science?
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+- The [Goldacre report](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1067053/goldacre-review-using-health-data-for-research-and-analysis.pdf) actively promotes the use of R in the NHS.
+
+- Mountains of data are transforming our world and have the potential to help us make better decisions.
+
+- To influence our decision-making, this data must be shaped, checked, curated, analysed, interpreted, and appropriately communicated. 
+
+- This process requires people with modern data skills, working in teams, using platforms like R to do the heavy lifting.
+
+- NUTH now actively supports the use of R at scale, and it can be installed on any work PC.
+
+:::
+
+::: {.column width="40%"}
+
+![](NHS-R/goldacre.png)
+:::
+
+::::
+
+## Many of you are already familiar with R
+
+![](NHS-R/ft.png)
+
+## NHS-R
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+- The Health Foundation supports [NHS-R](https://nhsrcommunity.com/about/), which delivers **free**-to-NHS-staff online training, and runs the premier data science conference in the NHS.
+
+- It's **free** to register.
+
+- [NHS-R](https://nhsrcommunity.com/about/) supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, and is active on [twitter](https://www.twitter.com/) <span style="color:red;">#Rstats</span> <span style="color:red;">#TidyTuesday</span>
+:::
+
+::: {.column width="50%"}
+
+![](NHS-R/nhsrwebsite.png)
+
+![](NHS-R/slack.png)
+
+:::
+
+::::
+
+
+
+## So now for a working example 
+
+- Aim: Using R to Analyse and Predict Antimicrobial Resistance Rates for Blood Culture Isolates in Diabetic Patients, to influence the choice of antibiotics in the diabetic foot.
+
+- Objectives:
+
+  - Import blood culture data into R
+  
+  - Import diabetes data into R
+
+  - Wrangle, combine, visualise, and explore the data 
+
+  - Stratify the data by diabetic- and diabetic foot status 
+
+## Methods
+
+![](NHS-R/bc.png)
+
+- `r min_date <- as_date(min(data_clean_sens$receive_date))
+max_date <- as_date(max(data_clean_sens$receive_date))
+glue::glue("The laboratory information management system (LIMS) was interrogated to collect data on all culture-positive blood cultures collected between {min_date} and {max_date}")`
+
+- ICD-10 coding data was analysed to determine diabetic- and diabetic foot status of all patients with culture-positive blood cultures
+
+## The AMR package for R
+
+![](NHS-R/amr-pub.png)
+
+- The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] provides a standard for clean and reproducible analysis and prediction of Antimicrobial Resistance (AMR), and was used to:
+
+  - determine 'first isolates' for use in the final analysis, as per Hindler et al [@hindler2007analysis]; 
+  
+  - calculate and visualise AMR data; 
+  
+  - predict future AMR rates using regression models.
+
+## Totals (blood culture data)
+
+- In total, `r data_clean_sens |>
+distinct(specimen_no) |> 
+count() |> 
+pull()` distinct positive blood cultures were collected from `r data_clean_sens |> 
+distinct(hospital_number) |> 
+count() |> 
+pull()` distinct patients, leading to isolation of `r data_clean_sens |> 
+distinct(specimen_no, organism_code) |> 
+count() |> 
+pull()` organisms. 
+
+- Taking into consideration **'first isolates'** only, `r data_1st |>
+distinct(specimen_no) |> 
+count() |> 
+pull()` distinct positive blood cultures were collected from `r data_1st |> 
+distinct(hospital_number) |> 
+count() |> 
+pull()` distinct patients, leading to isolation of `r data_1st |> 
+distinct(specimen_no, organism_code) |> 
+count() |> 
+pull()` organisms. 
+
+- **From this point onwards, this analysis concentrates only on 'first isolates' from blood cultures, to intelligently de-duplicate the data**
+
+## Totals (diabetic data)
+
+Since Q1 2019:
+
+- `r data_diabetic |>    distinct(hospital_number) |>    summarise(n = n()) |>    pull()` distinct patients with diabetes
+
+- `r data_df |>    distinct(hospital_number) |>    summarise(n = n()) |>    pull()` distinct patients with diabetic feet
+
+- `r data_diabetic |>    summarise(n = n()) |>    pull()` encounters
+
+- `r data_diabetic |>   group_by(hospital_number) |>    summarise(n = n()) |>    count(total = n) |>    chuck("n", 1)` patients had only a single encounter
+
+## Duration of encounters for patients with diabetes 
+
+- The mean inpatient stay duration for patients with diabetes was `r data_diabetic |>    summarise(median_duration_of_encounter_ddays = median(duration_of_encounter_ddays),             mean_duration_of_encounter_ddays = mean(duration_of_encounter_ddays)) |>    chuck("mean_duration_of_encounter_ddays")` days
+
+```{r}
+#| label: duration of each encounter for patients with diabetes
+# create plot showing duration of each encounter for patients with diabetes --------------------------
+
+d1 <- data_diabetic |> 
+  count(duration_of_encounter_ddays) |> 
+  mutate(duration_of_encounter_ddays_new = case_when(duration_of_encounter_ddays >14 ~ "14+\ndays",
+                                                     duration_of_encounter_ddays < 1 ~ "no over-\nnight stay",
+                                                     TRUE ~ as.character(duration_of_encounter_ddays))) |> 
+  #ungroup() |> 
+  group_by(duration_of_encounter_ddays_new) |> 
+  summarise(sum = sum(n)) |> 
+  #ungroup() |> 
+  #arrange(desc(sum)) |> 
+  mutate(duration_of_encounter_ddays_new = forcats::fct_inseq(duration_of_encounter_ddays_new), #Reorder factor levels by first appearance, frequency, or numeric order
+         duration_of_encounter_ddays_new = forcats::fct_relevel(duration_of_encounter_ddays_new, "14+\ndays", after = Inf), # Relevel to the end
+         duration_of_encounter_ddays_new = forcats::fct_relevel(duration_of_encounter_ddays_new, "no over-\nnight stay", before = "1")) |>  # Relevel to the start  
+  arrange(duration_of_encounter_ddays_new) #arrange() sorts characters alphabetically, whereas factors will be sorted by the order of their levels.
+
+# #check level order
+# levels(d1$duration_of_encounter_ddays_new)
+
+p1 <- d1 |> 
+  ggplot(aes(duration_of_encounter_ddays_new, sum)) +
+  geom_col()+
+  #coord_flip()+
+  xlab("encounter duration")+
+  ylab("encounters (n)")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+p2 <- d1 |> 
+  ggplot(aes(duration_of_encounter_ddays_new, log10(sum))) +
+  geom_col()+
+  #coord_flip()+
+  xlab("encounter duration")+
+  ylab("log10(encounters)")
+
+p1 / p2
+```
+
+## Inpatient stay duration for patients with diabetic feet
+
+- The mean inpatient stay duration for patients with diabetic feet was `r data_df |>    summarise(median_duration_of_encounter_ddays = median(duration_of_encounter_ddays),             mean_duration_of_encounter_ddays = mean(duration_of_encounter_ddays)) |>    chuck("mean_duration_of_encounter_ddays")` days
+
+```{r}
+#| label: duration of each encounter for patients with diabetic feet
+# create plot showing duration of each encounter for patients with diabetic feet --------------------------
+
+d1 <- data_df |> 
+  count(duration_of_encounter_ddays) |> 
+  mutate(duration_of_encounter_ddays_new = case_when(duration_of_encounter_ddays >14 ~ "14+\ndays",
+                                                     duration_of_encounter_ddays < 1 ~ "no over-\nnight stay",
+                                                     TRUE ~ as.character(duration_of_encounter_ddays))) |> 
+  #ungroup() |> 
+  group_by(duration_of_encounter_ddays_new) |> 
+  summarise(sum = sum(n)) |> 
+  #ungroup() |> 
+  #arrange(desc(sum)) |> 
+  mutate(duration_of_encounter_ddays_new = forcats::fct_inseq(duration_of_encounter_ddays_new), #Reorder factor levels by first appearance, frequency, or numeric order
+         duration_of_encounter_ddays_new = forcats::fct_relevel(duration_of_encounter_ddays_new, "14+\ndays", after = Inf), # Relevel to the end
+         duration_of_encounter_ddays_new = forcats::fct_relevel(duration_of_encounter_ddays_new, "no over-\nnight stay", before = "1")) |>  # Relevel to the start  
+  arrange(duration_of_encounter_ddays_new) #arrange() sorts characters alphabetically, whereas factors will be sorted by the order of their levels.
+
+# #check level order
+# levels(d1$duration_of_encounter_ddays_new)
+
+p1 <- d1 |> 
+  ggplot(aes(duration_of_encounter_ddays_new, sum)) +
+  geom_col()+
+  #coord_flip()+
+  xlab("encounter duration")+
+  ylab("encounters (n)")+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+p2 <- d1 |> 
+  ggplot(aes(duration_of_encounter_ddays_new, log10(sum))) +
+  geom_col()+
+  #coord_flip()+
+  xlab("encounter duration")+
+  ylab("log10(encounters)")
+
+p1 / p2
+```
+
+## Location of blood culture collection
+
+```{r directorate_lump}
+#top directorates of blood culture collection
+data_1st %>% 
+  filter(diabetic == TRUE) |> 
+  filter(!is.na(directorate_recoded)) |> 
+  mutate(directorate_lump = fct_lump_n(directorate_recoded, 10)) |> 
+  group_by(directorate_lump, dm_foot) %>%
+  summarise(total = n()) %>% 
+  filter(total >1) %>% #only organisms isolated more than X times
+  ggplot(aes(x = reorder(directorate_lump, -total), y = total, fill = dm_foot))+
+  geom_col()+
+  coord_flip()+
+  theme_minimal()+
+  scale_fill_grey()+
+  labs(title = "Blood culture collection directorate",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       x = "Ward",
+       y = "n")+
+  guides(fill = guide_legend("diabetic foot"))
+```
+
+## Time series data
+
+```{r NHSRplotthedots_patients_n}
+#| fig-cap: TRUE = diabetic foot, FALSE = diabetic without diabetic foot
+#number of distinct patients with positive blood cultures per month (using NHSRplotthedots)
+data_1st %>% 
+  filter(diabetic == TRUE) |> 
+  mutate(new_date = floor_date(receive_date, 
+                               unit = "1 month",
+                               week_start = getOption("lubridate.week.start", 1)),
+         year = year(receive_date)) %>% 
+  distinct(new_date, hospital_number, .keep_all = TRUE) |> 
+  group_by(year, new_date, dm_foot) %>%
+  count() %>% 
+  thicken(interval = "month",
+          colname = 'thickened_date') |> 
+  ungroup() |> 
+  select(-new_date) |> 
+  pad(interval = "month") %>% 
+  fill_by_value() %>% 
+  ptd_spc(value_field = n, date_field = thickened_date, improvement_direction = "decrease", facet_field = dm_foot) %>% 
+  ptd_create_ggplot(point_size = 2,
+                    percentage_y_axis = FALSE,
+                    main_title = "SPC chart",
+                    x_axis_label = "date",
+                    y_axis_label = "distinct patients (n)",
+                    fixed_x_axis_multiple = TRUE,
+                    fixed_y_axis_multiple = TRUE,
+                    x_axis_date_format = "%m/%y",
+                    x_axis_breaks = "3 months",
+                    y_axis_breaks = NULL,
+                    icons_size = 0L,
+                    icons_position = c("top right", "bottom right", "bottom left", "top left", "none"),
+                    colours = ptd_spc_colours(),
+                    theme_override = NULL,
+                    break_lines = c("both", "limits", "process", "none"))+
+  labs(title = "Distinct patients with positive blood cultures per month",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       caption = "Stratified by diabetic foot",
+       x = NULL,
+       y = "n")+
+  scale_y_continuous(minor_breaks = NULL,
+                     breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
+
+```
+
+## Age-related data
+
+Age of patients with positive blood cultures
+
+```{r age_histogram}
+#histogram number of positive blood cultures by age
+data_1st %>% 
+  filter(diabetic == TRUE) |>   
+  filter(!is.na(age)) %>%
+  ggplot(aes(x = age, fill = dm_foot))+
+  geom_histogram(bins = 25)+
+  theme_minimal()+
+  labs(title = "Age of diabetic patients with positive blood cultures",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       x = "Age",
+       y = "n")+
+  guides(fill = guide_legend("diabetic foot"))
+```
+
+## Organisms isolated from blood cultures
+
+```{r}
+#| label: Organisms isolated from blood cultures
+#| fig-cap: a = all blood cultures, b = patients with diabetes, c = patients with diabetic feet
+# organisms isolated from patients with diabetes -------------------------------
+
+data_1st <- data_1st |> 
+  mutate(highlight = str_detect(as_mo_shortname, "aureus|mirabilis"))
+
+data_1st_dm <- data_1st_dm |> 
+  mutate(highlight = str_detect(as_mo_shortname, "aureus|mirabilis"))
+
+#top 10 in all patients
+d1 <- data_1st |> 
+  group_by(highlight) |> 
+  count(fct_lump_n(as_mo_shortname, 10)) |> 
+  rename(organism = `fct_lump_n(as_mo_shortname, 10)`) |> 
+  arrange(desc(n))
+
+p1 <- d1 |> 
+  ggplot(aes(fct_reorder(organism, -n), n, fill = highlight)) +
+  geom_col() +
+  coord_flip() +
+  xlab("organism")+ 
+  theme(legend.position='none')
+
+#top 10 in patients with diabetes
+d2 <- data_1st_dm |> 
+  group_by(highlight) |> 
+  count(fct_lump_n(as_mo_shortname, 10)) |> 
+  rename(organism = `fct_lump_n(as_mo_shortname, 10)`) |> 
+  arrange(desc(n))
+
+p2 <- d2 |> 
+  ggplot(aes(fct_reorder(organism, -n), n, fill = highlight)) +
+  geom_col() +
+  coord_flip() +
+  xlab(NULL)+ 
+  theme(legend.position='none')
+
+#top 10 in patients with diabetic feet
+d3 <- data_1st_dm |> 
+  filter(dm_foot == TRUE) |> 
+  group_by(highlight) |> 
+  count(fct_lump_n(as_mo_shortname, 10)) |> 
+  rename(organism = `fct_lump_n(as_mo_shortname, 10)`) |> 
+  arrange(desc(n))
+
+p3 <- d3 |> 
+  ggplot(aes(fct_reorder(organism, -n), n, fill = highlight)) +
+   geom_col() +
+  coord_flip() +
+  xlab(NULL)+ 
+  theme(legend.position='none')
+
+p1 + p2 + p3 +
+  plot_annotation(
+    title = 'Comparison of organisms causing bloodstream infection'
+  ) +
+  plot_annotation(tag_levels = 'A')
+
+```
+
+## E. coli and Klebsiella AMR rates
+
+```{r gram_neg_AST_results_ecoli}
+# E. coli and Klebsiella
+data_1st |> 
+  filter(diabetic == TRUE) |> 
+  filter(str_detect(as_mo_genus, "Escherichia|Klebsiella")) |> 
+  select(year, hospital, as_mo_genus, AMX, AMC, TAZ, ETP, GEN, CIP, SXT, CAZ, CXM, ATM) |> #include only certain antibiotics
+  group_by(year, as_mo_genus) |> 
+  ggplot() + 
+  # create bars with as_mo_genus on x axis. geom_sir looks for variables with class `sir` (earlier created with `as.sir`)
+  geom_sir(x = "antibiotic", 
+           translate_ab = FALSE,
+           minimum = 10) + 
+  #facet_sir(facet = "antibiotic") + # split plots on antibiotic
+  scale_sir_colours() + #make R red and S/SI green and I yellow
+  #scale_y_percent(breaks = 0:2 * 50) + # show percentages on y axis
+  scale_y_continuous(minor_breaks = NULL,
+                     limits = c(0, 1),
+                     breaks = c(0, 0.5, 1),
+                     label = c("0", "50", "100")) + # show percentages on y axis
+  theme(axis.text.y = element_text(face = "italic"),
+        axis.text.x = element_text(size = rel(0.9)),
+        strip.text.y = element_text(size = rel(0.9),
+                                    angle = 360),
+        legend.position = "bottom") +
+  coord_flip() +
+  labs(title = "Susceptibility of E. coli and Klebsiella spp. \nto selected antimicrobials, stratified by year",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       x = NULL,
+       y = "Percentage susceptibility",
+       caption = "Calculation of percentage susceptibility requires min. 30 blood culture isolates per year")+
+  # and print genus in italic to follow our convention
+  # (is now y axis because we turned the plot)
+  facet_grid(as_mo_genus ~ year)
+```
+
+## Pseudomonas spp. AMR rates
+
+```{r gram_neg_AST_results_pseudo}
+# Pseudomonas
+data_1st |>
+  filter(diabetic == TRUE) |> 
+  filter(str_detect(as_mo_genus, "Pseudomonas")) |>
+  select(year, hospital, as_mo_genus, TAZ, MEM, GEN, CIP, CAZ, ATM) |> #include only certain antibiotics
+  group_by(year, as_mo_genus) |>
+  ggplot() +
+  # create bars with as_mo_genus on x axis. geom_sir looks for variables with class `sir` (earlier created with `as.sir`)
+  geom_sir(x = "antibiotic",
+           translate_ab = FALSE,
+           minimum = 10) +
+  #facet_sir(facet = "antibiotic") + # split plots on antibiotic
+  scale_sir_colours() + #make R red and S/SI green and I yellow
+  #scale_y_percent(breaks = 0:2 * 50) + # show percentages on y axis
+  scale_y_continuous(limits = c(0, 1),
+                     breaks = c(0, 0.5, 1),
+                     label = c("0", "50", "100")) + # show percentages on y axis
+  theme(axis.text.y = element_text(face = "italic"),
+        axis.text.x = element_text(size = rel(0.9)),
+        strip.text.y = element_text(size = rel(0.9),
+                                    angle = 360),
+        legend.position = "bottom") +
+  coord_flip() +
+  labs(title = "Susceptibility of Pseudomonas spp\nto selected antimicrobials, stratified by year",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       x = NULL,
+       y = "Percentage susceptibility",
+       caption = "Calculation of percentage susceptibility requires min. 30 blood culture isolates per year")+
+  # and print genus in italic to follow our convention
+  # (is now y axis because we turned the plot)
+  facet_grid(as_mo_genus ~ year)
+```
+
+## S. aureus AMR rates
+
+```{r AST_results_staph_aureus}
+# S. aureus
+data_1st |> 
+  filter(diabetic == TRUE) |> 
+  filter(str_detect(as_mo_shortname, "S. aureus")) |> 
+  select(year, hospital, as_mo_shortname, DOX, CLI, ERY, GEN, FLC, SXT, MFX) |> #include only certain antibiotics
+  group_by(year, as_mo_shortname) |> 
+  ggplot() + 
+  # create bars with as_mo_genus on x axis. geom_sir looks for variables with class `sir` (earlier created with `as.sir`)
+  geom_sir(x = "antibiotic", 
+           translate_ab = FALSE,
+           minimum = 10) + 
+  #facet_sir(facet = "antibiotic") + # split plots on antibiotic
+  scale_sir_colours() + #make R red and S/SI green and I yellow
+  #scale_y_percent(breaks = 0:2 * 50) + # show percentages on y axis
+  scale_y_continuous(minor_breaks = NULL,
+                     limits = c(0, 1),
+                     breaks = c(0, 0.5, 1),
+                     label = c("0", "50", "100")) + # show percentages on y axis
+  theme(axis.text.y = element_text(face = "italic"),
+        axis.text.x = element_text(size = rel(0.9)),
+        strip.text.y = element_text(size = rel(0.9),
+                                    angle = 360),
+        legend.position = "bottom") +
+  coord_flip() +
+  labs(title = "Susceptibility of S. aureus\nto selected antimicrobials, stratified by year",
+       subtitle = "First blood culture isolate per patient with diabetes, Q1 2019 onwards",
+       x = NULL,
+       y = "Percentage susceptibility",
+       caption = "Calculation of percentage susceptibility requires min. 30 blood culture isolates per year")+
+  # and print genus in italic to follow our convention
+  # (is now y axis because we turned the plot)
+  facet_grid(as_mo_shortname ~ year)
+```
+
+## Predicted AMR rates for Gram-negative organisms
+
+```{r amr_predict_gram_neg}
+# Gram neg ----------------------------------------------------------------
+
+#create tibble using map2 and gram_neg_ab_tibble and amr_predict_for_mapping
+amr_predict_gram_neg_mapped_output <- map2(.x = gram_neg_ab_tibble$skim_variable,
+        .y = gram_neg_ab_tibble$sir.ab_name,
+        .f = ~amr_predict_for_mapping(x = data_1st_dm,
+                                       Gramstain = "Gram-negative", 
+                                       ab_amr_code = .x, 
+                                       ab_nuth_code = .x, 
+                                       ab_name = .y, 
+                                       model_type = "linear"
+        ))
+
+#print output using patchwork::wrap_plots()
+patchwork::wrap_plots(amr_predict_gram_neg_mapped_output, 
+                      nrow = 2) + 
+  patchwork::plot_layout(guides = 'collect')+
+  patchwork::plot_annotation(
+    title = glue::glue("Predicted AMR rates of ", "Gram-negative", " organisms to select antimicrobials"),
+    #subtitle = glue::glue(""),
+    #tag_levels = 'I',
+    caption = glue::glue("First blood culture isolate per patient with diabetes, Q1 2019 onwards, \nexcluding organisms intrinsically resistant to the tested antimicrobial")
+  ) +
+  xlab("year")+
+  ylab("% resistance")
+```
+
+## Predicted AMR rates for Gram-positive organisms
+
+```{r amr_predict_gram_pos}
+# Gram pos ----------------------------------------------------------------
+
+data_1st_dm_no_cons <- data_1st_dm |> 
+  filter(!as_mo_shortname_lump == "CoNS")
+
+#create tibble using map2 and gram_pos_ab_tibble and amr_predict_for_mapping
+amr_predict_gram_pos_mapped_output <- map2(.x = gram_pos_ab_tibble$skim_variable,
+                                           .y = gram_pos_ab_tibble$sir.ab_name,
+                                           .f = ~amr_predict_for_mapping(x = data_1st_dm_no_cons,
+                                                                         Gramstain = "Gram-positive", 
+                                                                         ab_amr_code = .x, 
+                                                                         ab_nuth_code = .x, 
+                                                                         ab_name = .y, 
+                                                                         model_type = "linear"
+                                           ))
+
+#print output using patchwork::wrap_plots()
+patchwork::wrap_plots(amr_predict_gram_pos_mapped_output, 
+                      nrow = 2) + 
+  patchwork::plot_layout(guides = 'collect')+
+  patchwork::plot_annotation(
+    title = glue::glue("Predicted AMR rates of ", "Gram-positive", " organisms to select antimicrobials"),
+    #subtitle = glue::glue(""),
+    #tag_levels = 'I',
+    caption = glue::glue("First blood culture isolate per patient with diabetes, Q1 2019 onwards, \nexcluding organisms intrinsically resistant to the tested antimicrobial and \n excluding coagulase-negative staphylococci")
+  ) +
+  xlab("year")+
+  ylab("% resistance")
+```
+
+## Summary
+
+- R is an excellent platform for data science, including analysis and prediction of AMR rates
+
+- Patients with diabetes account for many bloodstream infections, particularly in the ED, assessment suite, and dialysis unit
+
+- Mean inpatient encounter duration is particularly prolonged for patients with diabetic foot infections
+
+- S. aureus and Proteus spp appear to cause more-than-expected morbidity in patients with diabetic feet
+
+- Resistance rates are rising, particularly to co-amoxiclav and tazocin
+
+- For Gram-positive infections, flucloxacillin remains an excellent choice
+
+## Thanks for listening
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+Daniel Weiand, Consultant medical microbiologist
+
+Newcastle upon Tyne Hospitals NHS Foundation Trust
+
+Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net</a>
+
+Twitter: [\@send2dan](https://twitter.com/intent/follow?ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Efollow%7Ctwgr%5Esend2dan&region=follow_link&screen_name=send2dan)
+
+NHS-R community blog: <https://nhsrcommunity.com/author/daniel-weiand/>
+
+GitHub: [send2dan](https://github.com/send2dan/)
+
+:::
+
+::: {.column width="40%"}
+
+![](NHS-R/thank-you.jpg)
+
+:::
+
+::::
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+<!-- # Appendix {.unnumbered} -->
+
+```{r beepr_finished}
+beepr::beep(3)
+```
+
