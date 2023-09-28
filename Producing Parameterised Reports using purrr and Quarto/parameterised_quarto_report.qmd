@@ -98,8 +98,7 @@ params:
   dest: "NA"
   origin: "NA"
   month: "NA"
-  carrier: "NA"
-  
+
 ---
 
 ```{r project_setup}
@@ -113,7 +112,7 @@ params:
 #renv
 library(renv)
 #renv::init()
-renv::activate()
+#renv::activate()
 #renv::snapshot()
 
 #package load
@@ -124,6 +123,7 @@ library(quarto) # new open-source technical publishing system from RStudio/Posit
 library(nycflights13) # for flights data 
 library(skimr) # for quick analysis of larger datasets
 library(glue) # an implementation of interpreted string literals
+library(fontawesome) # for icons
 
 #Project setup
 options(stringsAsFactors = FALSE)
@@ -167,8 +167,7 @@ here::here()
 #   dest: "NA"
 #   origin: "NA"
 #   month: "NA"
-#   carrier: "NA"
-  
+
 # set up params / parameterised reporting --------------------------------------
 
 # Can render an individual parameterised report by typing the below into the RStudio terminal and replacing XXXXX with one of the parameter's subcategories, e.g. for origin:"EWR", or "LGA", or "JFK"  
@@ -199,15 +198,6 @@ if (!is.na(params$month) && params$month != "NA") {
 }
 if (nrow(flights) == 0) {
   stop("Invalid selection. Did you misspell `month`?")
-}
-
-# params for carrier
-
-if (!is.na(params$carrier) && params$carrier != "NA") {
-  flights <- flights[flights$carrier == params$carrier, ]
-}
-if (nrow(flights) == 0) {
-  stop("Invalid selection. Did you misspell `carrier`?")
 }
 
 ```
@@ -270,15 +260,13 @@ Origin airport: **`r params$origin`**
 
 Month of flight: **`r params$month`**
 
-Carrier: **`r params$carrier`**
-
 # Aim
 
 To run through a reproducible example (reprex) of a workflow for producing parameterised reports using {purrr}, {quarto} and the {nycflights13} dataset
 
 # Why produce parameterised reports?
 
-Creating parameterised reports (i.e., documents with outputs—text, plots, tables, etc—that change based on the values of the parameters that you select) is a really common task for data analysts, and it’s a task that can be made much easier with {quarto}.
+Creating parameterised reports (i.e., documents with outputs, incl. text, plots, tables, etc., that change based on the values of the parameters that you select) is a really common task for data analysts and data scientists, and it’s a task that can be made much easier with {quarto}.
 
 # What is Quarto?
 
@@ -382,7 +370,7 @@ skimr::skim(nycflights13::flights) |>
 
 # Requirements to produce parameterised reports
 
-- A Quarto script, including a parameter-specifying statements in YAML +/- body of report
+- A Quarto script, including parameter-specifying statements in YAML +/- body of report
 - Wrangling of the dataset into "params"
 - An R script to execute/render parameterised reports using Quarto
 
@@ -404,7 +392,6 @@ params:
   dest: "NA"
   origin: "NA"
   month: "NA"
-  carrier: "NA"
 
 ```
 
@@ -426,9 +413,8 @@ Destination airport: **`r params$dest`**
 
 Origin airport: **`r params$origin`**
 
-Month of flight: **`r params$month`**
+Month of flight departure: **`r params$month`**
 
-Carrier: **`r params$carrier`**
 ```
 
 # Wrangling of dataset into "params"
@@ -458,7 +444,7 @@ if (nrow(flights) == 0) {
 
 There are three ways to render parameterised reports, in increasing order of complexity (and usefulness!)
 
-## Rendering parameterised reports using Quarto (1)
+## Rendering parameterised reports using YAML
 
 1. Manually change the parameter values in the header YAML of your .qmd file and hit Render in RStudio. This is great for one-offs or for testing!
 
@@ -476,11 +462,10 @@ params:
   dest: "NA"
   origin: "JFK" # JFK airport specified
   month: "NA"
-  carrier: "NA"
 
 ```
 
-## Rendering parameterised reports using Quarto (2)
+## Rendering parameterised reports using the terminal
 
 2. Use the RStudio terminal to specify the parameter(s) you want to use.
 
@@ -500,7 +485,7 @@ params:
 
 ```
 
-## Rendering parameterised reports using Quarto (3)
+## Rendering parameterised reports using the quarto::quarto_render() function
 
 3. Leverage the quarto::quarto_render() function in R to automatically create a report for each parameter combination we want and name that file in a way that we specify.
 
@@ -582,16 +567,6 @@ purrr::map2(two_inputs$x, two_inputs$y,runparams_two_inputs)
 
 # Analysis of {nycflights13} data
 
-## Basic structure of the data
-
-```{r}
-skimr::skim(flights) |> 
-  select(contains(c("skim", "complete", "missing", "unique", "hist"))) |> 
-  flextable::flextable() |> 
-  flextable::autofit() |> 
-  flextable::theme_vanilla() 
-```
-
 ## Flight delay distribution
 
 The figure below shows that the distribution of the  delay in arrivals is right-skewed; it has a long tail.
@@ -609,7 +584,7 @@ From basic inspection we can find that there are `r length(unique(flights$carrie
 
 There are `r length(unique(flights$dest))` different destination locations, serviced by `r length(unique(flights$tailnum))` unique planes.
 
-`r flights |> filter(is.na(dep_delay)) |> count()` flight departures were cancelled.
+`r flights |> filter(is.na(dep_delay)) |> count() |> pull()` flight departures were cancelled.
 
 ## Plot of distance vs delay
 
@@ -627,7 +602,7 @@ new_flights |>
 
 ## Average delay (count)
 
-The average delay was `r planes_with_delays |> filter(!is.na(avg_delay)) |> summarise(mean = mean(avg_delay))` minutes.
+The average delay was `r planes_with_delays |> filter(!is.na(avg_delay)) |> summarise(mean = mean(avg_delay)) |> pull()` minutes.
 
 Lets explore even further, looking at the average delay for all planes planes that took more than 20 trips.
 
@@ -745,7 +720,25 @@ flights |>
 
 # Further reading and kudos
 
-Note extremely [useful resource](https://meghan.rbind.io/blog/quarto-pdfs/) published by [Meghan Hall](twitter.com/meghanmhall)
+Jadey N Ryan gave an excellent talk on creating parameterised reports at this year's posit::conf(2023)
+
+`r fontawesome::fa(name = "computer", prefer_type = "solid", height = "2em", width = "2em")` [tinyurl.com/quarto-params](https://jadeynryan.github.io/2023_posit-parameterized-quarto/)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/jadeynryan](https://github.com/jadeynryan)
+
+<br>
+
+Megan Hall wrote an excellent blog post on creating parameterised reports
+
+`r fontawesome::fa(name = "computer", prefer_type = "solid", height = "2em", width = "2em")` [https://meghan.rbind.io/blog/quarto-pdfs](https://meghan.rbind.io/blog/quarto-pdfs/)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [https://github.com/meghall06](https://github.com/meghall06)
+
+I've created a reprex of a workflow for producing parameterised reports using the {nycflights13} dataset. This was delivered as an online workshop @ NHS-R and NHS.pycom conf (2023) | September 29
+
+`r fontawesome::fa(name = "computer", prefer_type = "solid", height = "2em", width = "2em")` [https://nhsrcommunity.com/events](https://nhsrcommunity.com/events/nhs-r-nhs-pycom-online-conference-workshop-2023-producing-parameterised-reports-using-purrr-and-quarto/)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
 
 # Summary
 
