@@ -1003,7 +1003,7 @@ Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net
 
 NHS-R community blog: <https://nhsrcommunity.com/author/daniel-weiand/>
 
-`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "2em", width = "2em")` [\\@send2dan](https://twitter.com/send2dan)
+`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "2em", width = "2em")` [send2dan](https://twitter.com/send2dan)
 
 `r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
 
