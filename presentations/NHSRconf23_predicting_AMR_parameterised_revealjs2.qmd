@@ -1,0 +1,1032 @@
+---
+title: "Parameterised Reporting of Predicted Antimicrobial Resistance Rates using Quarto" 
+# subtitle: "Analysis performed using antimicrobial susceptibility test data for all isolates from blood cultures collected at NUTH from Q1 2019 onwards."
+# institute: "institute"
+author: "<br><br><br><strong>Daniel Weiand</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust<br><br>NHS-R and NHS.pycom conf (2023) | October 17"
+#date: "`r format(Sys.time(), '%a %B %d %Y')`" 
+#date: today
+#date-format: "dddd, D MMMM, YYYY"
+self-contained: true
+
+# #Some options need to be set in format > html
+# format:
+#   html:
+#     #output-file: 'file' #Output file to write to
+#     #output-ext: #Extension to use for generated output file
+#     code-fold: false # Remove the echo option and add the code-fold HTML format option.
+#     code_download: true
+#     embed-resources: true
+#     standalone: true
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc_float: TRUE
+#     highlight-style: pygments
+#     fig-path: 'figures/'
+#     fig-width: 9 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'left' #Possible values are default, left, right, and center.
+#     fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: paged #kable, tibble or paged. The default printing method is kable.
+#     theme:
+#     - mystyle.scss
+#     - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
+    
+# #Some options need to be set in format > docx
+# format:
+#   docx:
+#     reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 1 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc-title: 'Table of Contents' #The title used for the table of contents.
+#     page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+#     fig-path: 'figures/'
+#     fig-width: 5 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'center' #Possible values are default, left, right, and center.
+#     fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: default #kable, tibble or paged. The default printing method is kable.
+
+# # Some options need to be set in format > revealjs
+format:
+  revealjs:
+    code-fold: false # Remove the echo option and add the code-fold HTML format option.
+    incremental: false #Incrementally reveal elements https://rstudio-conf-2022.github.io/get-started-quarto/materials/05-presentations.html#/lists
+    width: 1600
+    height: 900
+    #css: ["mystyle.css"]
+    default-image-extension: svg
+    theme: serif #full list of available themes: beige blood dark default league moon night serif simple sky solarized
+    scrollable: false
+    smaller: false
+    transition: fade
+    transition-speed: fast
+    reference-location: document #If you prefer that footnotes be included at the end of the document, specify the reference-location: document option
+    logo: Newcastlelaboratories_logo.png
+    footer: "[{{< fa brands github size=2xl >}} github.com/send2dan](https://github.com/send2dan) [{{< fa brands twitter size=2xl >}} \\@send2dan](https://twitter.com/send2dan)"
+    menu:
+      side: left #Navigation Menu location
+      width: normal  #Navigation Menu width
+      numbers: true 	#Add slide numbers to menu items.
+    slide-number: c/t #c/t = Slide number / total slides (default)
+    show-slide-number: all #all = Show slide numbers in all contexts (default)
+    embed-resources: true
+    standalone: true
+    link-external-newwindow: true
+    highlight-style: a11y-dark
+
+from: markdown+emoji
+
+#Some referencing options need to be set in bibliography:, csl:, and link-citations: 
+bibliography: biblio.bib  #Document bibliography (BibTeX or CSL). May be a single file or a list of files
+csl: bmj.csl #Citation Style Language file to use for formatting references.
+link-citations: yes
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
+
+editor: source
+
+# parameterized reporting
+params:
+  directorate_recoded: "NA"
+  directorate: "NA"
+  location_code: "NA"
+  paediatric: "NA"
+  elderly_care: "NA"
+  diabetic: "NA"
+  urology: "NA"
+  renal_chd: "NA"
+  # year: "NA"
+# location_code: {{ location_code }}
+# as_mo_genus: 'Candida'
+# year: 2021
+
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: project setup
+
+library(here)
+
+source(here("01_src", "01_initialise.R"))
+
+library(nycflights13)
+flights <- nycflights13::flights
+
+```
+
+```{r data_import}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: data import
+
+source(here("01_src", "02_data_import - read database.R"))
+
+```
+
+```{r params}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: params
+
+source(here("01_src", "03_wrangle - params from db.R"))
+
+```
+
+```{r functions}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: wrangle AMR data
+
+# functions ---------------------------------------------------------------
+
+source(here("01_src", "03_wrangle - functions.R"))
+
+```
+
+```{r wrangle_AMR_predict}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: wrangle AMR predict
+
+
+source(here("01_src", "03_wrangle - AMR_predict_functions.R"))
+
+```
+
+```{r wrangle_survival_data}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: wrangle survival data
+
+source(here("01_src", "03_wrangle - survival analysis.R"))
+
+```
+
+# -- Introduction -- <br> {background-color="#023B2C"}
+
+## Setting the scene
+
+::: {.column-screen}
+![](images/freeman.png){style="width:1900px"}
+:::
+
+## Medical Microbiology and Virology
+
+:::: {.columns}
+
+::: {.column width="60%"}
+![](images/p70-my-lab-microbiology-on-call-team-newcastle-laboratories.jpg){style="height:700px"}
+:::
+
+:::  {.column width="40%"}
+- ISO 15189 & UKAS accredited 
+
+<br>
+
+- 86 scientific and technical staff 
+
+<br>
+
+- 1,1+m samples per annum 
+
+<br>
+
+- £6+m annual budget
+:::
+
+::::
+
+## Background
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+![](images/Bigger-data-690.jpg){style="height:350px"}
+:::
+
+::: {.fragment fragment-index=2}
+![](images/9780670015634.jpeg){style="height:350px"}
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=3}
+![](images/summaries.jpg){style="height:350px"}
+:::
+
+::: {.fragment fragment-index=4}
+![](images/1_V2HNHoZ3WBSXGn1CuohXxg.jpeg){style="height:350px"}
+:::
+
+:::
+
+::::
+
+## The challenge
+
+:::: {.columns}
+
+::: {.column width="55%"}
+
+::: {.fragment fragment-index=1}
+**Task:** Generate custom AMR reports 
+:::
+
+<br>
+
+::: {.fragment fragment-index=2}
+**Stratifying by**: Hospital, directorate, ward, age, etc.
+:::
+
+<br>
+
+::: {.fragment fragment-index=3}
+**Timeframe/frequency:** Every quarter
+:::
+
+<br>
+
+::: {.fragment fragment-index=4}
+`r fontawesome::fa(name = "face-grimace", prefer_type = "solid", height = "2em", width = "2em")`
+:::
+
+:::
+
+::: {.column width="45%"}
+
+::: {.fragment fragment-index=4}
+![](images/bacteria_question_mark.jpg){fig-alt="Bacterium with an expression of existential dread" style="max-height:500px"}
+:::
+
+:::
+
+::::
+
+# -- ??Parameterised reports -- <br> {background-color="#023B2C"}
+
+## 
+
+::: r-stack
+![](images/template1.png){.fragment fig-alt="File with the word '.qmd' inside and the word 'Function' above." fig-align="center" width="1000"}
+
+![](images/template2.png){.fragment fig-alt="An arrow points from 'Input' with 'params$year' to the previous image with 'Function' and '.qmd' file." fig-align="center" width="1000"}
+
+![](images/template3.png){.fragment fig-alt="In addition to the previous two images, arrows point to five reports with years 2019 through 2023 on them in a flow chart." fig-align="center" width="1000"}
+:::
+
+::: {aside}
+Ref: `r fontawesome::fa(name = "github", prefer_type = "solid", height = "1em", width = "1em")` [github.com/jadeynryan](https://github.com/jadeynryan)
+:::
+
+# -- Further information -- <br> {background-color="#023B2C" .smaller}
+
+## Kudos
+
+::: {.fragment fragment-index=1}
+Jadey N Ryan gave an excellent talk on creating parameterised reports at this year's posit::conf(2023)
+
+`r fontawesome::fa(name = "computer", prefer_type = "solid", height = "2em", width = "2em")` [tinyurl.com/quarto-params](https://jadeynryan.github.io/2023_posit-parameterized-quarto/)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/jadeynryan](https://github.com/jadeynryan)
+
+<br>
+:::
+
+::: {.fragment fragment-index=2}
+Megan Hall wrote an excellent blog post on creating parameterised reports (2022)
+
+`r fontawesome::fa(name = "computer", prefer_type = "solid", height = "2em", width = "2em")` [https://meghan.rbind.io/blog/quarto-pdfs](https://meghan.rbind.io/blog/quarto-pdfs/)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [https://github.com/meghall06](https://github.com/meghall06)
+:::
+
+## Reprex
+
+Producing parameterised reports using the {nycflights13} dataset
+
+<br>
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
+
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="max-height:500px"}
+
+# -- Project setup -- <br> {background-color="#023B2C"}
+
+## Requirements
+
+. . . 
+
+1. Quarto script with YAML specifying parameter(s)
+
+. . . 
+
+2. Code to wrangle dataset into "params"
+
+. . . 
+
+3. +/- Specification of parameter(s) in body of report
+
+. . . 
+
+4. +/- R script to execute/render parameterised reports using Quarto
+
+. . . 
+
+5. +/- Inline code
+
+## YAML
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| echo: true
+#| message: false
+#| code-line-numbers: "|2-4|5-8|9-12|15"
+---
+title: "Parameterised report"                         # Metadata
+subtitle: "Analysis of the {nycflights13} dataset"
+author: "Daniel Weiand"
+format:                             # Set format types
+  html:                                     
+  docx:
+  revealjs: 
+params:                             # Set default parameter key-value pairs
+  origin: "NA" 
+  dest: "NA"                  
+  month: "NA"    
+---
+    
+Report content goes here.           # Write content
+```
+
+## Wrangling data into "params"
+
+For each parameter, wrangle dataset into "params" [**after**]{.highlight-red} loading required packages and raw data [**before**]{.highlight-red} any additional data wrangling steps.
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| echo: true
+#| message: false
+#| label: Wrangling of dataset into params
+#| code-line-numbers: "|4-5|1-2|11-12|15"
+
+library(nycflights13)                                       # load packages and data
+flights <- nycflights13::flights
+
+if (!is.na(params$origin) && params$origin != "NA") {       # Param for nycflights13::flights$origin
+  flights <- flights[flights$origin == params$origin, ]
+}
+if (nrow(flights) == 0) {
+  stop("Invalid selection. Did you misspell `origin`?")
+}
+
+not_cancelled <- flights |>                                 # undertake additional wrangling steps
+  filter(!is.na(arr_delay), !is.na(dep_delay)) 
+    
+---
+Report content goes here.                                   # Write content
+```
+
+## Specification parameters in report
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| echo: true
+#| message: false
+#| label: Body statement RE chosen parameters
+#| code-line-numbers: "|3|5|7"
+
+This report focuses on the following parameter(s):
+
+Origin airport: **`r params$origin`**             # Param for flights$origin
+
+Destination airport: **`r params$dest`**          # Param for flights$dest
+
+Month of flight departure: **`r params$month`**   # Param for flights$month
+```
+
+## Inline code
+
+Strengthen the narrative of your report by including executable expressions within markdown using `` `r ` ``. 
+
+. . . 
+
+For example, we can use inline code to state the number of observations in our data.
+
+<br>
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| echo: true
+#| message: false
+#| label: inline code
+
+There are `r nrow(flights)` observations in our data. 
+```
+. . . 
+
+<br>
+
+**There are [`r nrow(flights)`]{.fragment .highlight-red} observations in our data.**
+
+# -- Rendering reports -- <br> {background-color="#023B2C"}
+
+## Three options for rendering reports
+
+<br>
+
+::: {.fragment fragment-index=1}
+1. YAML
+:::
+
+<br>
+
+::: {.fragment fragment-index=2}
+2. Terminal
+:::
+
+<br>
+
+::: {.fragment fragment-index=3}
+3. quarto::quarto_render() function
+:::
+
+## Rendering reports using YAML
+
+Manually change the parameter values in the header YAML of your .qmd file and hit Render.
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) in YAML statement 
+#| code-line-numbers: "|3"
+
+params:
+  dest: "NA"
+  origin: "JFK"             # JFK airport specified in YAML
+  month: "NA"
+
+```
+
+## Rendering reports using the terminal
+
+Use the terminal to specify the parameter(s) you want to use.
+
+::: {.fragment fragment-index=1}
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) in RStudio terminal 1
+
+quarto render 
+
+```
+:::
+
+::: {.fragment fragment-index=2}
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) in RStudio terminal 2
+
+quarto render parameterised_report.qmd 
+
+```
+:::
+
+::: {.fragment fragment-index=3}
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) in RStudio terminal 3
+
+quarto render parameterised_report.qmd -P 
+
+```
+:::
+
+::: {.fragment fragment-index=4}
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) in RStudio terminal 4
+
+quarto render parameterised_report.qmd -P origin:JFK      # JFK specified as origin airport
+
+```
+:::
+
+## Rendering reports using quarto::quarto_render()
+
+Leverage the quarto::quarto_render() function in R to [automatically]{.highlight-red} create reports for each parameter [subcategory]{.highlight-red} and [name]{.highlight-red} each file as specified.
+
+```{r}
+#| eval: false
+#| include: true
+#| error: false
+#| message: false
+#| echo: true
+#| label: specify parameter(s) using the quarto::quarto_render() function in R - one input
+#| code-line-numbers: "|1|3|4|5|6|10|12-13"
+
+runparams <- function(origin) {             # create function
+  quarto::quarto_render(
+    "parameterised_report.qmd",                       # Specify .qmd file name
+    output_format = "html",                           # Specify output format
+    execute_params = list(origin = origin),           # Specify parameter of interest
+    output_file = glue::glue("report_{origin}.html")  # Specify (parameterised) file name
+  )
+}
+
+runparams(origin = "JFK")                 # code to run a single report using function
+
+params_origin <- unique(flights$origin)             # Or execute code with purrr:map() function
+purrr::map(params_origin, runparams)
+
+```
+
+# -- Apply theory in practice -- <br> {background-color="#023B2C"}
+
+## 
+
+**Aim**
+
+To model predicted drug resistance rates using the [AMR](https://msberends.github.io/AMR/articles/AMR.html) package for [R](https://nhsrcommunity.com/installing-r-and-r-studio/).
+
+. . . 
+
+<br>
+
+**Methods**
+
+`r min_date <- format(as_date(min(data_1st$receive_date)), '%d %B %Y')
+max_date <- format(as_date(max(data_1st$receive_date)), '%d %B %Y')
+glue::glue("The LIMS was interrogated to collect data on all culture-positive blood cultures collected between {min_date} and {max_date}")`
+.
+
+## The AMR package for R
+
+:::: {.columns}
+
+::: {.column width="60%"}
+The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] is a free, open-source and independent package for [R](https://nhsrcommunity.com/installing-r-and-r-studio/) [@R-base] that provides a standard for clean and reproducible analysis and prediction of Antimicrobial Resistance (AMR). 
+
+<br>
+
+Helps to: cleverly de-duplicate data; calculate and visualise historical AMR rates; and predict future AMR rates using regression models.
+:::
+
+::: {.column width="40%"}
+![](images/amr-pub.png){style="height:300px"}
+:::
+
+::::
+
+## Other key packages
+
+- The {[NHSRplotthedots](https://github.com/nhs-r-community/NHSRplotthedots/)} package [@R-NHSRplotthedots] is used to plot time series data and detect special cause variation by applying statistical process control (SPC) rules. 
+
+<br>
+
+. . . 
+
+- The {ggsurvfit} and {survival} packages [@R-ggsurvfit; @R-survival; @survival-book] are used to conduct survival analyses.
+
+# -- Results -- <br> {background-color="#023B2C"}
+
+## Totals 
+
+Since Q1 2019:
+
+<br>
+
+. . . 
+
+`r data_clean_sens |>
+distinct(specimen_no) |> 
+count() |> 
+pull()` distinct positive **blood cultures** 
+
+<br>
+
+. . . 
+
+Collected from `r data_clean_sens |> 
+distinct(hospital_number) |> 
+count() |> 
+pull()` **distinct patients**
+
+<br>
+
+. . . 
+
+Leading to isolation of `r data_clean_sens |> 
+distinct(specimen_no, organism_code) |> 
+count() |> 
+pull()` **organisms** 
+
+## Distinct positive blood cultures per month
+
+```{r NHSRplotthedots_specimens_n}
+#number of distinct positive blood cultures per month (using NHSRplotthedots)
+data_1st %>% 
+  filter(!is.na(directorate_recoded)) |> 
+  mutate(new_date = floor_date(receive_date, 
+                               unit = "1 month",
+                               week_start = getOption("lubridate.week.start", 1)),
+         year = year(receive_date)) %>% 
+  distinct(new_date, specimen_no, .keep_all = TRUE) |> 
+  group_by(year, new_date) %>%
+  count() %>% 
+  thicken(interval = "month",
+          colname = 'thickened_date') |> 
+  ungroup() |> 
+  select(-new_date) |> 
+  pad(interval = "month") %>% 
+  fill_by_value() %>% 
+  ptd_spc(value_field = n, date_field = thickened_date, improvement_direction = "decrease") %>% 
+  ptd_create_ggplot(point_size = 2,
+                    percentage_y_axis = FALSE,
+                    main_title = "SPC chart",
+                    x_axis_label = "date",
+                    y_axis_label = "distinct patients (n)",
+                    fixed_x_axis_multiple = TRUE,
+                    fixed_y_axis_multiple = TRUE,
+                    x_axis_date_format = "%m/%y",
+                    x_axis_breaks = "3 months",
+                    y_axis_breaks = NULL,
+                    icons_size = 0L,
+                    icons_position = c("top right", "bottom right", "bottom left", "top left", "none"),
+                    colours = ptd_spc_colours(),
+                    theme_override = NULL,
+                    break_lines = c("both", "limits", "process", "none"))+
+  labs(title = "Distinct positive blood cultures per month",
+       subtitle = "First blood culture isolate per patient, Q1 2019 onwards",
+       x = NULL,
+       y = "n")+
+  scale_y_continuous(minor_breaks = NULL,
+                     breaks = function(x) unique(floor(pretty(seq(0, (max(x) + 1) * 1.1)))))
+
+```
+
+## Survival analysis
+
+:::: {.columns}
+
+::: {.column width="70%"}
+```{r kaplan_meier_plot_gramstain}
+p2 <- survfit2(Surv(receive_date_to_date_of_death, died_recoded) ~ as_mo_gramstain, 
+               data = data_1st_survival_analysis_subset) %>% 
+  ggsurvfit(size = 1) + #consider type = "cumhaz" / linetype_aes = TRUE
+  labs(
+    x = "Days",
+    y = "Overall survival probability"
+  ) + 
+  add_confidence_interval() +
+  add_risktable()+
+  scale_y_continuous(minor_breaks = NULL,
+                     limits = c(0.60, 1))+
+  scale_x_continuous(limits = c(0, 365))+
+  #ggsurvfit::add_pvalue()+
+  ggsurvfit::theme_ggsurvfit_KMunicate()+
+  ggsurvfit::add_censor_mark()
+#ggsurvfit::add_quantile()+
+#ggsurvfit::add_risktable_strata_symbol()+
+#ggsurvfit::theme_risktable_boxed()
+
+p2
+```
+:::
+
+::: {.column width="30%"}
+```{r x_year_survival}
+list(survfit(Surv(time =  receive_date_to_date_of_death,
+                  event = died_recoded) ~ 1,
+             data = data_1st_survival_analysis_subset)
+     ,
+     survfit(Surv(time =  receive_date_to_date_of_death,
+                 event = died_recoded) ~ as_mo_gramstain,
+            data = data_1st_survival_analysis_subset),
+     survfit(Surv(time =  receive_date_to_date_of_death,
+                  event = died_recoded) ~ as_mo_shortname_recoded,
+             data = data_1st_survival_analysis_subset)
+) |>
+  tbl_survfit(
+    times = c(90, 180, 365),
+    label = list(as_mo_gramstain ~ "Gram stain result",
+                 as_mo_shortname_recoded ~ "Organism isolated"),
+    label_header = "**{time}-day survival (95% CI)**"
+  )
+```
+:::
+
+::::
+
+## Organism-specific historical AMR rates
+
+```{r gram_neg_AST_results_kleb}
+# Kleb
+data_1st |> 
+  filter(str_detect(as_mo_genus, "Klebsiella")) |> 
+  select(year, hospital, as_mo_genus, AMX, AMC, TAZ, ETP, GEN, CIP, SXT, CAZ, CXM, ATM) |> #include only certain antibiotics
+  group_by(year, as_mo_genus) |> 
+  ggplot() + 
+  # create bars with as_mo_genus on x axis. geom_sir looks for variables with class `sir` (earlier created with `as.sir`)
+  geom_sir(x = "antibiotic", 
+           translate_ab = FALSE,
+           minimum = 10) + 
+  #facet_sir(facet = "antibiotic") + # split plots on antibiotic
+  scale_sir_colours() + #make R red and S/SI green and I yellow
+  #scale_y_percent(breaks = 0:2 * 50) + # show percentages on y axis
+  scale_y_continuous(minor_breaks = NULL,
+                     limits = c(0, 1),
+                     breaks = c(0, 0.5, 1),
+                     label = c("0", "50", "100")) + # show percentages on y axis
+  theme(axis.text.y = element_text(face = "italic"),
+        axis.text.x = element_text(size = rel(0.9)),
+        strip.text.y = element_text(size = rel(0.9),
+                                    angle = 360),
+        legend.position = "bottom") +
+  coord_flip() +
+  labs(title = "Susceptibility of Klebsiella spp\nto selected antimicrobials, stratified by year",
+       subtitle = "First blood culture isolate per patient, Q1 2019 onwards",
+       x = NULL,
+       y = "Percentage susceptibility",
+       caption = "Calculation of percentage susceptibility requires min. 30 blood culture isolates per year")+
+  # and print genus in italic to follow our convention
+  # (is now y axis because we turned the plot)
+  facet_grid(as_mo_genus ~ year)
+```
+
+## Organism-specific predicted AMR rates
+
+```{r amr_predict_kleb}
+# Gram neg ----------------------------------------------------------------
+
+data_1st_klebsiella <- data_1st |> 
+  filter(as_mo_genus == "Klebsiella") 
+
+#create tibble using map2 and kleb_ab_tibble and amr_predict_for_mapping
+amr_predict_kleb_mapped_output <- map2(.x = kleb_ab_tibble$skim_variable,
+        .y = kleb_ab_tibble$sir.ab_name,
+        .f = ~amr_predict_for_mapping(x = data_1st_klebsiella,
+                                       Gramstain = "Gram-negative",
+                                       ab_amr_code = .x,
+                                       ab_nuth_code = .x,
+                                       ab_name = .y,
+                                       model_type = "linear"
+        ))
+
+#print output using patchwork::wrap_plots()
+patchwork::wrap_plots(amr_predict_kleb_mapped_output,
+                      nrow = 2) +
+  patchwork::plot_layout(guides = 'collect')+
+  patchwork::plot_annotation(
+    title = glue::glue("Predicted AMR rates of ", "Klebsiella spp", " to select antimicrobials"),
+    #subtitle = glue::glue(""),
+    #tag_levels = 'I',
+    caption = glue::glue("First blood culture isolate per patient, Q1 2019 onwards, \nexcluding organisms intrinsically resistant to the tested antimicrobial")
+  ) +
+  xlab("year")+
+  ylab("% resistance")
+```
+
+# -- Parameterised results -- <br> {background-color="#023B2C"}
+
+## By hospital
+
+```{r by_hospital_gram_neg_walk}
+# by_hospital - Gram-negative - AMR prediction
+by_hospital_gram_neg_amr <- map2(.x = gram_neg_ab_tibble$skim_variable,
+                                 .y = gram_neg_ab_tibble$sir.ab_name,
+                                 .f = ~amr_predict_chart_nested(x = data_1st,
+                                                                Gramstain = "Gram-negative", 
+                                                                ab_amr_code = .x, 
+                                                                nesting_crit = hospital, 
+                                                                nesting_name = "hospital", 
+                                                                n_bc = 100,
+                                                                ab_nuth_code = .x, 
+                                                                ab_name = .y, 
+                                                                model_type = "linear",
+                                                                nrow = 1,
+                                                                plot_subtitle = NULL
+                                 ))
+
+# # walk 
+# walk(by_hospital_gram_neg_amr, print)
+
+# or print select antimicrobial
+by_hospital_gram_neg_amr[[9]] #tazocin = 9
+
+```
+
+## By ward
+
+```{r by_directorate_gram_neg_walk}
+# by_directorate - Gram-negative - AMR prediction ---------------------------------
+by_directorate_gram_neg_amr <- map2(.x = gram_neg_ab_tibble$skim_variable,
+     .y = gram_neg_ab_tibble$sir.ab_name,
+     .f = ~amr_predict_chart_nested(x = data_1st,
+                             Gramstain = "Gram-negative", 
+                             ab_amr_code = .x, 
+                             nesting_crit = directorate_lump, 
+                             nesting_name = "directorate", 
+                             n_bc = 100,
+                             ab_nuth_code = .x, 
+                             ab_name = .y, 
+                             model_type = "linear",
+                             nrow = 2,
+                             plot_subtitle = NULL
+     ))
+
+# # walk
+# walk(by_directorate_gram_neg_amr, print)
+
+#or print select antimicrobial
+by_directorate_gram_neg_amr[[9]] #tazocin = 9
+
+```
+
+## By ward
+
+```{r by_location_lump_gram_neg_walk}
+# by_location_lump - Gram-negative - AMR prediction ---------------------------------
+by_location_lump_gram_neg_amr <- map2(.x = gram_neg_ab_tibble$skim_variable,
+     .y = gram_neg_ab_tibble$sir.ab_name,
+     .f = ~amr_predict_chart_nested(x = data_1st,
+                             Gramstain = "Gram-negative", 
+                             ab_amr_code = .x, 
+                             nesting_crit = location_lump, 
+                             nesting_name = "location", 
+                             n_bc = 100,
+                             ab_nuth_code = .x, 
+                             ab_name = .y, 
+                             model_type = "linear",
+                             nrow = 2,
+                             plot_subtitle = NULL
+     ))
+
+# # walk
+# walk(by_location_lump_gram_neg_amr, print)
+
+#or print select antimicrobial
+by_location_lump_gram_neg_amr[[9]] #tazocin = 9
+
+```
+
+## By age group
+
+```{r by_age_group_gram_neg_walk}
+# by_age_group - Gram-negative - AMR prediction
+by_age_group_gram_neg_amr <- map2(.x = gram_neg_ab_tibble$skim_variable,
+                                    .y = gram_neg_ab_tibble$sir.ab_name,
+                                    .f = ~amr_predict_chart_nested(x = data_1st,
+                                                            Gramstain = "Gram-negative", 
+                                                            ab_amr_code = .x, 
+                                                            nesting_crit = age_group, 
+                                                            nesting_name = "age group", 
+                                                            n_bc = 100,
+                                                            ab_nuth_code = .x, 
+                                                            ab_name = .y, 
+                                                            model_type = "linear",
+                                                            nrow = 2,
+                                                            plot_subtitle = NULL
+                                    ))
+
+# # walk 
+# walk(by_age_group_gram_neg_amr, print)
+
+#or print select antimicrobial
+by_age_group_gram_neg_amr[[9]] #tazocin = 9
+```
+
+## Output
+
+![](images/output_screenshot.png){style="height:700px"}
+
+## Sharing the results
+
+![](images/onedrive_screenshot.png){style="height:700px"}
+<br>
+
+## Benefits of parameterised reporting of AMR rates
+
+:::: {.columns}
+
+::: {.column width="50%"}
+Informs clinical decision-making
+<br>
+![](images/clinicians.jpg){style="height:200px"}
+<br>
+
+Helps target (limited) infection prevention and control resources
+<br>
+![](images/ipc.jpg){style="height:200px"}
+:::
+
+::: {.column width="50%"}
+Assists with updating of antimicrobial guidelines
+<br>
+![](images/guideline_scientist.jpg){style="height:200px"}
+
+Helps justify investment in antimicrobial stewardship
+<br>
+![](images/guardian.jpg){style="height:200px"}
+:::
+
+::::
+
+# -- Thanks for listening -- <br> {background-color="#023B2C"}
+
+## Further information
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+Daniel Weiand, Consultant medical microbiologist
+
+Newcastle upon Tyne Hospitals NHS Foundation Trust
+
+Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net</a>
+
+NHS-R community blog: <https://nhsrcommunity.com/author/daniel-weiand/>
+
+`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "2em", width = "2em")` [\\@send2dan](https://twitter.com/send2dan)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
+
+:::
+
+::: {.column width="40%"}
+
+![](images/thank-you.jpg){style="height:350px"}
+
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="height:350px"}
+
+:::
+
+::::
+
+## References {.unnumbered}
+
+::: {#refs}
+:::
+
+<!-- # Appendix {.unnumbered} -->
+
+```{r beepr_finished}
+beepr::beep(3)
+```
+
