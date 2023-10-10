@@ -1,0 +1,278 @@
+---
+title: "Lightning Talk" 
+# subtitle: "Analysis performed using antimicrobial susceptibility test data for all isolates from blood cultures collected at NUTH from Q1 2019 onwards."
+# institute: "institute"
+author: "<br><br><br><strong>Daniel Weiand</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust<br><br>ONS Data Science Graduate Programme (2023) | October 9"
+#date: "`r format(Sys.time(), '%a %B %d %Y')`" 
+#date: today
+#date-format: "dddd, D MMMM, YYYY"
+self-contained: true
+
+# #Some options need to be set in format > html
+# format:
+#   html:
+#     #output-file: 'file' #Output file to write to
+#     #output-ext: #Extension to use for generated output file
+#     code-fold: false # Remove the echo option and add the code-fold HTML format option.
+#     code_download: true
+#     embed-resources: true
+#     standalone: true
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc_float: TRUE
+#     highlight-style: pygments
+#     fig-path: 'figures/'
+#     fig-width: 9 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'left' #Possible values are default, left, right, and center.
+#     fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: paged #kable, tibble or paged. The default printing method is kable.
+#     theme:
+#     - mystyle.scss
+#     - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
+    
+# #Some options need to be set in format > docx
+# format:
+#   docx:
+#     reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 1 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc-title: 'Table of Contents' #The title used for the table of contents.
+#     page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+#     fig-path: 'figures/'
+#     fig-width: 5 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'center' #Possible values are default, left, right, and center.
+#     fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: default #kable, tibble or paged. The default printing method is kable.
+
+# # Some options need to be set in format > revealjs
+format:
+  revealjs:
+    code-fold: false # Remove the echo option and add the code-fold HTML format option.
+    incremental: false #Incrementally reveal elements https://rstudio-conf-2022.github.io/get-started-quarto/materials/05-presentations.html#/lists
+    width: 1600
+    height: 900
+    #css: ["mystyle.css"]
+    default-image-extension: svg
+    theme: serif #full list of available themes: beige blood dark default league moon night serif simple sky solarized
+    scrollable: false
+    smaller: false
+    transition: fade
+    transition-speed: fast
+    reference-location: document #If you prefer that footnotes be included at the end of the document, specify the reference-location: document option
+    logo: Newcastlelaboratories_logo.png
+    footer: "[{{< fa brands github size=2xl >}} github.com/send2dan](https://github.com/send2dan) [{{< fa brands twitter size=2xl >}} \\@send2dan](https://twitter.com/send2dan)"
+    menu:
+      side: left #Navigation Menu location
+      width: normal  #Navigation Menu width
+      numbers: true 	#Add slide numbers to menu items.
+    slide-number: c/t #c/t = Slide number / total slides (default)
+    show-slide-number: all #all = Show slide numbers in all contexts (default)
+    embed-resources: true
+    standalone: true
+    link-external-newwindow: true
+    highlight-style: a11y-dark
+
+from: markdown+emoji
+
+#Some referencing options need to be set in bibliography:, csl:, and link-citations: 
+bibliography: biblio.bib  #Document bibliography (BibTeX or CSL). May be a single file or a list of files
+csl: bmj.csl #Citation Style Language file to use for formatting references.
+link-citations: yes
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
+
+editor: source
+
+## parameterized reporting
+# params:
+#   directorate_recoded: "NA"
+#   directorate: "NA"
+#   location_code: "NA"
+#   paediatric: "NA"
+#   elderly_care: "NA"
+#   diabetic: "NA"
+#   urology: "NA"
+#   renal_chd: "NA"
+#   year: "NA"
+#   location_code: {{ location_code }}
+#   as_mo_genus: 'Candida'
+#   year: 2021
+
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| error: false
+#| message: false
+#| label: project setup
+
+library(here)
+
+source(here("01_src", "01_initialise.R"))
+
+```
+
+## Setting the scene
+
+::: {.column-screen}
+![](images/freeman.png){style="width:1900px"}
+:::
+
+## Integrated Laboratory Medicine
+
+:::: {.columns}
+
+::: {.column width="60%"}
+![](images/p70-my-lab-microbiology-on-call-team-newcastle-laboratories.jpg){style="max-height:700px"}
+:::
+
+:::  {.column width="40%"}
+- Fully HTA, MHRA & UKAS accredited 
+
+- Hundreds of scientific and technical staff 
+
+- 11+m samples per annum 
+
+:::
+
+::::
+
+## Strengths
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](images/ncl.png){style="max-height:700px"}
+:::
+
+:::  {.column width="60%"}
+- Modern diagnostics 
+
+- Cerner electronic health record (EHR) feat. Nautilus data warehouse (2019)
+
+- Cerner laboratory information management system (LIMS) (2024)
+
+- Modern surveillance system for infection prevention and control (ICNET) (2024)
+
+- Rapidly increasing data science capability
+
+- Full support for modern data science tools (R, Python, GitHub, Slack, etc..) 
+
+:::
+
+::::
+
+## Opportunities
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/surv_alert_pred_capa.png){style="max-height:900px"}
+:::
+
+:::  {.column width="50%"}
+![](images/pipeline.png){style="max-height:900px"}
+:::
+
+::::
+
+<br>
+
+## Case study
+
+Parameterised prediction and reporting of antimicrobial resistance (AMR)
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/pred_amr_gram_neg_all.png){style="max-height:350px"}
+
+![](images/pred_amr_gram_neg_hosp.png){style="max-height:350px"}
+:::
+
+:::  {.column width="50%"}
+![](images/pred_amr_gram_neg_directorate.png){style="max-height:350px"}
+
+![](images/pred_amr_gram_neg_age_group.png){style="max-height:350px"}
+
+:::
+
+::::
+
+<br>
+
+## Benefits to patients
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/guardian.jpg){style="max-height:700px"}
+:::
+
+::: {.column width="50%"}
+- Informs clinical decision-making
+
+- Helps target (limited) infection prevention and control resources
+
+- Assists with updating of antimicrobial guidelines
+
+- Justifies further investment in our data science capability 
+:::
+
+::::
+
+## Thanks for listening 
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+Daniel Weiand, Consultant medical microbiologist
+
+Newcastle upon Tyne Hospitals NHS Foundation Trust
+
+Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net</a>
+
+NHS-R community blog: <https://nhsrcommunity.com/author/daniel-weiand/>
+
+`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "2em", width = "2em")` [send2dan](https://twitter.com/send2dan)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
+
+:::
+
+::: {.column width="30%"}
+
+![](images/thank-you.jpg){style="max-height:350px"}
+
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="max-height:350px"}
+
+:::
+
+::::
+
+<!-- ## References {.unnumbered} -->
+
+<!-- ::: {#refs} -->
+<!-- ::: -->
+
+<!-- # Appendix {.unnumbered} -->
+
+```{r beepr_finished}
+beepr::beep(3)
+```
+
