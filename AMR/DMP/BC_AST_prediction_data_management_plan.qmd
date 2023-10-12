@@ -1,0 +1,414 @@
+---
+title: "Data Management Plan" 
+subtitle: "Using R to Predict Antimicrobial Resistance Rates using Data for all Isolates from Blood Cultures collected from Q1 2019 onwards."
+institute: "Newcastle upon Tyne Hospitals NHS Foundation Trust"
+author: "Daniel Weiand" 
+#date: "`r format(Sys.time(), '%a %B %d %Y')`" 
+date: today
+date-format: "dddd, D MMMM, YYYY"
+self-contained: true
+
+# #Some options need to be set in format > html
+format:
+  html:
+    #output-file: 'file' #Output file to write to
+    #output-ext: #Extension to use for generated output file
+    code-fold: false
+    code_download: true
+    embed-resources: true
+    standalone: true
+    toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+    toc-depth: 3 #Specify the number of section levels to include in the table of contents. The default is 3
+    toc_float: TRUE
+    highlight-style: pygments
+    fig-path: 'figures/'
+    fig-width: 9 #default is 7
+    fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+    # fig-height: 6 #default is 7
+    fig-align: 'left' #Possible values are default, left, right, and center.
+    fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+    fig-cap-location: 'top' #top bottom or margin
+    fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+    df-print: paged #kable, tibble or paged. The default printing method is kable.
+    theme:
+    - mystyle.scss
+    - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
+    
+# #Some options need to be set in format > docx
+# format:
+#   docx:
+#     reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+#     toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+#     toc-depth: 1 #Specify the number of section levels to include in the table of contents. The default is 3
+#     toc-title: 'Table of Contents' #The title used for the table of contents.
+#     page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+#     fig-path: 'figures/'
+#     fig-width: 5 #default is 7
+#     fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+#     # fig-height: 6 #default is 7
+#     fig-align: 'center' #Possible values are default, left, right, and center.
+#     fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+#     fig-cap-location: 'top' #top bottom or margin
+#     fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+#     df-print: default #kable, tibble or paged. The default printing method is kable.
+
+#Some referencing options need to be set in bibliography:, csl:, and link-citations: 
+bibliography: data_management_plan.bib 
+csl: bmj.csl #Citation Style Language file to use for formatting references.
+link-citations: yes
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  echo: FALSE #Include cell source code in rendered output. 
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
+
+editor: source
+
+# # parameterized reporting
+# params:
+#   directorate_recoded: "NA"
+#   directorate: "NA"
+#   location_code: "NA"
+#   paediatric: "NA"
+#   elderly_care: "NA"
+#   diabetic: "NA"
+#   urology: "NA"
+#   renal_chd: "NA"
+
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: project setup
+
+library(here)
+
+source(here("01_src", "01_initialise.R"))
+
+```
+
+```{r data import}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+#| label: project setup
+
+```
+
+```{r citedrive, echo=FALSE}
+download.file("https://api.citedrive.com/bib/54230a47-7750-4bef-aeec-a2020619a0e8/references.bib?x=eyJpZCI6ICI1NDIzMGE0Ny03NzUwLTRiZWYtYWVlYy1hMjAyMDYxOWEwZTgiLCAidXNlciI6ICIyNzk0IiwgInNpZ25hdHVyZSI6ICJiMTAyZWE1NWIxNTAwMWY5YmMxZGZhMGQ2MTJkZjNlYjkwM2Q5M2U2MzdlMjQyMTU2YTU2ZTBmN2RkMDczNGVjIn0=/bibliography.bib", "data_management_plan.bib")
+```
+
+# Data management plan (DMP)
+
+## Introduction
+A Data Management Plan (DMP) is a document that often accompanies research and digital projects. The document is used to outline how a project will manage data during the project and once it is completed  [@MU-Intro-to-DMP].
+
+DMPs have become nearly a worldwide requirement for research funding. To meet these new funding agency expectations, information professionals across domains and the world have worked to create resources and services to successfully implement [@Bishop_2023].
+
+@Bishop_2023 posit that well-executed DMPs add to research transparency, accountability, and reproducibility, although more work needs to be done to validate these assumptions.
+
+In the process of synthesising this DMP, all of the following resources have been been consulted.
+
+### ELDA/ELRA
+
+The [Evaluations and Language resources Distribution Agency (ELDA)](http://www.elra.info/en/services-around-lrs/dmp/) [@ELDA-DMP] has formulated and published a more concise list of six distinct phases, encompassing the entire data lifecycle, which need to be documented by DMPs. These are themselves based on 20 factors impacting sustainability, identified by [FLaReNet](http://www.elra.info/media/filer_public/2021/11/18/flarenet_final_book.pdf) [@FLaReNet_Book]:
+
+![](images/data management plan ELRA rlcycle.gif)
+
+### ICPSR
+
+In addition, the [Inter-university Consortium for Political and Social Research (ICPSR)](https://www.icpsr.umich.edu/web/pages/datamanagement/dmp/elements.html) [@ICPSR-DMP-Elements; @ICPSR-YouTube-Intro-DMP] recommends that, where possible and appropriate, the following elements should be considered as part of a DMP:
+
+- Data description
+- Existing data
+- Format
+- Metadata
+- Storage and backup
+- Security
+- Responsibility
+- Intellectual property rights
+- Access and sharing
+- Audience
+- Selection and retention periods
+- Archiving and preservation
+- Ethics and privacy
+- Budget
+- Data organization
+- Quality Assurance
+- Legal requirements
+
+These elements have been mapped, by the [ICPSR](https://www.icpsr.umich.edu/web/pages/datamanagement/dmp/elements.html), to the U.S. [National Science Foundation's (NSF)](https://new.nsf.gov/funding/data-management-plan)  [@NSF-DMP] policy on managing, disseminating and sharing research results.
+
+### Online tools
+
+Finally, online tools are available to assist with the creation of DMPs [@dmponline; @NCL-DMP].
+
+## Project Background
+
+### Project/data description
+
+*A description of the information to be gathered; the nature/type and scale of the data that will be generated or collected.*
+
+### Project name
+Data Management Plan: Using R to Predict Antimicrobial Resistance Rates using Data for all Isolates from Blood Cultures collected from Q1 2019 onwards
+
+### Project description
+
+#### Aims and objectives
+The aim of this project is to model predicted antimicrobial resistance (AMR) rates using the [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] for [R](https://nhsrcommunity.com/installing-r-and-r-studio/) [@R-base].
+
+Predicted AMR rates will be modeled in R, using antimicrobial susceptibility data for all organisms isolated from blood cultures collected at NUTH from Q1 2019 onwards.
+
+Laboratory data will be triangulated with data from other sources (e.g. the Trust's dialysis information management system, electronic health record, and  bereavement ledger) to gain additional insights in relation to disease trends, potential risk factors and outcomes.
+
+#### The AMR package for R
+![](images/amr-pub.png)
+
+The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] is a free, open-source and independent package for [R](https://nhsrcommunity.com/installing-r-and-r-studio/) [@R-base] that provides a standard for clean and reproducible analysis and prediction of Antimicrobial Resistance (AMR). 
+
+This package will be used to determine 'first isolates', as per Hindler et al [@hindler2007analysis], for use in the final analysis; calculate and visualise AMR data; and predict future AMR rates using regression models.
+
+#### The concept of 'first isolates'
+To conduct an analysis of antimicrobial resistance, Hindler et al [@hindler2007analysis] posit that one should only include the first isolate of every patient per episode. This approach avoids overestimating or underestimating AMR rates [@AMR2022; @R-AMR]. The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package was used to determine 'first isolates' for use in the final analysis.
+
+#### Predicting future AMR rates 
+The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] includes functions which, based on a date column, calculates cases per year and uses a regression model to predict antimicrobial resistance.
+
+The resistance_predict() function creates a prediction model including standard errors (SE), which are returned as columns se_min and se_max. 
+
+Valid options for the statistical model (argument model) are: "binomial", "poisson" and "linear".
+
+#### The NHSRplotthedots package for R
+
+The {[NHSRplotthedots](https://github.com/nhs-r-community/NHSRplotthedots/)} package [@R-NHSRplotthedots] for [R](https://nhsrcommunity.com/installing-r-and-r-studio/) [@R-base] is used to plot time series data and detect special cause variation by applying statistical process control (SPC) rules. 
+
+#### Survival analysis
+The {ggsurvfit} and {survival} packages [@R-ggsurvfit; @R-survival; @survival-book] for [R](https://nhsrcommunity.com/installing-r-and-r-studio/) [@R-base] are used to conduct survival analyses .
+
+### Domain
+Clinical medicine
+
+### Project start
+
+
+### Project end
+
+### Versioning information
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "1em", width = "1em")` [GitHub](https://github.com/send2dan/public) has been used to keep track of code/version control [@ourcodingclub_github; @posit_git].
+
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="max-height:350px"}
+
+## Data acquisition
+What data will you collect or create?
+How will the data be collected or created?
+Is this existing data or are you intending to create new data?
+Where will this come from?
+How will it be collected? (methodologies)
+Standards/format
+Quality assurance details
+
+### Existing data
+
+*A survey of existing data relevant to the project and a discussion of whether and how these data will be integrated.*
+
+#### LIMS data
+The LIMS will be interrogated to collect data on all culture-positive blood cultures collected from Q1 2019.
+
+Data will also be collected on all culture-negative blood cultures collected from Q1 2019.
+
+#### EHR data
+The electronic health record (EHR) will be interrogated to collect data on all patients with diabetes from Q1 2019.
+
+#### Dialysis data
+The dialysis information management system will be interrogated to collect data on all patients undergoing dialysis from Q1 2019.
+
+#### Bereavement data
+Data from the Trust's bereavement ledger will be interrogated to collect data on all patients who died in the Trust from Q1 2019.
+
+### Novel data
+
+*Production/collection of [additional] data needed for the project*
+
+No additional data collection is required, in addition to the existing data outlined above. 
+
+## Data storate and architechture 
+
+### Storage and backup
+
+*Storage methods and backup procedures for the data, including the physical and cyber resources and facilities that will be used for the effective preservation and storage of the research data.*
+
+How and where will you store data?
+In what format?
+Recovery and backup of data
+Managing access and security 
+
+## Data description, transformation, and processing 
+
+### Format
+
+*Formats in which the data will be generated, maintained, and made available, including a justification for the procedural and archival appropriateness of those formats.*
+
+### Metadata
+
+*A description of the metadata to be provided along with the generated data, and a discussion of the metadata standards used.*
+
+What documentation and metadata will accompany the data?
+What metadata comes with the data?
+What information will be needed to help people interpret the data in the future?
+Metadata standards
+
+### ISLRN
+The International Standard Language Resource Number (ISLRN) is a new, unique and universal identification schema for Language Resources which provides Language Resources with unique names using a standardized nomenclature [@ELDA-ISLRN].
+
+The 13-digit ISLRN format is: XXX-XXX-XXX-XXX-X. It can be allocated to any Language Resource; its composition is neutral and does not include any semantics in reference to the type or nature of the Language Resource. The ISLRN is a randomly created number with a check digit that validates a Verhoeff algorithm [@ELDA-ISLRN].
+
+For the purposes of this project, no ISLRN's have been used.
+
+## Governance and security
+
+### Security
+
+*A description of technical and procedural protections for information, including confidential information, and how permissions, restrictions, and embargoes will be enforced.*
+
+Potentially confidental information can be pseudonymised with, for example, OpenPseudonymiser 
+
+![](images/OpenPseudonomiserNUTHpresentation.png)
+
+## Responsibility and resources
+
+*Names of the individuals responsible for data management in the research project.*
+
+Who is responsible for data management? 
+Who is responsible for implementing the DMP?
+Which activity are people responsible for?
+How is this divided (e.g. among sites, institutions, departments etc.)
+Formal agreements and contracts
+Resources needed (e.g. storage space, database, expertise, costs)
+
+### Primary Investigator (PI) and Co-Investigators
+Daniel Weiand, Consultant medical microbiologist [PI]
+Caroline Cullerton, Biomedical scientist [Co-Investigator; staff member with access to data stored in the Trust's laboratory information management system (LIMS)]
+[Staff who have access to data stored in the Trust's bereavement ledger]
+[Staff who have access to data stored in the Trust's Nautilus data warehouse, which stores data from the Trust's electronic health record (EHR)]
+[Staff who have access to data stored in the Trust's dialysis information management system]
+
+#### Contact details
+Daniel Weiand, Consultant medical microbiologist
+ILM Directorate Clinical Informatics Lead
+Medical Examiner for Freeman Hospital 
+Training Programme Director for Infection (Microbiology, Virology and Infectious Diseases)
+Newcastle upon Tyne Hospitals NHS Foundation Trust
+Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net</a>
+Tel (Direct): +44 (0)191 21 39054
+Tel (Sec): +44 (0)191 22 37736 or +44 (0)191 22 31019
+Website: [www.newcastlelaboratories.com](www.newcastlelaboratories.com)
+`r fontawesome::fa(name = "orcid", prefer_type = "solid", height = "1em", width = "1em")` [ORCiD](https://orcid.org/0000-0001-5854-3452)
+NHS-R community blog: <https://nhsrcommunity.com/author/daniel-weiand/>
+`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "1em", width = "1em")` [send2dan](https://twitter.com/send2dan)
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "1em", width = "1em")` [github.com/send2dan/public](https://github.com/send2dan/public)
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="max-height:350px"}
+
+### Budget
+
+*The costs of preparing data and documentation for archiving and how these costs will be paid. Requests for funding may be included.*
+
+### Funder
+No funder associated with this plan 
+
+### Grant number/url
+N/A
+
+## Access and sharing
+
+*A description of how data will be shared, including access procedures, embargo periods, technical mechanisms for dissemination and whether access will be open or granted only to specific user groups. A timeframe for data sharing and publishing should also be provided.*
+
+Will you share/publish the data?
+In what format? (e.g. using a repository)
+Under what conditions/terms?
+How will people find out about this and when will it be available?
+Any restrictions on sharing
+
+## Audience
+
+*The potential secondary users of the data.*
+
+## Selection and retention periods
+
+*A description of how data will be selected for archiving, how long the data will be held, and plans for eventual transition or termination of the data collection in the future.*
+
+How long will you store the data for? (retention schedule)
+Future reuse of the data
+Long term preservation plans
+
+## Archiving and preservation
+
+*The procedures in place or envisioned for long-term archiving and preservation of the data, including succession plans for the data should the expected archiving entity go out of existence.*
+
+## Ethics and privacy
+
+*A discussion of how informed consent will be handled and how privacy will be protected, including any exceptional arrangements that might be needed to protect participant confidentiality, and other ethical issues that may arise.*
+
+How will you manage ethical issues? (formal ethical application)
+How will you protect the identity of individuals?
+Dealing with sensitive data
+Store and process the data securely
+
+### IP rights
+
+*Entities or persons who will hold the intellectual property rights to the data, and how IP will be protected if necessary. Any copyright constraints (e.g., copyrighted data collection instruments) should be noted.*
+
+How will you manage copyright and Intellectual Property Rights (IPR) issues?
+Copyright and IP issue management (who owns the data?, restrictions on use/reuse, sharing of data) 
+
+## Data organization
+
+*How the data will be managed during the project, with information about version control, naming conventions, etc.*
+
+## Quality Assurance
+
+*Procedures for ensuring data quality during the project.*
+
+### Limitations
+Only phenotypic AST results are included in this analysis (e.g. "R", "I", and "S"). In other words, data stored as disk diffusion zone sizes (e.g. 20mm) or MIC values (e.g. 1mg/L) are not included. Phenotypic AST results recorded as "D" are recoded as "R" to facilitate analysis using the  [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR].
+
+With regards to survival data, the Newcastle upon Tyne Hospitals NHS Foundation Trust's bereavement ledger only includes information on patients who died in hospital. No information is available on the status or date of date of patients who may have died in the community or at other Trusts. As a result, the mortality data outlined in the survival analysis are likely to underestimate patients' true mortality rates.
+
+With regards to drug resistance rates, these are not easily predicted; for particular drug-bug combinations, the spread (i.e. standard error) can be very large. Generalised linear regression models using a binomial distribution assume that a period of zero resistance was followed by a period of increasing resistance leading slowly to more and more resistance. Where the standard error is very large, a linear model might be more appropriate. The [AMR](https://msberends.github.io/AMR/articles/AMR.html) package [@AMR2022; @R-AMR] facilitates modelling of drug resistance rates using either binomial or linear distributions. The chosen model is stated in each figure. 
+
+## Legal requirements
+
+*A listing of all relevant federal or funder requirements for data management and data sharing.*
+
+## Example output
+
+Parameterised prediction and reporting of antimicrobial resistance (AMR)
+
+![](images/pred_amr_gram_neg_all.png){style="max-height:350px"}
+
+![](images/pred_amr_gram_neg_hosp.png){style="max-height:350px"}
+
+![](images/pred_amr_gram_neg_directorate.png){style="max-height:350px"}
+
+![](images/pred_amr_gram_neg_age_group.png){style="max-height:350px"}
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+<!-- # Appendix {.unnumbered} -->
+
+```{r beepr_finished}
+beepr::beep(3)
+```
+
