@@ -12,11 +12,20 @@ MBChB, FRCPath, MMedEd, RCPathME
 # Background: 
 Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medical Microbiologist in 2015, and has a special interest in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, Medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. Before moving to the North East, Daniel trained in Aberdeen, Sheffield, York, Hull and Leeds. Additional responsibilities include: Associate Clinical Lecturer at Newcastle University; Training Programme Director for Infectious Diseases, Medical Microbiology and Virology at Health Education England North East (HEENE); Medical Examiner for Newcastle upon Tyne Hospitals NHS Foundation Trust; and Examiner for the Royal College of Pathologists (RCPath); “Q” fellow at The Health Foundation.
 
+# Website:
+<https://www.newcastlelaboratories.com>
+
 # Twitter:
 [@send2dan](https://twitter.com/send2dan?lang=en)
 
 # GitHub:
 [https://github.com/send2dan/public/](https://github.com/send2dan/public/)
+
+# ORCiD
+[ORCiD iD 0000-0001-5854-3452](https://orcid.org/0000-0001-5854-3452)
+
+# NHS-R community blog:
+<https://nhsrcommunity.com/author/daniel-weiand/>
 
 # Information for anyone in the NHS who is interested in learning how to code and/or keen to check out what colleagues across the NHS are doing with code:
 
