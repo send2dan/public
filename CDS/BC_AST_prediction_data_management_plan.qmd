@@ -35,22 +35,22 @@ self-contained: true
 #     - default #Quarto includes 25 themes from the Bootswatch project (for example, the website uses the cosmo theme). Available themes include: default cerulean cosmo cyborg darkly flatly journal litera lumen lux materia minty morph pulse quartz sandstone simplex sketchy slate solar spacelab superhero united vapor yeti zephyr
     
 # #Some options need to be set in format > docx
-format:
-  docx:
-    reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
-    toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
-    toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
-    toc-title: 'Table of Contents' #The title used for the table of contents.
-    page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
-    fig-path: 'figures/'
-    fig-width: 7 #default is 7
-    fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
-    # fig-height: 6 #default is 7
-    fig-align: 'center' #Possible values are default, left, right, and center.
-    fig-format: 'svg' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
-    fig-cap-location: 'top' #top bottom or margin
-    fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
-    df-print: default #kable, tibble or paged. The default printing method is kable.
+format: docx
+  # docx:
+  #   reference-doc: word-styles-reference-01.docx #Word document that will be used as a style reference in producing final docx (Word) document
+  #   toc: true #Include an automatically generated table of contents. This option has no effect if standalone is false.
+  #   toc-depth: 2 #Specify the number of section levels to include in the table of contents. The default is 3
+  #   toc-title: 'Table of Contents' #The title used for the table of contents.
+  #   page-width: 6.5 #Target page width for output (used to compute columns widths for layout divs). Defaults to 6.5 inches, which corresponds to default letter page settings in docx and odt.
+  #   fig-path: 'figures/'
+  #   fig-width: 7 #default is 7
+  #   fig-asp: 0.618 #When fig-asp is specified, the height of a plot (the option fig-height) is calculated from fig-width * fig-asp (the golden ratio is 0.618).
+  #   # fig-height: 6 #default is 7
+  #   fig-align: 'center' #Possible values are default, left, right, and center.
+  #   fig-format: 'png' #The graphical device to generate plot files. retina, png, jpeg, svg, or pdf
+  #   fig-cap-location: 'top' #top bottom or margin
+  #   fig-dpi: 300 #The DPI (dots per inch) for bitmap devices (default = 72)
+  #   df-print: default #kable, tibble or paged. The default printing method is kable.
 
 #Some referencing options need to be set in bibliography:, csl:, and link-citations: 
 bibliography: data_management_plan.bib 
@@ -90,6 +90,9 @@ editor: source
 library(here)
 
 source(here("01_src", "01_initialise.R"))
+
+# install.packages("~/rsvg_2.6.0.tar.gz", repos = NULL, type = "source")
+library(rsvg)
 
 ```
 
