@@ -23,7 +23,7 @@ renv:::renv_download_method()
 #install required packages
 if (!require("pacman")) install.packages(c("pacman"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
 
-pacman::p_load("pacman", "tidyverse", "lubridate", "here", "knitr", "markdown", "quarto", "flextable", "readxl", "readr", "janitor", "skimr", "fontawesome", "beepr", "padr", "yaml")
+pacman::p_load("pacman", "tidyverse", "lubridate", "here", "knitr", "markdown", "quarto", "flextable", "readxl", "readr", "janitor", "skimr", "fontawesome", "beepr", "padr", "yaml", "rsvg")
 
 # #install {renv} if not already done so
 if (!require("renv")) install.packages(c("renv"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
@@ -37,7 +37,7 @@ renv::status()
 # renv::init()
 
 ##optional {renv} snapshot
-# renv::snapshot(repos = "https://cran.ma.imperial.ac.uk/")
+renv::snapshot(repos = "https://cran.ma.imperial.ac.uk/")
 
 # renv::activate()
 # renv::upgrade()
