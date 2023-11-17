@@ -17,19 +17,36 @@ Sys.setenv(RENV_DOWNLOAD_METHOD = getOption("download.file.method"))
 #recheck downloader currently used by {renv}:
 renv:::renv_download_method()
 
-# #activate {renv}
-if (!require("AMR")) install.packages(c("AMR"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
+#check .libPaths() details
+.libPaths()
 
+#install required packages
+if (!require("pacman")) install.packages(c("pacman"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
+
+pacman::p_load("pacman", "tidyverse", "lubridate", "here", "knitr", "markdown", "quarto", "flextable", "readxl", "readr", "janitor", "skimr", "fontawesome", "beepr", "padr", "yaml")
+
+# #install {renv} if not already done so
+if (!require("renv")) install.packages(c("renv"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
+
+renv::status()
+
+# If you’d like to initialize a project without attempting dependency discovery and installation – that is, you’d prefer to manually install the packages your project requires on your own – you can use renv::init(bare = TRUE) to initialize a project with an empty project library.
+
+# renv::init(bare = TRUE)
+# # otherwise
 # renv::init()
-# renv::activate()
-# renv::upgrade()
-
-pacman::p_load("pacman", "tidyverse", "lubridate", "here", "knitr", "markdown", "quarto", "flextable", "readxl", "readr", "janitor", "skimr", "fontawesome", "beepr")
 
 ##optional {renv} snapshot
 # renv::snapshot(repos = "https://cran.ma.imperial.ac.uk/")
 
-#check .libPaths() details
-.libPaths()
+# renv::activate()
+# renv::upgrade()
 
-renv::status()
+# # restore packages from the lockfile, bypassing the cache
+# renv::restore(rebuild = TRUE)
+
+# # re-install a package
+# renv::install("renv", rebuild = TRUE)
+
+# # rebuild all packages in the project
+# renv::rebuild()
