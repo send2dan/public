@@ -10,7 +10,7 @@ Consultant Microbiologist
 MBChB, FRCPath, MMedEd, RCPathME
 
 # Background: 
-Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medical Microbiologist in 2015, and has a special interest in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, Medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. Before moving to the North East, Daniel trained in Aberdeen, Sheffield, York, Hull and Leeds. Additional responsibilities include: Associate Clinical Lecturer at Newcastle University; Training Programme Director for Infectious Diseases, Medical Microbiology and Virology at Health Education England North East (HEENE); Medical Examiner for Newcastle upon Tyne Hospitals NHS Foundation Trust; and Examiner for the Royal College of Pathologists (RCPath); “Q” fellow at The Health Foundation.
+Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medical Microbiologist in 2015, and has a special interest in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, Medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. Before moving to the North East, Daniel trained in Aberdeen, Sheffield, York, Hull and Leeds. Additional responsibilities include: Associate Clinical Lecturer at Newcastle University; Training Programme Director for Infectious Diseases, Medical Microbiology and Virology at Health Education England North East (HEENE); Medical Examiner for Newcastle upon Tyne Hospitals NHS Foundation Trust; and Examiner for the Royal College of Pathologists (RCPath); “Q” fellow at The Health Foundation. Daniel is currently enrolled in the PG Cert in Clinical Data Science at Manchester University.
 
 # Website:
 <https://www.newcastlelaboratories.com>
@@ -43,7 +43,7 @@ To learn how to code in R:
 
 -   There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
 
--   NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community
+-   NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, which is an excellent resource for when you get stuck (most useful if you are able to share a [reproducible example](https://community.rstudio.com/t/faq-whats-a-reproducible-example-reprex-and-how-do-i-create-one/5219) of the problem you're encountering)
 
 To see what colleagues across the NHS are doing with code:
 
@@ -51,9 +51,9 @@ To see what colleagues across the NHS are doing with code:
 
 -   The free-to-NHS conference is really of excellent quality, very well organised, and well attended: [Book your ticket](https://nhsrcommunity.com/events/) to avoid disappointment!
 
--   You’re welcome to [check out my public GitHub code repository](https://github.com/send2dan/public), which includes presentations I’ve delivered (and the code used to deliver them), e.g. an [online workshop](https://nhsrcommunity.com/events/nhs-r-nhs-pycom-online-conference-workshop-2023-producing-parameterised-reports-using-purrr-and-quarto/) on the subject of Producing Parameterised Reports using purrr and Quarto; and a [plenary talk](https://nhsrcommunity.com/events/nhs-r-community-conference-2023-ticket-for-in-person-attendance-on-tuesday-17th-october-2023/) on the subject of Predicting Antimicrobial Resistance Rates using R and Sharing the Results in the form of Parameterised Reports produced using Quarto on the first day of the in-person conference in Birmingham. 
+-   You’re welcome to [check out my public GitHub code repository](https://github.com/send2dan/public), which includes presentations I’ve delivered (and the code used to deliver them), e.g. an [online workshop](https://nhsrcommunity.com/events/nhs-r-nhs-pycom-online-conference-workshop-2023-producing-parameterised-reports-using-purrr-and-quarto/) on Producing Parameterised Reports using purrr and Quarto; and a [plenary talk](https://nhsrcommunity.com/events/nhs-r-community-conference-2023-ticket-for-in-person-attendance-on-tuesday-17th-october-2023/) on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto. 
 
-NUTH now actively supports the use of R at scale, and it can be installed on any work PC (simply call IT and ask to be added the **“SCCM-R”** group)
+NUTH now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT and ask to be added the **“SCCM-R”** group)
 
 
 
