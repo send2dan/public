@@ -21,6 +21,7 @@ nul*
 *library/
 
 # ignore ALL .xls and .xlsx files
+*.env
 *.csv
 *.xls
 *.xlsx
