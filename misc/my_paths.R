@@ -26,27 +26,27 @@ if (!require("renv")) install.packages(c("renv"), repos = "https://cran.ma.imper
 #install required packages
 if (!require("pacman")) install.packages(c("pacman"), repos = "https://cran.ma.imperial.ac.uk/", type = "win.binary")
 
-# pacman::p_load("pacman", 
-#                "tidyverse", 
-#                "lubridate", 
-#                "here", 
-#                "knitr", 
-#                "markdown", 
-#                "quarto", 
-#                "flextable", 
-#                "readxl", 
-#                "readr", 
-#                "janitor", 
-#                "skimr", 
-#                "fontawesome", 
-#                "beepr", 
-#                "padr", 
-#                "yaml", 
-#                "rsvg", 
-#                "styler", 
-#                "AMR",
-#                "excel.link"
-#                )
+pacman::p_load("pacman",
+               "tidyverse",
+               "lubridate",
+               "here",
+               "knitr",
+               "markdown",
+               "quarto",
+               "flextable",
+               "readxl",
+               "readr",
+               "janitor",
+               "skimr",
+               "fontawesome",
+               "beepr",
+               "padr",
+               "yaml",
+               "rsvg",
+               "styler",
+               "AMR",
+               "excel.link"
+               )
 
 
 # #update/install package
