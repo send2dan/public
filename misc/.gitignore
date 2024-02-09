@@ -29,7 +29,6 @@ nul*
 *.biblatex
 *.bib
 *.ris
-*.txt
 *.html
 *.docx
 *.doc
