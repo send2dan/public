@@ -31,7 +31,7 @@ Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medic
 
 R is one of the most commonly used languages for data science, together with Python.
 
-   It is a powerful, free open source data science and statistics environment, used in industry, academia and major corporations (e.g. Microsoft, Google, Facebook).
+   It is a powerful, **entirely free** open source data science and statistics environment, used in industry, academia and major corporations (e.g. Microsoft, Google, Facebook).
 
    It benefits from a worldwide community that freely shares learning and resources, through e.g. [GitHub](https://github.com/send2dan/)
 
@@ -39,7 +39,7 @@ R is one of the most commonly used languages for data science, together with Pyt
 
 To learn how to code in R:
 
--   [NHS-R](https://nhsrcommunity.com/about/) delivers [free-to-NHS-staff online introductory training on R and R Studio](https://nhsrcommunity.com/events/#event_type-workshops). It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
+-   [NHS-R](https://nhsrcommunity.com/about/index.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
 
 -   There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
 
@@ -47,11 +47,11 @@ To learn how to code in R:
 
 To see what colleagues across the NHS are doing with code:
 
--   NHS-R and NHS.pycom run [the premier data science conference in the NHS](https://nhsrcommunity.com/events/#event_type-conferences), along with regular skill-based webinars 
+-   NHS-R and NHS.pycom run [the premier data science conference in the NHS](https://nhsrcommunity.com/events.html), along with regular skill-based webinars 
 
--   The free-to-NHS conference is really of excellent quality, very well organised, and well attended: [Book your ticket](https://nhsrcommunity.com/events/) to avoid disappointment!
+-   The free-to-NHS conference is really of excellent quality, very well organised, and well attended: [Book your ticket](https://nhsrcommunity.com/events.html) to avoid disappointment!
 
--   You’re welcome to [check out my public GitHub code repository](https://github.com/send2dan/public), which includes presentations I’ve delivered (and the code used to deliver them), e.g. an [online workshop](https://nhsrcommunity.com/events/nhs-r-nhs-pycom-online-conference-workshop-2023-producing-parameterised-reports-using-purrr-and-quarto/) on Producing Parameterised Reports using purrr and Quarto; and a [plenary talk](https://nhsrcommunity.com/events/nhs-r-community-conference-2023-ticket-for-in-person-attendance-on-tuesday-17th-october-2023/) on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto. 
+-   You’re welcome to [check out my public GitHub code repository](https://github.com/send2dan/public), which includes presentations I’ve delivered (and the code used to deliver them), e.g. an online workshop on Producing Parameterised Reports using purrr and Quarto; and a plenary talk on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto. 
 
 NUTH now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT and ask to be added the **“SCCM-R”** group)
 
