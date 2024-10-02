@@ -1,3 +1,5 @@
+"All models are wrong, but some are useful." - George Box
+
 # Public
 
 # Name: 
@@ -10,7 +12,7 @@ Consultant Microbiologist
 MBChB, FRCPath, MMedEd, RCPathME
 
 # Background: 
-Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medical Microbiologist in 2015, and has a special interest in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. Before moving to the North East, Daniel trained in Aberdeen, Sheffield, York, Hull and Leeds. Additional responsibilities include: Associate Clinical Lecturer at Newcastle University; Medical Examiner for Newcastle upon Tyne Hospitals NHS Foundation Trust; and Examiner for the Royal College of Pathologists (RCPath); “Q” fellow at The Health Foundation. Daniel is currently enrolled in the PG Cert in Clinical Data Science at Manchester University.
+Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medical Microbiologist in 2015, and has a special interest in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. Before moving to the North East, Daniel trained in Aberdeen, Sheffield, York, Hull and Leeds. Additional responsibilities include: Associate Clinical Lecturer at Newcastle University; Medical Examiner for Newcastle upon Tyne Hospitals NHS Foundation Trust; and Examiner for the Royal College of Pathologists (RCPath); “Q” fellow at The Health Foundation. Daniel is enrolled in the 2024/25 PG Cert in Clinical Data Science at Manchester University.
 
 # Website:
 <https://www.newcastlelaboratories.com>
