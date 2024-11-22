@@ -26,9 +26,6 @@ Daniel joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant Medic
 # ORCiD
 [ORCiD iD 0000-0001-5854-3452](https://orcid.org/0000-0001-5854-3452)
 
-# NHS-R community blog:
-<https://nhsrcommunity.com/author/daniel-weiand/>
-
 # Information for anyone in the NHS who is interested in learning how to code and/or keen to check out what colleagues across the NHS are doing with code:
 
 R is one of the most commonly used languages for data science, together with Python.
@@ -43,13 +40,16 @@ To learn how to code in R:
 
 -   [NHS-R](https://nhsrcommunity.com/contact.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
 
+-   Also see NHS-R community blog:
+<https://nhsrcommunity.com/blog/>
+
 -   There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
 
 -   NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, which is an excellent resource for when you get stuck (most useful if you are able to share a [reproducible example](https://community.rstudio.com/t/faq-whats-a-reproducible-example-reprex-and-how-do-i-create-one/5219) of the problem you're encountering)
 
 To see what colleagues across the NHS are doing with code:
 
--   NHS-R and NHS.pycom run [the premier data science conference in the NHS](https://nhsrcommunity.com/events.html), along with regular skill-based webinars 
+-   NHS-R and NHS.pycom run [the premier data science conference in the NHS](https://nhsrcommunity.com/contact.html), along with regular skill-based webinars 
 
 -   The free-to-NHS conference is really of excellent quality, very well organised, and well attended: [Book your ticket](https://nhsrcommunity.com/events.html) to avoid disappointment!
 
