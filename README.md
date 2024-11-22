@@ -41,7 +41,7 @@ R is one of the most commonly used languages for data science, together with Pyt
 
 To learn how to code in R:
 
--   [NHS-R](https://nhsrcommunity.com/about/index.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
+-   [NHS-R](https://nhsrcommunity.com/contact.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
 
 -   There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
 
