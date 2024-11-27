@@ -36,7 +36,9 @@ I'm **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd**, a Consultant Microbiol
 
 # Why R?
 
-R is a powerful, free, and open-source language for data science and statistics. This makes it a perfect tool for the NHS, where collaboration and learning are paramount.
+R is a powerful, free, and open-source language for data science and statistics. This makes it a perfect tool for the NHS, where research, collaboration, and continuous quality improvement are paramount.
+
+Open-source languages including R and Python are used in [many industries, including by Dell, Walmart and (increasingly) across the NHS](https://posit-dev.github.io/brand-yml/inspiration/)
 
 # Information for anyone in the NHS who is interested in learning how to code:
 
