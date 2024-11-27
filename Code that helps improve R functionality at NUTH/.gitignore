@@ -6,6 +6,7 @@
 # ignore ALL files in ANY directory named data
 data/
 win-library/
+images/
 
 #Starting with ** before / specifies that it matches any folder in the repository. Not just on root.
 **/data/
@@ -143,3 +144,8 @@ rsconnect/
 
 # End of https://www.toptal.com/developers/gitignore/api/r
 
+# output files
+02_data_output/
+ams-penicillin-allergy-delabelling.html
+ams-data-analysis.html
+ams-dmards.html
