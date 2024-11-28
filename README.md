@@ -34,29 +34,18 @@ I'm **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd**, a Consultant Microbiol
 # ORCiD
 [ORCiD iD 0000-0001-5854-3452](https://orcid.org/0000-0001-5854-3452)
 
-# Why R?
-
-R is a powerful, free, and open-source language for data science and statistics. This makes it a perfect tool for the NHS, where research, collaboration, and continuous quality improvement are paramount.
-
-Open-source languages including R and Python are used in [many industries, including by Dell, Walmart and (increasingly) across the NHS](https://posit-dev.github.io/brand-yml/inspiration/)
-
-# Information for anyone in the NHS who is interested in learning how to code:
+# Information on R and Python for staff working in the NHS
 
 - R is one of the most commonly used languages for data science, together with Python.
-- It is a powerful, **entirely free** open source data science and statistics environment, used in industry, academia and major corporations (e.g. Microsoft, Google, Facebook).
-- It benefits from a worldwide community that freely shares learning and resources, through e.g. [GitHub](https://github.com/send2dan/)
+- Open-source (**free**) languages, including R and Python, are used in [many industries, including by Dell, Walmart and (increasingly) across the NHS](https://posit-dev.github.io/brand-yml/inspiration/)
+- Both R and Python benefit from a worldwide community that **freely** shares peer-reviewed learning and resources, e.g. through [GitHub](https://github.com/send2dan/), for anyone to use
 - The [Goldacre report](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1067053/goldacre-review-using-health-data-for-research-and-analysis.pdf) actively promotes the use of R in the NHS.
 - [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT and ask to be added the **“SCCM-R”** group)
 - Great resources to learn how to code include:
-  - [NHS-R](https://nhsrcommunity.com/contact.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net). 
+  - [NHS-R](https://nhsrcommunity.com/contact.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net).
+  - The NHS-R community also runs [the premier data science conference in the NHS](https://nhsrcommunity.com/contact.html), along with regular skill-based webinars.
   - Also see NHS-R community blog: <https://nhsrcommunity.com/blog/>
   - There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
   - NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, which is an excellent resource for when you get stuck (most useful if you are able to share a [reproducible example](https://community.rstudio.com/t/faq-whats-a-reproducible-example-reprex-and-how-do-i-create-one/5219) of the problem you're encountering)
-
-# See what colleagues across the NHS are doing with code:
-
--   NHS-R and NHS.pycom run [the premier data science conference in the NHS](https://nhsrcommunity.com/contact.html), along with regular skill-based webinars 
-
--   The free-to-NHS conference is really of excellent quality, very well organised, and well attended: [Book your ticket](https://nhsrcommunity.com/events.html) to avoid disappointment!
 
 
