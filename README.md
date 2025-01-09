@@ -36,7 +36,7 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd** and I work as a 
 
 # Information on R at NUTH
 
-- [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT and ask to be added the **“SCCM-R”** group)
+- [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT on ext 21000 and ask to be added the **“SCCM-R”** group)
 
 # Information on R and Python for staff working in the NHS
 
