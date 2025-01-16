@@ -13,7 +13,6 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd** and I work as a 
 - Before moving to the North East of England, I trained in Aberdeen, Sheffield, York, Hull and Leeds.
 - My additional roles and responsibilities include:
   - Associate Clinical Lecturer at Newcastle University; and
-  - Medical Examiner for Newcastle upon Tyne Office; and 
   - Examiner for the Royal College of Pathologists (RCPath); and
   - “Q” fellow at The Health Foundation. 
 - I am currently enrolled in the 2024/25 PG Cert in Clinical Data Science at Manchester University.
