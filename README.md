@@ -22,7 +22,7 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd** and I work as a 
 "All models are wrong, but some are useful." - George Box
 
 # Website:
-<https://www.newcastlelaboratories.com>
+[Integrated Laboratory Medicine at Newcastle upon Tyne Hospitals NHS Foundation Trust](https://laboratories.newcastle-hospitals.nhs.uk/)
 
 # Twitter:
 [@send2dan](https://twitter.com/send2dan?lang=en)
