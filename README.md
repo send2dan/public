@@ -9,12 +9,13 @@ This repository includes presentations I’ve delivered (and the code used to de
 # Who am I?
 
 My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd** and I work as a Consultant Medical Microbiologist at Newcastle upon Tyne Hospitals NHS Foundation Trust.  
-- I joined Newcastle upon Tyne Hospitals NHS Foundation as a Consultant in 2015, and have special interests in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. 
+- I joined Newcastle upon Tyne Hospitals NHS Foundation (NUTH) as a Consultant in 2015, and have special interests in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. 
 - Before moving to the North East of England, I trained in Aberdeen, Sheffield, York, Hull and Leeds.
 - My additional roles and responsibilities include:
   - Associate Clinical Lecturer at Newcastle University; and
   - Examiner for the Royal College of Pathologists (RCPath); and
-  - “Q” fellow at The Health Foundation. 
+  - “Q” fellow at The Health Foundation; and
+  - Clinical Informatics Lead for Clinical and Diagnostic Services (Board 8) at NUTH
 - I am currently enrolled in the 2024/25 PG Cert in Clinical Data Science at Manchester University.
 
 # Favourite quote
