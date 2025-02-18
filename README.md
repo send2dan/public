@@ -31,8 +31,11 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd** and I work as a 
 # GitHub:
 [https://github.com/send2dan/public/](https://github.com/send2dan/public/)
 
-# ORCiD
+# ORCiD:
 [ORCiD iD 0000-0001-5854-3452](https://orcid.org/0000-0001-5854-3452)
+
+# Google Scholar:
+[https://scholar.google.co.uk](https://scholar.google.co.uk/citations?user=MlVn2FQAAAAJ&hl=en)
 
 # Information on R at NUTH
 
