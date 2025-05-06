@@ -1,0 +1,134 @@
+# ref https://www.toptal.com/developers/gitignore/api/r
+
+# data/ is effectively duplicated by multiple patterns:
+# (data/)
+# (*data/)
+# (**/data/)
+
+# Multiple files with the name of data
+data*
+nul*
+
+# ignore ALL files in ANY directory named data / images
+data/
+images/
+
+# All folders ending with data
+*data/
+*cache/
+*library/
+
+# Starting with ** before / specifies that it matches any folder in the repository. Not just on root.
+**/data/
+**/win-library/
+
+# ignore ALL files of type == .csv, .xls and .xlsx files etc..
+*.env
+*.csv
+*.xls
+*.xlsx
+*.bibtex
+*.jason
+*.biblatex
+*.bib
+*.ris
+*.txt
+*.html
+*.docx
+*.doc
+*.db
+*.msg
+*.pdf
+*.ppt
+*.pptx
+
+# ignore email templates
+*.oft
+
+# ignore compiled source 
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packages
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Ignore logs and databases 
+*.log
+*.sql
+*.sqlite
+
+# Ignore OS generated files 
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore history files
+.Rhistory
+.Rapp.history
+
+# Ignore session Data files
+.RData
+.RDataTmp
+
+# Ignore user-specific files
+.Ruserdata
+
+# Ignore Example code in package build process
+*-Ex.R
+
+# Ignore Output files from R CMD build
+/*.tar.gz
+
+# Ignore Output files from R CMD check
+/*.Rcheck/
+
+# Ignore RStudio files
+.Rproj.user/
+
+# Ignore produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# Ignore OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
+
+# Ignore knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Ignore Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# Ignore R Environment Variables
+.Renviron
+
+# Ignore pkgdown site
+docs/
+
+# Ignore translation temp files
+po/*~
+
+# Ignore RStudio Connect folder
+rsconnect/
+
+# Ignore R package: bookdown caching files
+/*_files/
+/.quarto/
