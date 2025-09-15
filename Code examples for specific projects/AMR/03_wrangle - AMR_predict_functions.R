@@ -77,7 +77,7 @@ gram_pos_ab_tibble <- top_ab |>
 #   head(10)
 # 
 # #test antimicrobials in AMR
-# AMR::antibiotics |> 
+# AMR::antimicrobials |> 
 #   select(ab, name) |> 
 #   filter(ab == "LNZ")
 # head(10)
