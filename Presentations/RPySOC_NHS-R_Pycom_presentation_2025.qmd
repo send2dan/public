@@ -1,0 +1,563 @@
+---
+title: "From Data to Action—Building a Reproducible Analytical Pipeline to Achieve Rapid, Sustained Improvements in MRSA Admission Screening Compliance Rates."
+author:
+  - name: "Daniel Weiand"
+    affiliation: "Medical Microbiology, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+    orcid: "0000-0001-5854-3452"
+    corresponding: true
+    email: "dweiand@nhs.net"
+  - name: "Paul Bradley"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+  - name: "Caroline Cullerton"
+    affiliation: "Medical Microbiology, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+  - name: "Geoff Dines"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"  
+  - name: "Joanne Field"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"  
+  - name: "Peta Le Roux"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+  - name: "Jamie Lupton"
+    affiliation: "Integrated Laboratory Medicine, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+  - name: "Shraddha Pathak"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK" 
+  - name: "Julie Samuel"
+    affiliation: "Medical Microbiology, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"
+  - name: "Chris Plummer"
+    affiliation: "Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK"  
+date: today
+date-format: "dddd, D MMMM YYYY"
+keywords: [Quality Improvement, Patient Safety, Healthcare Associated Infection, MRSA, Screening, Clinical Informatics, Prevention, R, Open-Source, Data Science]
+self-contained: true
+
+# # Some options need to be set in format > revealjs
+# format:
+#   revealjs:
+#     incremental: true #Incrementally reveal elements https://rstudio-conf-2022.github.io/get-started-quarto/materials/05-presentations.html#/lists
+#     width: 1600
+#     height: 900
+#     #css: ["mystyle.css"]
+#     default-image-extension: png
+#     theme: serif #full list of available themes: beige blood dark default league moon night serif simple sky solarized
+#     slide-level: 2 #to make slides scrollable.. Specifies that any heading with a ## (level 2) will create a new slide. You can adjust the slide-level value to control which heading levels create new slides.
+#     scrollable: true
+#     smaller: true
+#     transition: fade
+#     transition-speed: fast
+#     reference-location: document #If you prefer that footnotes be included at the end of the document, specify the reference-location: document option
+#     logo: Newcastlelaboratories_logo.png
+#     #footer: "Footer text"
+#     menu:
+#       side: left #Navigation Menu location
+#       width: normal    #Navigation Menu width
+#       numbers: true 	#Add slide numbers to menu items.
+#     slide-number: c/t #c/t = Slide number / total slides (default)
+#     show-slide-number: all #all = Show slide numbers in all contexts (default)
+#     embed-resources: true
+#     standalone: true
+
+format: pptx
+
+#Some referencing options need to be set in bibliography:, csl:, and link-citations:
+bibliography: biblio.bib  #Document bibliography (BibTeX or CSL). May be a single file or a list of files
+csl: vancouver.csl #Citation Style Language file to use for formatting references.
+# The BMJ Open Quality reference style is based on the numeric Vancouver style, with citations numbered sequentially in the text (e.g.,) and a corresponding numbered list at the end of the article. Authors should list the first three authors by last name and initials, with any additional authors noted with "et al." if applicable. Key elements for journal article references include the first three authors, the title, the journal title, year, volume, first and last page numbers, and the DOI. 
+link-citations: true
+
+#Some code chunk options need to be set in execute (credit: @rappa753)
+execute:
+  echo: FALSE #Include cell source code in rendered output. 
+  warning: FALSE #If FALSE, all warnings will be printed in the console instead of the output document
+  error: TRUE #By default, the code evaluation will not stop even in case of errors! If we want to stop on errors, we need to set this option to FALSE.
+  message: FALSE #Whether to preserve messages emitted by message() (similar to the option warning
+  cache: FALSE #use the cache option to cache the results of computations. You may however need to manually refresh the cache if you know that some other input (or even time) has changed sufficiently to warrant an update. To do this, render either individual files or an entire project using the --cache-refresh option, e.g. [terminal] quarto render mydoc.qmd --cache-refresh # single doc or [terminal] quarto render --cache-refresh # entire project
+
+lang: en-GB
+editor: source
+
+# parameters for report
+
+params:
+  param1: "NA"
+  
+---
+
+```{r project_setup}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+source("./01_src/01_startup/01_initialise.R")
+
+options(scipen = 999)  # Disable scientific notation
+```
+
+```{r functions}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+# data import -------------------------------------------------------------
+source("./01_src/functions.R")
+```
+
+```{r data_import_EPR_date - for publication}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+# data import -------------------------------------------------------------
+source("./01_src/02_data_import/02_data_import - read database - for publication.R")
+```
+
+```{r Apex_MRSA_data_import_database - for publication}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+#24 weeks data
+# data import LIMS -------------------------------------------------------------
+source("./01_src/02_data_import/02_data_import - read Apex MRSA data - for publication.R")
+```
+
+```{r data_wrangle_Apex_and_EPR_data_to_audit_MRSA_screening_compliance.R}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+# data import -------------------------------------------------------------
+source("./01_src/03_wrangle/03_wrangle - Apex and EPR data to audit MRSA screening compliance.R")
+```
+
+```{r data_analyse_data_for_publication.R}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+
+# data import -------------------------------------------------------------
+source("./01_src/04a_analyse/04a_analyse - data for publication RE MRSA screening compliance.R")
+```
+
+# Title
+
+From Data to Action—Building a Reproducible Analytical Pipeline to Achieve Rapid, Sustained Improvements in MRSA Admission Screening Compliance Rates.
+
+# Authors
+
+Daniel Weiand\(^1\), Paul Bradley\(^3\), Caroline Cullerton\(^1\), Geoff Dines\(^3\), Joanne Field\(^3\), Jamie Lupton\(^2\), Peta Leroux\(^3\), Shraddha Pathak\(^3\), Julie Samuel\(^1\), Chris Plummer\(^3\)
+
+\(^1\) Medical Microbiology, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+\(^2\) Integrated Laboratory Medicine, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+\(^3\) Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+Corresponding Author: Daniel Weiand, [dweiand@nhs.net](mailto:dweiand@nhs.net)
+
+# Problem description
+
+Methicillin-Resistant *Staphylococcus aureus* (MRSA) is epidemiologically important organism [@guideline-for-isolation-precautions-siegel_2007; @GIRFT_MRSA_2025]. 
+
+Intrinsic resistance to first-line therapies.
+
+Significant morbidity and mortality.
+
+National frameworks to mandate reporting of MRSA bacteraemia rates [@Dickmann_2017_MRSA_risks].
+
+To mitigate the risks of MRSA infection, guidelines consistently recommend systematic surveillance and admission screening [@mrsa-prevention-guidelines-coia_2006; @mrsa-screening-barriers-currie_2019; @DoH_guideline_2014; @GIRFT_MRSA_2025_guideline; @HIS-IPS-Coia_2021]. 
+
+Historically, auditing compliance with MRSA admission screening has been challenging [@mrsa-screening-barriers-currie_2019]. 
+
+# Available knowledge
+
+MRSA bacteraemia rates have declined since the introduction of mandatory surveillance, yet MRSA continues to be a major cause of healthcare-associated infection [@mrsa-screening-barriers-currie_2019; @GIRFT_MRSA_2025_guideline].  
+
+Significant variability persists in MRSA admission screening practices, including indications, specimen types, and duration of test validity [@GIRFT_MRSA_2025]. 
+
+At Newcastle upon Tyne Hospitals NHS Foundation Trust (NUTH), current policy mandates MRSA screening for all inpatients either on admission or within the 18 weeks preceding admission, such as in preassessment clinics for elective surgery. 
+
+Prior to the introduction of automated analysis of laboratory and electronic patient record data, MRSA admission screening compliance levels were effectively unknown.
+
+# Normalisation Process Theory (NPT)
+
+Feedback on hospital area-specific MRSA admission screening compliance rates improves performance  [@mrsa-screening-barriers-currie_2019].
+
+We drew upon Normalisation Process Theory (NPT) [@CarlMay2020; @May_2007; @Nilsen_2015; @Murray_2010] to inform the development of a reproducible analytical pipeline (RAP) [@goldacre2022; @Elliott_2022; @nhsdigital-what_is_rap] designed to systematically analyse and report on local MRSA admission screening compliance rates.
+
+'Reflexive monitoring' as a key driver of any embedding process [@Nilsen_2015; @Murray_2010]. 
+
+When healthcare workers receive regular feedback enabling them to appraise how well an intervention is working in their context, they develop a shared understanding of its value and importance ('coherence')
+
+This promotes the routine embedding ('normalisation') of the intervention into everyday practice [@May_2007; @Nilsen_2015].
+
+# Reproducible Analytical Pipeline (RAP) 
+
+Set of principles and working practices that facilitate the reliable, transparent, and automated conversion of raw data into analysable and reportable datasets [@nhsdigital-what_is_rap]. 
+
+Enables rapid, consistent generation of compliance metrics through automated processing steps [@Keegan_2022]. 
+
+This technical reliability is essential for delivering the timely, trustworthy feedback that reflexive monitoring requires [@mrsa-screening-barriers-currie_2019].
+
+# Aims
+
+To develop and implement a reproducible analytical pipeline (RAP) [@goldacre2022; @Elliott_2022; @nhsdigital-what_is_rap] 
+
+That integrates Electronic Patient Record (EPR) and Laboratory Information Management System (LIMS) data 
+
+To prospectively evaluate, report, monitor and improve compliance with MRSA admission screening practices 
+
+To determine, on a weekly basis, the proportion of inpatients who have undergone MRSA admission screening in compliance with Trust policy. 
+
+To generate ward‑specific, patient‑level data on the timeliness of MRSA admission screening, shared with key stakeholders on a weekly basis. 
+
+# Methods
+
+**Setting**
+
+Newcastle upon Tyne Hospitals NHS Foundation Trust (NUTH)
+
+Major tertiary care NHS provider 
+
+Approximately 16,000 staff [@NewcastleHospitals_About_2020]. 
+Serving around two million patient contacts annually.
+
+# MRSA screening protocol
+
+The microbiology laboratory at NUTH is fully UKAS-accredited to ISO 15189:2022 [@Newcastle-Laboratories; @UKAS_ISO_15189]. 
+
+MRSA screening is mandated for (almost) all patients upon admission.
+
+# Defining compliance with MRSA admission screening 
+
+"Compliant"
+
+Meet all of the following criteria: 
+
+1) specimen(s) collected within the 18 weeks preceding admission or up to one day after admission; and 
+
+2) documented, valid date and time of collection. 
+
+# Reproducible analytical pipeline (1)
+
+Modification of existing RAP using modular, re-usable, git version-controlled [@nhsdigital-intro-to-git; @GitHub] code.
+
+Designed to extract a standardardised dataset, on a weekly basis
+
+Data extracted from secure data warehouse (DWH), using SQL [@R-RSQLite] and R programming [@R-base]. 
+
+Processed, cleaned, quality-checked, and analysed the using R programming [@R-base]. 
+
+# Reproducible analytical pipeline (2)
+
+Final output of the RAP is a standardised HTML format report, generated using Quarto [@R-quarto]. 
+
+Each HTML report has all assets embedded as base64 files. 
+
+Automatically uploaded to a secure, central intranet hub (data science intranet site)
+
+A weekly email alerts key healthcare workers of the availability of the latest report as soon as it is published  using the RAP. 
+
+# Data science intranet site
+
+Hosted on the hospital's internal network (intranet) 
+
+Uses Microsoft's Internet Information Services (IIS) web server software [@IIS-intranet-site]
+
+Several sets of corporate web servers, load balanced across two physical servers 
+
+If one server goes down, the pages will still be available 
+
+Access to reports is restricted with permissions managed via IT-controlled Active Directory (AD) groups
+
+Only the latest version stored on the intranet site.
+
+# Team Structure and Governance
+
+The RAP was developed collaboratively by:
+
+- data scientists, 
+- a data warehouse architect, 
+- an IT development manager, and 
+- consultant medical microbiologists. 
+
+The project received formal approval from the Trust's information governance team
+
+Conducted in accordance with NHS information governance requirements and GDPR [@ICO-UK-GDPR].
+
+# Approach to Assessing Impact
+
+Prospective weekly surveillance study
+
+Systematic outcome measurement commenced on 7th January 2025, with weekly reports generated thereafter. 
+
+No pilot phase or staged rollout across clinical areas; the RAP was implemented organisation-wide from the outset. 
+
+Time series analysis using Statistical Process Control (SPC) methods was employed to detect meaningful changes in compliance over time
+
+# Selection of participants 
+
+The weekly data extracts included information on:
+
+- all current inpatients at NUTH; with
+
+- length of stay of at least 24 hours; and
+
+- prescribed a new inpatient medication within the previous 7 days.
+
+Excluded were:
+
+- Inpatients admitted more than six weeks prior to the date of analysis; or 
+
+- Inpatients exempt from MRSA screening according to Trust policy.
+
+i.e. pragmatic criteria
+
+# Primary outcome
+
+Proportion of current inpatients with an MRSA screen received by the laboratory within a policy-compliant timeframe, expressed as a percentage. 
+
+# Secondary outcomes
+
+- MRSA screening compliance rates stratified by hospital area or ward; 
+
+- number of MRSA screens received per patient, if any;
+
+- timing of collection of first MRSA per patient, relative to date of hospital admission.
+
+Weekly ward-level reporting presented the number of eligible inpatients screened, not screened, and total eligible, with corresponding compliance percentages by clinical area.
+
+# Analysis
+
+Statistical process control (SPC) was employed to understand variation, assess change, and monitor performance over time [@Benneyan_2003; @Mohammed_2004].
+
+Time series data were analysed using SPC to distinguish meaningful change from random variation [@Anh_j_2016_red_amber_green_problem; @NHSEngland-MakingDataCount].
+
+The NHSRplotthedots package [@R-NHSRplotthedots] for R programming [@R-base] was used to draw SPC charts [@NHSEngland-MakingDataCount]. 
+
+Published reports and data visualisations were generated using R programming [@R-base] and Quarto [@R-quarto]
+
+# Results 
+
+Between `r format(dmy("07-01-2025"), '%A %d %B %Y')` and `r format(dmy(reports_date), '%A %d %B %Y')`, a total of `r format(total_patient_records_analysed, scientific = FALSE)` inpatient records were analysed. 
+
+Each weekly data extract contained data on, on average, `r data_combined_data_n_patients_reframed$av_patient_n` distinct MRSA admission screening-eligible inpatients (standard deviation: `r data_combined_data_n_patients_reframed$sd_patient_n`,  range: `r data_combined_data_n_patients_reframed$min_patient_n`–`r data_combined_data_n_patients_reframed$max_patient_n`). 
+
+These patients were admitted across approximately `r n_location_code_total` different inpatient locations.
+
+# Details about missing data
+
+For the week ending `r format(dmy(reports_date), '%A %d %B %Y')`, specimen collection date and time were available for `r n_specimen_missing_collection_date` out of `r n_specimen_total` specimens (`r n_specimen_missing_collection_date_perc`%). 
+
+All other key variables—including patient identifiers, admission details, and MRSA screening sample characteristics—were complete across the dataset. 
+
+Missing data were not imputed; analyses were conducted on complete cases only. 
+
+# Contextual elements that interacted with the intervention(s)
+
+Between `r format(dmy("07-01-2025"), '%A %d %B %Y')` and `r format(dmy(reports_date), '%A %d %B %Y')`, `r n_weekly_reports_due` weekly reports were scheduled for publication to the data science intranet site. 
+
+Reports were successfully published for `r n_weekly_reports_actual` weeks (`r n_weekly_reports_actual_perc`%) with two weeks of missed reporting:
+
+- one week during the summer holiday period due to data science team staffing constraints, and 
+
+- one week owing to unscheduled Pathology LIMS downtime, preventing data extraction. 
+
+Both incidents resolved without requiring modifications to the RAP workflow. 
+
+# Initial steps of the intervention(s) and their evolution over time
+
+No significant modifications were made to the RAP or lines of communication during the project.
+
+# Temporal trend in compliance rates (1)
+
+Over the `r nrow(df_mrsa_scr_compl_clean)` weeks analysed (between `r format(dmy("07-01-2025"), '%A %d %B %Y')` and `r format(dmy(reports_date), '%A %d %B %Y')`):
+
+Mean compliance across the study period was `r round(raw_compliance_stats$mean_compliance, 1)`% (SD `r round(raw_compliance_stats$sd_compliance, 1)`%; median `r round(raw_compliance_stats$median_compliance, 1)`%), with a range of `r round(raw_compliance_stats$min_compliance, 1)`% to `r round(raw_compliance_stats$max_compliance, 1)`%.
+
+# Temporal trend in compliance rates (2)
+
+Linear regression analysis demonstrated a statistically significant positive trend
+
+Compliance increased by `r round(trend_slope, 3)` percentage points per week (95% CI [`r round(confint(trend_model)["week_number", 1], 3)`, `r round(confint(trend_model)["week_number", 2], 3)`]; p < 0.001). 
+
+This temporal trend explained `r round(trend_r_squared * 100, 1)`% of the observed variation in weekly compliance rates.
+
+The coefficient of variation across weekly compliance rates was `r round(raw_compliance_stats$cv_compliance, 1)`%, indicating stable, sustained improvement 
+
+# Temporal trend in compliance rates (3)
+
+Comparison of the first half versus second half of the study period further supports sustained improvement: mean compliance in the first `r n_early_late` weeks was `r round(early_period$mean_compliance, 1)`% (SD `r round(early_period$sd_compliance, 1)`%), increasing to `r round(late_period$mean_compliance, 1)`% (SD `r round(late_period$sd_compliance, 1)`%) in the final `r late_period$n_weeks` weeks—a difference of `r round(period_comparison$change_pp[2], 1)` percentage points.
+
+# Temporal trend in compliance rates (4)
+
+```{r }
+#| eval: true
+#| include: true
+#| echo: false
+#| error: false
+#| message: false
+#| label: mrsa_screening_compliance_over_time_1
+#| fig-cap: "MRSA Admission Screening Compliance Rate Over Time"
+
+fig_mrsa_scr_compl
+
+```
+
+# Ward-level variation in screening compliance
+
+For the week ending `r format(dmy(reports_date), '%A %d %B %Y')`:
+
+Mean ward-level compliance was `r round(ward_stats$mean, 1)`% (SD `r round(ward_stats$sd, 1)`%; median `r round(ward_stats$median, 1)`%; range `r round(ward_stats$min, 1)`%–`r round(ward_stats$max, 1)`%). 
+
+The coefficient of variation was `r round(ward_stats$cv, 1)`%, indicating substantial heterogeneity in screening practices across the Trust.
+
+# MRSA Screening Frequency and Timing
+
+For the week ending `r format(dmy(reports_date), '%A %d %B %Y')` 
+
+a total of `r screen_summary$total_specimen_no` MRSA screens were received for culture from `r screen_summary$screen_summary$total_patients_in_cohort` distinct patients. 
+
+Among `r screen_summary$total_patients_in_cohort` MRSA admission screening-eligible inpatients:
+
+`r screen_summary$total_patients_screened` (`r round((screen_summary$total_patients_screened / screen_summary$total_patients_in_cohort) * 100, 1)`%) were screened and 
+
+`r total_patients_not_screened` (`r round((total_patients_not_screened / screen_summary$total_patients_in_cohort) * 100, 1)`%) were not. 
+
+Screened patients received a mean of `r round(screen_summary$avg_screens_per_patient_with_sample, 1)` screens (range 1–`r screen_summary$max_screens`). 
+
+# Timing of First MRSA Screen Relative to Admission
+
+Among MRSA admission screened-patients, the mean time from admission to first MRSA screen receipt was `r timing_inline_stats_screen_no$mean_days` days (SD `r timing_inline_stats_screen_no$sd_days`; median `r timing_inline_stats_screen_no$median_days`; range `r timing_inline_stats_screen_no$min_days`–`r timing_inline_stats_screen_no$max_days` days). 
+
+`r timing_inline_stats_screen_no$pre_admission_perc`% were screened pre-admission, 
+
+`r timing_inline_stats_screen_no$within_24hrs_perc`% within 24 hours of admission, and `r timing_inline_stats_screen_no$within_7days_perc`% within 7 days. 
+
+`r timing_inline_stats_screen_no$delayed_gt14_perc`% experienced delays exceeding 14 days from admission. 
+
+# Interpretation (1)
+
+RAP-generated, patient-level feedback on locally-relevant compliance metrics constitutes an effective mechanism to achieve rapid and sustained improvements in MRSA admission screening rates. 
+
+The intervention is relatively resource- and time-efficient, particularly when compared with more conventional audit methods
+[@GIRFT_MRSA_2025_guideline].
+
+# Interpretation (2)
+
+The intervention aligns with evidence demonstrating that timely, area-specific performance feedback enhances healthcare workers’ engagement with infection prevention policies. 
+
+From a theoretical perspective, the results support the application of Normalisation Process Theory in explaining how complex interventions become routinely embedded in clinical practice [@CarlMay2020; @May_2007; @Nilsen_2015; @Murray_2010]. 
+
+# Interpretation (3)
+
+At NUTH, the RAP operationalised the reflexive monitoring construct identified by NPT as central to this embedding process [@Nilsen_2015; @Murray_2010]: by providing weekly, patient-level compliance data, the pipeline enabled frontline teams to reflect upon patterns of compliance with Trust policy. 
+
+This mechanism appears to have facilitated the development of coherence [@Nilsen_2015; @Murray_2010]—a shared understanding of the importance and value of MRSA admission screening
+
+This promotes the normalisation of screening as routine practice.
+
+# Interpretation (4)
+
+The Hawthorne Effect is known to contribute to the effectiveness of infection control interventions [@Chen_2015_Hawthorne]. 
+
+Checklists and audits derive part of their effectiveness through this mechanism, with mere perception of being observed sufficient to alter behaviour [@Chen_2015_Hawthorne]. 
+
+The RAP-generated weekly reports likely harness this effect through systematic, transparent monitoring and timely feedback.
+
+# Interpretation (5)
+
+The relatively modest baseline compliance with MRSA admission screening compliance is not unexpected
+
+Published benchmarks point at varying performance levels: 
+
+- Swiss study, baseline compliance rate of 32% [@Joubert_2022_admission_screening]
+
+- English study, only 61% of emergency admissions (median 67.3%), and 81% of elective admissions (median 59.4%) were screened for MRSA [@Fuller_2013_MRSA_screening].
+
+- Scottish study, audit data from self-selected areas, compliance of 81%  [@mrsa-screening-barriers-currie_2019]. 
+
+# Conclusions
+
+Our findings suggest that:
+
+- investment in reproducible analytical pipelines (RAP) represents a strategic opportunity for healthcare organisations committed to embedding and normalising evidence-based practices. 
+
+- Beyond MRSA admission screening, this approach offers potential application to monitoring compliance with other time-sensitive measures requiring ongoing performance monitoring. 
+
+- Scaling this methodology offers a pathway to sustained, system-wide improvement in multiple dimensions of healthcare safety and quality.
+
+# Key Messages 
+
+*What is already known on this topic*
+Methicillin-resistant Staphylococcus aureus admission screening is recommended to prevent healthcare-associated infection, yet compliance varies significantly across healthcare settings. Manual auditing of compliance is resource-intensive and lacks timeliness for prompt quality improvement interventions.
+
+*What this study adds*
+We demonstrate that a reproducible analytical pipeline integrating electronic patient record and laboratory data can generate reliable, automated weekly surveillance of MRSA screening compliance, achieving a sustained improvement of `r round(raw_compliance_stats$change_pp, 1)` percentage points over `r nrow(df_mrsa_scr_compl_clean)` weeks with a coefficient of variation of `r round(raw_compliance_stats$cv_compliance, 1)`%, indicating stable, consistent gains.
+
+*How this study might affect research, practice or policy*
+Healthcare organisations can implement reproducible analytical pipelines to replace manual auditing with automated, real-time surveillance, providing timely, actionable feedback for quality improvement whilst extending this methodology to other infection prevention measures and antimicrobial stewardship programmes.
+
+# Acknowledgements 
+
+Many thanks go to the whole team!
+
+**Daniel Weiand\(^1\), Paul Bradley\(^3\), Caroline Cullerton\(^1\), Geoff Dines\(^3\), Joanne Field\(^3\), Jamie Lupton\(^2\), Peta Leroux\(^3\), Shraddha Pathak\(^3\), Julie Samuel\(^1\), Chris Plummer\(^3\)**
+
+\(^1\) Medical Microbiology, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+\(^2\) Integrated Laboratory Medicine, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+\(^3\) Information Services, Newcastle upon Tyne Hospitals NHS Foundation Trust, Newcastle upon Tyne, England, UK
+
+# Thanks for listening 
+
+:::: {.columns}
+
+::: {.column width="70%"}
+
+Daniel Weiand, Consultant medical microbiologist
+
+Newcastle upon Tyne Hospitals NHS Foundation Trust
+
+Email: <a href="mailto:dweiand@nhs.net?subject=NHS-R Conf 2022">dweiand\@nhs.net</a>
+
+`r fontawesome::fa(name = "twitter", prefer_type = "solid", height = "2em", width = "2em")` [send2dan](https://twitter.com/send2dan)
+
+`r fontawesome::fa(name = "github", prefer_type = "solid", height = "2em", width = "2em")` [github.com/send2dan/public](https://github.com/send2dan/public)
+
+:::
+
+::: {.column width="30%"}
+
+![](images/qr.png){fig-alt="QR code leading to https://github.com/send2dan/public" style="max-height:350px"}
+
+:::
+
+::::
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+```{r beepr_finished}
+#| eval: true
+#| include: false
+#| echo: false
+#| error: false
+#| message: false
+beepr::beep(3)
+```
+
+
