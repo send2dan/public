@@ -44,7 +44,8 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd MBCS PGCertClinica
 
 # Information on R at NUTH
 
-- [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT on ext 21000 and ask to be added to the **“SCCM-R”** group)
+- [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT on ext 21000 and ask to be added to the **“SCCM-R”** group).
+- The [NUTH-R](https://teams.microsoft.com/l/team/19%3A4Uyk060UV0q4nIvZkWCt4quGJAxrbplUDM33LnUQgvY1%40thread.tacv2/conversations?groupId=a43c0ebb-53a1-4adf-8164-126bc2929ae7&tenantId=37c354b2-85b0-47f5-b222-07b48d774ee3) Teams channel has been set up to as a place for anyone in the Trust working in, or interested in data science – whether it’s for research, business analytics, service improvement, or any other purpose. The group has started with a focus on R, but everything data science – Python, SQL, Git, even Excel – is fair game. Use it to find out more about each other’s work, share resources, help each other out, and support new people who are dipping their toes in the world of R.
 
 # Information on R and Python for staff working in the NHS
 
@@ -55,6 +56,7 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd MBCS PGCertClinica
 - Both R and Python benefit from a worldwide community that freely shares peer-reviewed learning and resources, e.g. through [GitHub](https://github.com/send2dan/), for anyone to use
 - The [Goldacre report](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1067053/goldacre-review-using-health-data-for-research-and-analysis.pdf) actively promotes the use of open-source data science programming languages across the NHS. This is with a view to increasing adoption of [RAP (Reproducible Analytical Pipelines)](https://nhsdigital.github.io/rap-community-of-practice/introduction_to_RAP/what_is_RAP/). The vision is for modern, open-source tools to support [better, broader, safer care](https://www.gov.uk/government/publications/better-broader-safer-using-health-data-for-research-and-analysis/better-broader-safer-using-health-data-for-research-and-analysis#modern-open-working-methods-for-nhs-data-analysis)
 - [Lord Darzi's report on the state of the National Health Service in England](https://www.gov.uk/government/publications/independent-investigation-of-the-nhs-in-england) emphasises we are on the precipice of an artificial intelligence (AI) revolution that could transform care for patients.
+- Investing in additional data science capacity is essential to meet national policy expectations, improving diagnostic capabilities, and ensuring our Trust is positioned to deliver the "better, broader, safer care" that the [NHS 10-year plan demands](https://www.gov.uk/government/publications/10-year-health-plan-for-england-fit-for-the-future/fit-for-the-future-10-year-health-plan-for-england-executive-summary).
 
 *Resources*
 
