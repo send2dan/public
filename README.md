@@ -13,11 +13,11 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd MBCS PGCertClinica
 - I joined Newcastle upon Tyne Hospitals NHS Foundation (NUTH) as a Consultant in 2015, and have special interests in nephrology, urology, solid organ transplantation (kidney and pancreas), vascular surgery, medical education, clinical informatics (#RStats @NHSrCommunity) and quality improvement. 
 - Before moving to the North East of England, I trained in Aberdeen, Sheffield, York, Hull and Leeds.
 - My additional roles and responsibilities include:
-  - Clinical Informatics Lead for Clinical and Diagnostic Services (Board 8) at NUTH; and
-  - Associate Clinical Lecturer at Newcastle University; and
-  - Examiner for the Royal College of Pathologists (RCPath); and
-  - “Q” fellow at The Health Foundation; and
-  - Member of The British Computer Society (BCS) 
+  - Clinical Informatics Lead for Clinical and Diagnostic Services (Board 8) at NUTH; and 
+  - Associate Clinical Lecturer at Newcastle University; and 
+  - Examiner for the Royal College of Pathologists (RCPath); and 
+  - “Q” fellow at The Health Foundation; and 
+  - Member of The British Computer Society (BCS); and 
   - Member of the Data Access Committee (DAC) for the [North East and North Cumbria (NENC) Secure Data Environment (SDE)](https://northeastnorthcumbria.nhs.uk/our-work/secure-data-environment/). 
 - In 2025, I was awarded the Postgraduate Certificate (PGCert) in Clinical Data Science by the University of Manchester:
   - [NHS England](https://nshcs.hee.nhs.uk/programmes/clinical-data-science-programme/) commissioned the University of Manchester to develop a flexible Clinical Data Science Postgraduate Certificate programme in collaboration with the National School of Healthcare Science and clinical partners at The Christie Hospital, to support NHS long-term workforce development plans.
