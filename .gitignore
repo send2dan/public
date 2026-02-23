@@ -132,3 +132,4 @@ rsconnect/
 # Ignore R package: bookdown caching files
 /*_files/
 /.quarto/
+.Rprofile
