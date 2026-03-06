@@ -73,7 +73,7 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
 *Accessing NUTH-related GitHub repos*
 
 - To gain access, you will need to:
-  - Create a GitHub account if you do not already have one, and share your username with the project lead (Daniel Weiand, Clinical Informatics Lead for CDS Board).
+  - Create a GitHub account if you do not already have one.
   - Raise a service desk ticket addressed to Cyber Security and IG. The ticket should request access to github.com, possibly referencing the names and computer names of other colleagues who already have the required level of access. In the same ticket, request installation of Git Bash and GitHub Desktop on your PC.
   - Submit a separate service desk ticket to be added to the SCCM-R group, which is required for installation of R, Rtools, and RStudio on your PC.
   - Once you have completed these steps, you will be able to download ('clone') repositories of interest to your local machine and run the code.
