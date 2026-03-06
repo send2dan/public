@@ -46,6 +46,7 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
 
 - [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT on ext 21000 and ask to be added to the **“SCCM-R”** group).
 - The [NUTH-R](https://teams.microsoft.com/l/team/19%3A4Uyk060UV0q4nIvZkWCt4quGJAxrbplUDM33LnUQgvY1%40thread.tacv2/conversations?groupId=a43c0ebb-53a1-4adf-8164-126bc2929ae7&tenantId=37c354b2-85b0-47f5-b222-07b48d774ee3) Teams channel has been set up to as a place for anyone in the Trust working in, or interested in data science – whether it’s for research, business analytics, service improvement, or any other purpose. The group has started with a focus on R, but everything data science – Python, SQL, Git, even Excel – is fair game. Use it to find out more about each other’s work, share resources, help each other out, and support new people who are dipping their toes in the world of R.
+- 
 
 # Information on R and Python for staff working in the NHS
 
@@ -63,8 +64,18 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
 - Great resources to learn how to code include:
   - [NHS-R](https://nhsrcommunity.com/contact.html) delivers free-to-NHS-staff online introductory training on R and RStudio/Posit. It’s free to register. These courses are really popular and spaces are limited to about 20 per session. Sessions are scheduled once a month. For further information, please contact: [nhs.rcommunity@nhs.net](mailto:nhs.rcommunity@nhs.net).
   - The NHS-R community also runs [the premier data science conference in the NHS](https://nhsrcommunity.com/contact.html), along with regular skill-based webinars.
-  - Also see NHS-R community blog: <https://nhsrcommunity.com/blog/>
-  - There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/))
-  - NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, which is an excellent resource for when you get stuck (most useful if you are able to share a [reproducible example](https://community.rstudio.com/t/faq-whats-a-reproducible-example-reprex-and-how-do-i-create-one/5219) of the problem you're encountering)
+  - Also see NHS-R community blog: <https://nhsrcommunity.com/blog/>.
+  - There are also many (!) excellent, free textbooks (e.g. [R4DS](https://r4ds.hadley.nz/)).
+  - NHS-R supports a thriving [Slack](https://nhsrcommunity.slack.com/) community, which is an excellent resource for when you get stuck (most useful if you are able to share a [reproducible example](https://community.rstudio.com/t/faq-whats-a-reproducible-example-reprex-and-how-do-i-create-one/5219) of the problem you're encountering).
+  - NHS-R also supports coders through [Coffee & Code sessions](https://nhsrcommunity.com/coffee-and-code.html), which are are a chance for like-minded coders to get together and chat, share tips, code snippets, and watch show-and-tells about useful or new R stuff.
+  - Lots more information is available in the NHS-R [Open Analytics Resources for Health and Care](https://resources.nhsrcommunity.com/).
+ 
+*Accessing NUTH-related GitHub repos*
 
+- To gain access, you will need to:
+  - Create a GitHub account if you do not already have one, and share your username with the project lead (Daniel Weiand, Clinical Informatics Lead for CDS Board).
+  - Raise a service desk ticket addressed to Cyber Security and IG. The ticket should request access to github.com, possibly referencing the names and computer names of other colleagues who already have the required level of access. In the same ticket, request installation of Git Bash and GitHub Desktop on your PC.
+  - Submit a separate service desk ticket to be added to the SCCM-R group, which is required for installation of R, Rtools, and RStudio on your PC.
+  - Once you have completed these steps, you will be able to download ('clone') repositories of interest to your local machine and run the code.
+ 
 
