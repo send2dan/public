@@ -18,15 +18,12 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
   - Associate Clinical Lecturer at Newcastle University; and 
   - Examiner for the Royal College of Pathologists (RCPath); and 
   - “Q” fellow at The Health Foundation; and 
-  - Member of The British Computer Society (BCS); and 
   - Member of the Data Access Committee (DAC) for the [North East and North Cumbria (NENC) Secure Data Environment (SDE)](https://northeastnorthcumbria.nhs.uk/our-work/secure-data-environment/). 
-- In 2025, I was awarded the Postgraduate Certificate (PGCert) in Clinical Data Science by the University of Manchester:
-  - [NHS England](https://nshcs.hee.nhs.uk/programmes/clinical-data-science-programme/) commissioned the University of Manchester to develop a flexible Clinical Data Science Postgraduate Certificate programme in collaboration with the National School of Healthcare Science and clinical partners at The Christie Hospital, to support NHS long-term workforce development plans.
-  - The Clinical Data Science Programme aims to empower healthcare professionals to apply data science in practice and translate data into patient benefit.
 
-# Favourite quote
+# Favourite quotes
 
-"All models are wrong, but some are useful." - George Box
+"All models are wrong, but some are useful."
+"Hard cases make bad law."
 
 # Website:
 [Integrated Laboratory Medicine at Newcastle upon Tyne Hospitals NHS Foundation Trust](https://laboratories.newcastle-hospitals.nhs.uk/)
