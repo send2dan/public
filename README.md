@@ -44,7 +44,6 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
 
 - [NUTH](https://www.newcastle-hospitals.nhs.uk/) now actively supports the use of R at scale, and it can be installed on **any work PC** (simply call IT on ext 21000 and ask to be added to the **“SCCM-R”** group).
 - The [NUTH-R](https://teams.microsoft.com/l/team/19%3A4Uyk060UV0q4nIvZkWCt4quGJAxrbplUDM33LnUQgvY1%40thread.tacv2/conversations?groupId=a43c0ebb-53a1-4adf-8164-126bc2929ae7&tenantId=37c354b2-85b0-47f5-b222-07b48d774ee3) Teams channel has been set up to as a place for anyone in the Trust working in, or interested in data science – whether it’s for research, business analytics, service improvement, or any other purpose. The group has started with a focus on R, but everything data science – Python, SQL, Git, even Excel – is fair game. Use it to find out more about each other’s work, share resources, help each other out, and support new people who are dipping their toes in the world of R.
-- 
 
 # Information on R and Python for staff working in the NHS
 
