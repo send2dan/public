@@ -22,8 +22,8 @@ My name is **Dr. Daniel Weiand MBChB FRCPath RCPathME MClinEd PGCert (Clin Data 
 
 # Favourite quotes
 
-"All models are wrong, but some are useful."
-"Hard cases make bad law."
+- "All models are wrong, but some are useful."
+- "Hard cases make bad law."
 
 # Website:
 [Integrated Laboratory Medicine at Newcastle upon Tyne Hospitals NHS Foundation Trust](https://laboratories.newcastle-hospitals.nhs.uk/)
