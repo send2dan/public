@@ -2,7 +2,7 @@
 
 Welcome to Dr. Daniel Weiand's Public GitHub Repository!
 
-This repository includes presentations I’ve delivered (and the code used to deliver them), including: 
+This repository includes recent presentations I’ve delivered, including: 
 - Online workshop on Producing Parameterised Reports using purrr and Quarto; and 
 - Plenary talk on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto.
 - Plenary talk on Reproducible Analytical Pipelines (RAP) delivered @ RPySOC 2025, the NHS-R/NHS.pycom Open Source Data Science Conference
