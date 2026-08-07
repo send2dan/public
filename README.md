@@ -1,12 +1,13 @@
-# Introduction
+<img width="6840" height="503" alt="image" src="https://github.com/user-attachments/assets/83457005-f2c3-4cea-953c-b69dc40601af" /># Introduction
 
 Welcome to Dr. Daniel Weiand's Public GitHub Repository!
 
 This repository includes recent presentations I’ve delivered, including: 
 - Online workshop on Producing Parameterised Reports using purrr and Quarto; and 
-- Plenary talk on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto.
-- Plenary talk on Reproducible Analytical Pipelines (RAP) delivered @ RPySOC 2025, the NHS-R/NHS.pycom Open Source Data Science Conference
-- Invited presentation at "Excellence in Clinical Audit Awards 2026" (part of "Clinical Audit Awareness Week" (CAAW)): Winner of Innovation award category
+- Plenary talk on Predicting Antimicrobial Resistance Rates (AMR) using R and Sharing the Results in the form of Parameterised Reports produced using Quarto;
+- Plenary talk on Reproducible Analytical Pipelines (RAP) delivered @ RPySOC 2025, the NHS-R/NHS.pycom Open Source Data Science Conference;
+- ESCMID poster presentation on Four vs Five-Day Blood Culture Incubation: Is Day 5 Worth It?;
+- Invited oral presentation (Winner of Innovation award category) delivered @ Excellence in Clinical Audit Awards 2026 (part of Clinical Audit Awareness Week; CAAW), on [Reproducible Analytical Pipeline (RAP) for Rapid, Sustained and Statistically-Significant Improvement in MRSA Admission Screening Compliance](https://www.hqip.org.uk/case-study/mrsa-admission-screening-compliance-case-study/).
 
 # Who am I?
 
