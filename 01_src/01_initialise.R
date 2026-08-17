@@ -39,7 +39,6 @@ packages_to_download <- c(
   "dotenv", # for reading ".env" file
   "formatR", #The formatR package is required by the chunk option tidy = TRUE (further down)
   "bookdown", # required to set knitr options
-  "excel.link",
   "here", # for finding files
   "tidytext", # for text cleaning tools
   "shiny", # for viewing rendered quarto reports (?)
