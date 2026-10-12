@@ -1,4 +1,4 @@
-<img width="6840" height="503" alt="image" src="https://github.com/user-attachments/assets/83457005-f2c3-4cea-953c-b69dc40601af" /># Introduction
+# Introduction
 
 Welcome to Dr. Daniel Weiand's Public GitHub Repository!
 
