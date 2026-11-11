@@ -1,0 +1,274 @@
+---
+title: "Flexible Portfolio Training in Clinical Informatics"
+subtitle: "Using digitally recorded data for research, audit and data analysis"
+author: "<strong>Daniel Weiand; Alex Martin</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust"
+date: "19 Nov 2026"
+date-format: "dddd, D MMMM YYYY"
+keywords: [Flexible Portfolio Training, FPT, Clinical Informatics, Curriculum, Outcome 4, Reproducible Analytical Pipeline, R, Python, Git, GitHub, NHS-R]
+lang: en-GB
+editor: source
+self-contained: true
+
+format:
+  revealjs:
+    width: 1600
+    height: 900
+    theme: simple
+    slide-number: c/t
+    show-slide-number: all
+    transition: fade
+    transition-speed: fast
+    incremental: false
+    scrollable: true
+    smaller: false
+    reference-location: document
+    menu:
+      side: left
+      width: normal
+      numbers: true
+    embed-resources: true
+    standalone: true
+---
+
+## Who this session is for
+
+- Flexible portfolio training (FPT) doctors in clinical informatics
+- Experience: 1 to 4 years in FPT
+
+## Session aims
+
+By the end of this session you should be able to:
+
+- Describe the six capabilities of the clinical informatics FPT curriculum
+- Explain why Outcome 4 (information and knowledge management) matters for research and audit
+- Identify practical first steps using R or Python, Git and GitHub
+- Know where to find free training materials and support
+
+# The curriculum
+
+## Clinical informatics curriculum pathway for FPT
+
+The curriculum is organised around six outcomes, each with capability descriptors, illustrative professional activities and links to the GPC (generic professional capabilities) domains.
+
+::: {.callout-note}
+Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informatics curriculum pathway for FPT_0.pdf`).
+:::
+
+## The six capabilities
+
+1. Information governance and security
+2. System use and clinician safety
+3. Digital communication assessor
+4. Information and knowledge management
+5. Patient empowerment
+6. Emerging technologies
+
+## Outcome 1: Information governance and security
+
+**Capability descriptors**
+
+- Be aware of updated, clinically relevant governance procedures for digital technologies (e.g. personal mobile devices used to communicate patient information)
+- Practical cybersecurity knowledge (e.g. identifying phishing scams and the implications of breaches)
+
+**Illustrative activities**
+
+- Attend a trust information governance board meeting
+- Write and present a policy on procuring new clinical systems
+- Audit orphan or bespoke systems for GDPR compliance
+- Business case or project for single sign-on in areas such as the ED
+
+*GPC domains 1, 2, 3, 6, 8, 9*
+
+## Outcome 2: System use and clinician safety
+
+**Capability descriptors**
+
+- Logistics of hardware in practice (e.g. battery life, infection control)
+- Critically appraise new technologies, including good and bad system design (error traps, workarounds)
+- Purposes of electronic care records, and the structure and standards (including coding and classification) needed for those uses
+
+**Illustrative activities**
+
+- Use electronic health records in routine practice, with an emphasis on e-prescribing
+- Appraise hardware, e.g. handheld devices
+- Develop reports from EHR data, e.g. audits of patient care
+- Take part in a clinical safety review of a clinical system or app
+
+*GPC domains 1, 2, 3, 4, 5, 6, 9*
+
+## Outcome 3: Digital communication assessor
+
+**Capability descriptors**
+
+- Transfer and retrieval of digital patient data, including shared care, data protection and security
+- Remote data management and hardware use for safe remote working
+- Risks of under-communication (assuming information can be found by others) and over-communication (alert fatigue, excessive inbox notifications)
+
+**Illustrative activities**
+
+- Survey clinicians on messaging use (e.g. WhatsApp)
+- Business case or project to find an acceptable alternative
+- Bring-your-own-device policy
+- Investigate DNA rates and implement text reminders
+- Advice and guidance solution (GP advice from hospital specialists)
+- Redesign referral systems or discharge letters
+
+*GPC domains 1, 2, 3, 5, 6, 7, 8, 9*
+
+## Outcome 4: Information and knowledge management
+
+**Capability descriptors**
+
+- Properties of different media
+- Decision support: finding and recording information sources digitally
+- Secondary use of data:
+  - nuances of digital recording, e.g. terminologies for high-quality data capture
+  - **accessing and using digitally recorded data for research and audit**
+  - **data analysis**
+
+**Illustrative activities**
+
+- If the trust has an EPR, lead on digitising or improving a treatment pathway
+- Map the current state, define problems, design and implement solutions
+- Prioritise EPR developments by clinical importance
+- Design a new intelligence dashboard, e.g. for service performance and patient flow
+
+*GPC domains 1, 2, 3, 4, 5, 6, 8, 9*
+
+# Focus: Outcome 4 in practice
+
+## Why Outcome 4 is relevant to you
+
+- Audit and research questions often arise in clinical practice
+- The data already exists in EPRs and laboratory systems
+- An important skill is repeatedly and reliably reproducing robust data analyses, not just doing it once
+- Good data handling supports the other five outcomes
+
+## What "accessing and using digitally recorded data" looks like
+
+1. Ask a clear clinical question
+2. Identify where the data lives (EPR, LIMS, data warehouse)
+3. Extract the data in a repeatable way
+4. Clean, check and document the data
+5. Analyse and visualise
+6. Share the result with the people who can act on it
+
+## Reproducible analytical pipelines (RAP)
+
+- A set of principles and working practices that turn raw data into analysable, reportable outputs reliably and transparently
+- Code is version-controlled, so every change is recorded
+- Analysis is rerun, not rebuilt by hand
+- Outputs are shared automatically, with consistent definitions
+
+::: {.callout-tip}
+A RAP lets an analysis be repeated a regular intervals with minimal effort, and allows the analysis to be reviewed and improved by others.
+:::
+
+## Example: MRSA admission screening compliance
+
+- Problem: compliance with MRSA admission screening was effectively unknown before automated analysis
+- Method: SQL extraction from a data warehouse, processed and analysed in R, published as a weekly report
+- Outputs: ward-level compliance, patient-level data on non-compliant cases, statistical process control charts, weekly email alerts
+- Result: sustained improvement in compliance over the study period
+
+::: {.callout-note}
+Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
+:::
+
+## Feedback drives change
+
+- Regular, local feedback improves performance
+- Systematic surveillance helps teams see how an intervention works in their own context
+- Timely and trustworthy data is what makes feedback useful
+
+# Getting started with code
+
+## Why R / Python?
+
+- Both are among the most commonly used languages for data science
+- Open source and free to use
+- Used across industry and increasingly across the NHS
+- Large communities share peer-reviewed learning and resources on GitHub
+
+## Core tools
+
+| Tool | Use |
+|------|-----|
+| R / Python | Extract, clean and analyse data |
+| RStudio/Posit or VS Code | IDE; Write and run code |
+| SQL | Query data warehouses and databases |
+| Git | Track changes to code |
+| GitHub | Share, review and back up code |
+| Quarto | Produce reports, slides and documents from code |
+
+## NHS-R training courses
+
+Free to NHS staff, with registration. Sessions run regularly and places are limited.
+
+- Introduction to R and RStudio
+- Intermediate R
+- Introduction to Git and GitHub using R
+- Shiny for Beginners
+- Introduction to Quarto
+
+All course materials are freely available on GitHub: `github.com/nhs-r-community`
+
+## Support and community
+
+- NHS-R Slack community: useful when you are stuck (share a reproducible example)
+- NHS-R Coffee and Code sessions: informal coding get-togethers
+- NHS-R blog: `nhsrcommunity.com/blog`
+- NHS-R Open Analytics Resources for Health and Care
+- Free textbooks, e.g. *R for Data Science*
+
+## Getting access at NUTH
+
+1. Create a GitHub account if you do not already have one
+2. Raise a service desk ticket to Cyber Security and IG for access to github.com, and for Git Bash and GitHub Desktop
+3. Raise a separate ticket to join the SCCM-R group to install R, Rtools and RStudio
+4. Clone the repositories you need and run the code locally
+
+# Data safety
+
+## Keep data and secrets out of GitHub
+
+- Use a `.gitignore` file to exclude data files, outputs and associated secrets
+- Store  secrets in environment variables, not in code
+- Use a `.env` file for environment variables, incl secrets, and never commit it
+- Check your repository before every commit and/or push
+
+```text
+# Example .gitignore entries
+.env
+data/
+*.csv
+```
+
+::: {.callout-warning}
+Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems. Follow Trust information governance guidance.
+:::
+
+# Wrap-up
+
+## Points to take away
+
+- Outcome 4 is where your data skills meet the curriculum
+- Start with a small, real question from your current rotation
+- Use free training materials and community support
+- Keep your work reproducible and version-controlled, and your secrets secure
+
+## Favourite quotes
+
+> "All models are wrong, but some are useful."
+
+> "Hard cases make bad law."
+
+## Questions and discussion
+
+Thank you.
+
+Contact: 
+
+- Daniel Weiand, dweiand@nhs.net
+- Alex Martin, alexander.martin6@nhs.net
+
