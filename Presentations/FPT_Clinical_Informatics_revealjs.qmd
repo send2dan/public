@@ -4,7 +4,7 @@ subtitle: "Using digitally recorded data for research, audit and data analysis"
 author: "<strong>Daniel Weiand; Alex Martin</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust"
 date: "19 Nov 2026"
 date-format: "dddd, D MMMM YYYY"
-keywords: [Flexible Portfolio Training, FPT, Clinical Informatics, Curriculum, Outcome 4, Reproducible Analytical Pipeline, R, Python, Git, GitHub, NHS-R]
+keywords: [Flexible Portfolio Training, FPT, Clinical Informatics, Curriculum, Outcome 4, Reproducible Analytical Pipeline, R, Python, Git, GitHub, NHS-R (NHS-OA)]
 lang: en-GB
 editor: source
 self-contained: true
@@ -201,7 +201,7 @@ Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
 | GitHub | Share, review and back up code |
 | Quarto | Produce reports, slides and documents from code |
 
-## NHS-R training courses
+## NHS-R (NHS-OA) training courses
 
 Free to NHS staff, with registration. Sessions run regularly and places are limited.
 
@@ -215,10 +215,10 @@ All course materials are freely available on GitHub: `github.com/nhs-r-community
 
 ## Support and community
 
-- NHS-R Slack community: useful when you are stuck (share a reproducible example)
-- NHS-R Coffee and Code sessions: informal coding get-togethers
-- NHS-R blog: `nhsrcommunity.com/blog`
-- NHS-R Open Analytics Resources for Health and Care
+- NHS-R (NHS-OA) Slack community: useful when you are stuck (share a reproducible example)
+- NHS-R (NHS-OA) Coffee and Code sessions: informal coding get-togethers
+- NHS-R (NHS-OA) blog: `nhsrcommunity.com/blog`
+- NHS-R (NHS-OA) Open Analytics Resources for Health and Care
 - Free textbooks, e.g. *R for Data Science*
 
 ## Getting access at NUTH
@@ -253,9 +253,13 @@ Potentially patient-identifiable data must never be committed to a repository or
 ## Points to take away
 
 - Outcome 4 is where your data skills meet the curriculum
-- Start with a small, real question from your current rotation
+- Start with data you already have access to
+- Consider starting with a small project that you can complete in a few weeks
+- Aim to leverage what R is good at: e.g. reproducible analytical pipelines, data visualisation, merging data sets*, and statistical analysis
 - Use free training materials and community support
 - Keep your work reproducible and version-controlled, and your secrets secure
+
+*e.g. using ggplot2 for data viz, dplyr for data wrangling, tidyr for reshaping data, and readr for reading/writing data, or pandas for Python
 
 ## Favourite quotes
 
