@@ -1,8 +1,8 @@
 ---
 title: "Flexible Portfolio Training in Clinical Informatics"
 subtitle: "Using digitally recorded data for research, audit and data analysis"
-author: "<strong>Daniel Weiand</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust"
-date: today
+author: "<strong>Daniel Weiand; Alex Martin</strong><br>Newcastle upon Tyne Hospitals NHS Foundation Trust"
+date: "19 Nov 2026"
 date-format: "dddd, D MMMM YYYY"
 keywords: [Flexible Portfolio Training, FPT, Clinical Informatics, Curriculum, Outcome 4, Reproducible Analytical Pipeline, R, Python, Git, GitHub, NHS-R]
 lang: en-GB
@@ -34,8 +34,6 @@ format:
 
 - Flexible portfolio training (FPT) doctors in clinical informatics
 - Experience: 1 to 4 years in FPT
-- Grade: ST4 to ST6
-- Specialties: geriatrics, oncology, gastroenterology, respiratory, neurology, gynaecology
 
 ## Session aims
 
@@ -44,7 +42,7 @@ By the end of this session you should be able to:
 - Describe the six capabilities of the clinical informatics FPT curriculum
 - Explain why Outcome 4 (information and knowledge management) matters for research and audit
 - Identify practical first steps using R or Python, Git and GitHub
-- Know where to find free, NHS-focused training and support
+- Know where to find free training materials and support
 
 # The curriculum
 
@@ -143,7 +141,7 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 
 - Audit and research questions often arise in clinical practice
 - The data already exists in EPRs and laboratory systems
-- The skill is reproducing the analysis, not just doing it once
+- An important skill is repeatedly and reliably reproducing robust data analyses, not just doing it once
 - Good data handling supports the other five outcomes
 
 ## What "accessing and using digitally recorded data" looks like
@@ -163,14 +161,14 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 - Outputs are shared automatically, with consistent definitions
 
 ::: {.callout-tip}
-A RAP lets an audit be repeated next year with the same method and a fair comparison.
+A RAP lets an analysis be repeated a regular intervals with minimal effort, and allows the analysis to be reviewed and improved by others.
 :::
 
 ## Example: MRSA admission screening compliance
 
 - Problem: compliance with MRSA admission screening was effectively unknown before automated analysis
 - Method: SQL extraction from a data warehouse, processed and analysed in R, published as a weekly report
-- Outputs: ward-level compliance, statistical process control charts, weekly email alerts
+- Outputs: ward-level compliance, patient-level data on non-compliant cases, statistical process control charts, weekly email alerts
 - Result: sustained improvement in compliance over the study period
 
 ::: {.callout-note}
@@ -180,12 +178,12 @@ Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
 ## Feedback drives change
 
 - Regular, local feedback improves performance
-- Reflexive monitoring helps teams see how an intervention works in their own context
+- Systematic surveillance helps teams see how an intervention works in their own context
 - Timely and trustworthy data is what makes feedback useful
 
 # Getting started with code
 
-## Why R and Python?
+## Why R / Python?
 
 - Both are among the most commonly used languages for data science
 - Open source and free to use
@@ -196,12 +194,12 @@ Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
 
 | Tool | Use |
 |------|-----|
-| R or Python | Extract, clean and analyse data |
-| RStudio or VS Code | Write and run code |
+| R / Python | Extract, clean and analyse data |
+| RStudio/Posit or VS Code | IDE; Write and run code |
+| SQL | Query data warehouses and databases |
 | Git | Track changes to code |
 | GitHub | Share, review and back up code |
 | Quarto | Produce reports, slides and documents from code |
-| SQL | Query data warehouses and databases |
 
 ## NHS-R training courses
 
@@ -234,10 +232,10 @@ All course materials are freely available on GitHub: `github.com/nhs-r-community
 
 ## Keep data and secrets out of GitHub
 
-- Use a `.gitignore` file to exclude data files, outputs and secrets
-- Use a `.env` file for local settings, and never commit it
-- Store short secrets in environment variables, not in code
-- Check your repository before every push
+- Use a `.gitignore` file to exclude data files, outputs and associated secrets
+- Store  secrets in environment variables, not in code
+- Use a `.env` file for environment variables, incl secrets, and never commit it
+- Check your repository before every commit and/or push
 
 ```text
 # Example .gitignore entries
@@ -247,7 +245,7 @@ data/
 ```
 
 ::: {.callout-warning}
-Patient-identifiable data must never be committed to a repository or shared outside approved systems. Follow Trust information governance guidance.
+Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems. Follow Trust information governance guidance.
 :::
 
 # Wrap-up
@@ -256,8 +254,8 @@ Patient-identifiable data must never be committed to a repository or shared outs
 
 - Outcome 4 is where your data skills meet the curriculum
 - Start with a small, real question from your current rotation
-- Use free NHS-R training and community support
-- Keep your work reproducible, version-controlled and secure
+- Use free training materials and community support
+- Keep your work reproducible and version-controlled, and your secrets secure
 
 ## Favourite quotes
 
@@ -269,4 +267,8 @@ Patient-identifiable data must never be committed to a repository or shared outs
 
 Thank you.
 
-Contact: Daniel Weiand, dweiand@nhs.net
+Contact: 
+
+- Daniel Weiand, dweiand@nhs.net
+- Alex Martin, alexander.martin6@nhs.net
+
