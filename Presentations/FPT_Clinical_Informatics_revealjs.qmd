@@ -35,16 +35,34 @@ format:
 - Flexible portfolio training (FPT) doctors in clinical informatics
 - Experience: 1 to 4 years in FPT
 
+## Who is presenting
+
+- **Dan Weiand**: Outcome 4 in practice, Git, SQL, R, ggplot2 and data dictionaries
+- **Alex Martin**: the clinical informatics curriculum
+
+## Before we start: a few questions
+
+Show of hands, or use the chat:
+
+1. Have you used R, Python or any other coding language before?
+2. Have you written code or a script for work (e.g. a SQL query, an Excel macro, an R or Python script)?
+3. Where have you used it? (audit, research, service analysis, QI, other)
+4. Which of your current FPT projects involve digitising a service, collecting data, or analysing data?
+
 ## Session aims
 
 By the end of this session you should be able to:
 
 - Describe the six capabilities of the clinical informatics FPT curriculum
 - Explain why Outcome 4 (information and knowledge management) matters for research and audit
-- Identify practical first steps using R or Python, Git and GitHub
+- Explain why Git is essential for any coding work, and make a simple change under version control
+- Describe what a data dictionary and a `.gitignore` file are, and why they matter
+- Identify practical first steps using R or Python, SQL, Git and GitHub
 - Know where to find free training materials and support
 
 # The curriculum
+
+## Presenter: Alex Martin
 
 ## Clinical informatics curriculum pathway for FPT
 
@@ -137,6 +155,8 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 
 # Focus: Outcome 4 in practice
 
+## Presenter: Dan Weiand
+
 ## Why Outcome 4 is relevant to you
 
 - Audit and research questions often arise in clinical practice
@@ -152,6 +172,20 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 4. Clean, check and document the data
 5. Analyse and visualise
 6. Share the result with the people who can act on it
+
+## Relevance to your projects
+
+Most FPT projects already involve one or more of these steps:
+
+| Project stage | Example | Where code helps |
+|---------------|---------|------------------|
+| Digitising a service | Moving a referral or request process onto an EPR or form | Build the data capture and check it is complete |
+| Collecting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
+| Analysing data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
+| Sharing results | Monthly reports, dashboards, papers | Automate the report so it can be rerun |
+
+- Which of these are you doing now, or planning?
+- What data do you already have access to?
 
 ## Reproducible analytical pipelines (RAP)
 
@@ -228,21 +262,229 @@ All course materials are freely available on GitHub: `github.com/nhs-r-community
 3. Raise a separate ticket to join the SCCM-R group to install R, Rtools and RStudio
 4. Clone the repositories you need and run the code locally
 
+# R packages
+
+## Installing and loading packages
+
+- Packages are add-ons that extend base R; most come from CRAN
+- Install once, load in every script that needs them
+
+```r
+install.packages(c("tidyverse", "janitor", "lubridate"))
+
+library(tidyverse)
+```
+
+- `renv` records the package versions a project uses, so the analysis can be rerun later:
+
+```r
+renv::init()      # set up a project library
+renv::snapshot()  # record the package versions in use
+```
+
+::: {.callout-note}
+Install packages through the NUTH SCCM-R group process (see Getting access at NUTH). Do not download packages from unofficial sources.
+:::
+
+# Data dictionaries
+
+## What is a data dictionary?
+
+- A document that describes every field in a dataset
+- Answers: what does this field mean, what values can it take, where does it come from, who owns it?
+- Essential for audit and research: without it, two analysts can produce different answers from the same data
+
+## Example: digital request prioritisation project
+
+::: {.callout-note}
+Placeholder: replace the rows below with the live data dictionary for the digital request prioritisation project before the session.
+:::
+
+| Field | Description | Type | Allowed values | Source |
+|-------|-------------|------|----------------|--------|
+| `request_id` | Unique identifier for each request | Text | Unique, non-missing | Request system |
+| `date_received` | Date the request was logged | Date | Valid date, not in future | Request system |
+| `priority` | Agreed priority category | Categorical | e.g. High / Medium / Low | Prioritisation panel |
+| `service_area` | Service the request relates to | Categorical | Controlled list | Request system |
+| `date_closed` | Date the request was closed | Date | Blank if open | Request system |
+
+- Agree definitions before collecting data, not after
+- Store the dictionary in the same repository as the code, and version-control it with Git
+
+# Data wrangling
+
+## Example: clinic attendance and blood tests
+
+- Problem: which patients who attended clinic had the blood test, and which did not?
+- We have two lists: patients seen in clinic, and patients with a blood test
+- This example uses synthetic data, not patient data
+
+```r
+library(tidyverse)
+
+clinic <- tibble(
+  nhs_number  = c("111", "222", "333", "444"),
+  clinic_date = as.Date(c("2026-10-01", "2026-10-01", "2026-10-08", "2026-10-15"))
+)
+
+bloods <- tibble(
+  nhs_number = c("222", "444", "555"),
+  test_date  = as.Date(c("2026-10-01", "2026-10-15", "2026-10-20")),
+  test       = "HbA1c"
+)
+
+# Seen in clinic and had the test
+seen_and_tested <- semi_join(clinic, bloods, by = "nhs_number")
+
+# Seen in clinic, no test
+seen_not_tested <- anti_join(clinic, bloods, by = "nhs_number")
+
+# Had the test, not seen in clinic
+tested_not_seen <- anti_join(bloods, clinic, by = "nhs_number")
+```
+
+| Question | Result |
+|----------|--------|
+| Seen and tested | 222, 444 |
+| Seen, not tested | 111, 333 |
+| Tested, not seen | 555 |
+
+- In Python (pandas), the same check is `merge(..., how="outer", indicator=True)`
+- Check the counts at each step: they should add up to the number of patients you started with
+
+# Data visualisation with ggplot2
+
+## Charting a monthly DNA rate
+
+- ggplot2 builds charts in layers: data, mapping, geometry, labels, theme
+- The same code can be rerun each month with new data
+
+```r
+library(ggplot2)
+
+ggplot(attendance, aes(x = month, y = dna_rate)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "DNA rate by month", x = NULL, y = "DNA rate (%)") +
+  theme_minimal()
+```
+
+::: {.callout-note}
+`attendance` is an illustrative data frame with one row per month. Use your own data frame in its place.
+:::
+
+# Version control with Git
+
+## Why we recommend Git for all coding
+
+::: {.callout-important}
+We would not recommend trying to code without Git.
+
+"It's quicker to learn Git than to fix the problems caused by not learning Git."
+:::
+
+- Git records every change to your code, so you can see what changed, when and why
+- You can roll back to a working version when something breaks
+- GitHub lets others review your changes before they are used
+
+## Key Git ideas
+
+- **Repository**: the project folder and its full history
+- **Commit**: a saved snapshot with a message describing the change
+- **Branch**: a separate line of work, so you do not change the main version directly
+- **Pull request**: a request to review and merge a branch
+- **Clone**: copy a repository from GitHub to your computer
+
+## Live demonstration: Git workflow
+
+Alex creates a test repository, Dan edits the document and sends it back for review.
+
+1. Alex creates a new test repository on GitHub with a README
+2. Alex clones it to a local machine
+3. Dan creates a branch and edits this presentation
+4. Dan commits and pushes the change
+5. Dan opens a pull request
+6. Alex reviews the change and merges it
+
+```bash
+git clone https://github.com/<owner>/<test-repo>.git
+cd <test-repo>
+
+git switch -c dan-edit-slides
+git add <file-edited>
+git commit -m "Clarify Outcome 4 slide"
+git push -u origin dan-edit-slides
+```
+
+::: {.callout-tip}
+Use `git status` before every commit to check exactly which files you are about to save.
+:::
+
+## Live demonstration: SQL from the data warehouse
+
+Dan will open the data warehouse and run a script to pull a set of data. The script will be saved in a Git repository so the extract can be rerun.
+
+```sql
+-- Illustrative only: table and column names will differ in the live warehouse
+SELECT
+    patient_id,
+    test_code,
+    result_value,
+    result_date
+FROM lab_results
+WHERE test_code = 'HBA1C'
+  AND result_date >= '2026-01-01';
+```
+
+::: {.callout-warning}
+For the demonstration we will use a non-identifiable or aggregated extract. Never save patient-identifiable query results in a repository.
+:::
+
+# Using .gitignore
+
+## What is a .gitignore file?
+
+- A plain text file, named `.gitignore`, in the root of a repository
+- Lists files and folders that Git should not track or upload to GitHub
+- Stops data, secrets and temporary files being committed by accident
+
+## How to amend it
+
+- Open `.gitignore` in your editor (VS Code, RStudio or any text editor)
+- Add one pattern per line
+- Use `#` for comments, `*` as a wildcard, a trailing `/` for folders, and `!` to make an exception
+
+```text
+# Data and outputs
+data/
+*.csv
+*.xlsx
+
+# Secrets and environment
+.env
+.Renviron
+
+# R and RStudio
+.Rhistory
+.RData
+.Rproj.user/
+```
+
+## How to use it
+
+- Check what Git is ignoring: `git status`
+- Test a specific file: `git check-ignore -v data/extract.csv`
+- A `.gitignore` entry does not remove files that are already tracked. Stop tracking a file with `git rm --cached <file>`, then commit
+- Commit the `.gitignore` file itself so the whole team uses the same rules
+
 # Data safety
 
 ## Keep data and secrets out of GitHub
 
-- Use a `.gitignore` file to exclude data files, outputs and associated secrets
-- Store  secrets in environment variables, not in code
-- Use a `.env` file for environment variables, incl secrets, and never commit it
+- Use `.gitignore` to exclude data files, outputs and secrets (see previous section)
+- Store secrets in environment variables, not in code
+- Use a `.env` file for environment variables, including secrets, and never commit it
 - Check your repository before every commit and/or push
-
-```text
-# Example .gitignore entries
-.env
-data/
-*.csv
-```
 
 ::: {.callout-warning}
 Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems. Follow Trust information governance guidance.
@@ -255,7 +497,9 @@ Potentially patient-identifiable data must never be committed to a repository or
 - Outcome 4 is where your data skills meet the curriculum
 - Start with data you already have access to
 - Consider starting with a small project that you can complete in a few weeks
-- Aim to leverage what R is good at: e.g. reproducible analytical pipelines, data visualisation, merging data sets*, and statistical analysis
+- Write a data dictionary before you collect or analyse data
+- Aim to leverage what R is good at: e.g. reproducible analytical pipelines, data visualisation with ggplot2, merging data sets*, and statistical analysis
+- Use Git for all code: it is quicker to learn Git than to fix the problems caused by not learning Git
 - Use free training materials and community support
 - Keep your work reproducible and version-controlled, and your secrets secure
 
