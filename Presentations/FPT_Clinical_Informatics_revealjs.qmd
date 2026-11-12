@@ -41,6 +41,7 @@ format:
 }
 </style>
 
+# Welcome!
 
 ## Before we start: a few questions
 
@@ -109,7 +110,7 @@ Example: Keeping data safe when using and sharing code.
 :::
 
 
----
+
 
 ## Outcome 2: System use and clinician safety
 
@@ -132,7 +133,7 @@ Example: Develop reports from EHR data, e.g. audits of patient care.
 :::
 
 
----
+
 
 ## Outcome 3: Digital communication assessor
 
@@ -155,7 +156,7 @@ Example: Analyse DNA rates and implement a digital solution.
 :::
 
 
----
+
 
 ## Outcome 4: Information and knowledge management
 
@@ -182,7 +183,7 @@ Example: Using a coding language for data extraction, analysis and visualisation
 :::
 
 
----
+
 
 ## Outcome 5: Patient empowerment
 
@@ -200,7 +201,7 @@ Example: Using a coding language for data extraction, analysis and visualisation
 *GPC domains 1, 2, 3, 4, 5, 6, 7, 8, 9*
 
 
----
+
 
 ## Outcome 6: Emerging technologies
 
@@ -217,7 +218,7 @@ Example: Using a coding language for data extraction, analysis and visualisation
 
 *GPC domains 1, 2, 3, 4, 5, 6, 8, 9*
 
----
+
 
 
 # Outcome 4 in practice
@@ -241,33 +242,60 @@ Example: Using a coding language for data extraction, analysis and visualisation
 ::: {.small-table}
 | Project stage | Example | Where code helps |
 |---------------|---------|------------------|
-| Digitising a service | Moving a referral or request process onto an EPR or form | Build the data capture and check it is complete |
-| Collecting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
-| Analysing data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
+| Collecting/extracting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
+| Wrangling/transforming data | Preparing data for analysis | Clean and transform the data |
+| Analysing/loading data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
 | Sharing results | Monthly reports, dashboards, papers | Automate the report so it can be rerun |
 :::
+
+ETL: *Extract, Transform, Load* - This means taking data from a source, cleaning and transforming it, and loading it into a new format or system for analysis.
 
 - Which of these are you doing now, or planning?
 - What data do you already have access to?
 
 ## Reproducible analytical pipelines (RAP)
 
-- A set of principles and working practices that turn raw data into analysable, reportable outputs reliably and transparently
+- A set of principles and working practices that repeatedly turn raw data into analysable, reportable outputs reliably and transparently
 - Code is version-controlled, so every change is recorded
 - Analysis is rerun, not rebuilt by hand
 - Outputs are shared automatically, with consistent definitions
 
 ::: {.callout-tip}
-A RAP lets an analysis be repeated a regular intervals with minimal effort, and allows the analysis to be reviewed and improved by others.
+A RAP lets an analysis be repeated at regular intervals with minimal effort, and furthermore allows the analysis to be reviewed and improved and iterated on by others. 
 :::
 
-## Example: MRSA admission screening compliance
+# Example: Improving MRSA admission screening compliance
+
+## Case study
 
 - Problem: compliance with MRSA admission screening was effectively unknown before automated analysis
 - Method: SQL extraction from a data warehouse, processed and analysed in R, published as a weekly report
 - Outputs: ward-level compliance, patient-level data on non-compliant cases, statistical process control charts, weekly email alerts
 - Result: sustained improvement in compliance over the study period
 
+## Example: A reproducible analytical pipeline
+
+```{mermaid}
+flowchart TD
+    A[Data Warehouse]
+    B[SQL Extract]
+    C[R Script]
+    D[Validation Checks]
+    E[Analysis]
+    F[Quarto Report]
+    G[Ward Feedback Email]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
+::: {.callout-tip}
+The key principle is that every step is documented and reproducible. Once built, the pipeline can be rerun using updated data with minimal manual effort.
+:::
 
 ## Feedback drives change
 
@@ -283,6 +311,42 @@ A RAP lets an analysis be repeated a regular intervals with minimal effort, and 
 - Free and open source software (FOSS)
 - Used across industry and increasingly across the NHS
 - Large communities share peer-reviewed learning and resources on GitHub
+
+## Excel is useful, but has limitations
+
+Excel is excellent for quick summaries, ad hoc analyses and small datasets. Many audits and service evaluations start in Excel.
+
+However, as projects become larger or need to be repeated regularly, manual spreadsheet workflows become difficult to reproduce, review and maintain.
+
+::: {.small-table}
+| Excel workflow | R / Python workflow |
+|---|---|
+| Manual filtering and sorting | Steps recorded in code |
+| Copy and paste calculations | Calculations rerun automatically |
+| Charts updated by hand | Charts generated automatically |
+| Difficult to track changes | Full version history with Git |
+| Easy to introduce accidental errors | Same process repeated consistently |
+| Hard for others to review | Methods are transparent and auditable |
+| Repeated work each month | One-click rerun of the analysis |
+:::
+
+::: {.callout-tip}
+The aim is not to replace Excel completely. Many analysts still use Excel for viewing and sharing data. The advantage of R and Python is that the analysis itself becomes reproducible, transparent and easy to rerun.
+:::
+
+## Example
+
+A monthly clinic DNA report might require:
+
+1. Downloading activity data
+2. Filtering records
+3. Calculating attendance rates
+4. Creating charts
+5. Producing a report
+
+In Excel these steps are often repeated manually every month.
+
+In a reproducible analytical pipeline, the same script can perform all steps automatically, reducing effort and minimising errors.
 
 ## Core tools
 
@@ -418,10 +482,33 @@ tested_not_seen <- anti_join(bloods, clinic, by = "nhs_number")
 
 # Data visualisation with ggplot2
 
-## Charting a monthly DNA rate
+## Example code
 
 - ggplot2 builds charts in layers: data, mapping, geometry, labels, theme
-- The same code can be rerun each month with new data
+
+```r
+library(ggplot2)
+
+# ---------------------------------------
+# 1. Scatter plot with regression line
+# ---------------------------------------
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(size = 3, colour = "steelblue") +
+  geom_smooth(method = "lm", se = TRUE, colour = "red") +
+  labs(
+    title = "Fuel Economy vs Vehicle Weight",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon"
+  ) +
+  theme_minimal()
+```
+
+## Example: Charting a monthly DNA rate
+
+- The same code can be rerun each month with new data, for example:
+
+- DNA rate on Y axis
+- Time (month) on X axis
 
 ```r
 library(ggplot2)
@@ -433,7 +520,7 @@ ggplot(attendance, aes(x = month, y = dna_rate)) +
   theme_minimal()
 ```
 
-# Example: Freeman hepatitis clinic
+## Example: Freeman hepatitis clinic
 
 # Version control with Git
 
@@ -445,7 +532,8 @@ It's quicker to learn Git than to fix the problems caused by not learning Git.
 
 - Git records every change to your code, so you can see what changed, when and why
 - You can roll back to a working version when something breaks
-- GitHub lets others review your changes before they are used
+- GitHub lets others use, review and contribute to your code
+- This whole presentation was written in Markdown using Quarto and version-controlled with Git
 
 ## Key Git ideas
 
@@ -549,7 +637,46 @@ Potentially patient-identifiable data must never be committed to a repository or
 - Keep your work reproducible and version-controlled, and your secrets secure
 - We wrote this presentation in R Markdown and version-controlled with Git
 
-## Questions and discussion
+# Actions for the next month
+
+## Five practical steps to get started
+
+1. **Join NHS-R (NHS OA)**
+   - Explore the community website, blog, Slack workspace and training materials
+   - Attend a Coffee and Code session
+
+2. **Install the core tools**
+   - Git
+   - GitHub Desktop or Git Bash
+   - R and RStudio (or VS Code)
+
+## Five practical steps to get started
+
+3. **Create a GitHub account**
+   - Learn how to clone a repository, make a change and commit it
+   - Explore existing NHS analytics projects
+
+4. **Identify one manual process**
+   - Audit report
+   - Service dashboard
+   - Waiting-list analysis
+   - Surveillance report
+   - Research dataset preparation
+
+## Five practical steps to get started
+
+5. **Automate one part of it**
+   - Import data automatically
+   - Clean data with code
+   - Generate a chart
+   - Produce a report in Quarto
+
+
+::: {.callout-tip}
+Start small. The goal is not to become a software engineer overnight. Aim to save yourself one hour of repetitive work each month, then build from there.
+:::
+
+# Questions and discussion
 
 Thank you.
 
