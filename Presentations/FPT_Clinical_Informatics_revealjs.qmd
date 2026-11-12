@@ -30,31 +30,32 @@ format:
     standalone: true
 ---
 
-## Who this session is for
+<style>
+.small-table table {
+  font-size: 0.7em;
+}
 
-- Flexible portfolio training (FPT) doctors in clinical informatics
-- Experience: 1 to 4 years in FPT
+.small-table th,
+.small-table td {
+  padding: 3px 6px;
+}
+</style>
 
-## Who is presenting
-
-- **Dan Weiand**: Outcome 4 in practice, Git, SQL, R, ggplot2 and data dictionaries
-- **Alex Martin**: the clinical informatics curriculum
 
 ## Before we start: a few questions
 
-Show of hands, or use the chat:
+1. Which of your current FPT projects involve analysing or visualising data?
+2. Have you used R, Python or any other coding language before?
+3. Have you written code or a script for work (e.g. a SQL query, an Excel macro, an R or Python script)?
+4. Where have you used it? (audit, research, service analysis, QI, other)
 
-1. Have you used R, Python or any other coding language before?
-2. Have you written code or a script for work (e.g. a SQL query, an Excel macro, an R or Python script)?
-3. Where have you used it? (audit, research, service analysis, QI, other)
-4. Which of your current FPT projects involve digitising a service, collecting data, or analysing data?
 
 ## Session aims
 
 By the end of this session you should be able to:
 
 - Describe the six capabilities of the clinical informatics FPT curriculum
-- Explain why Outcome 4 (information and knowledge management) matters for research and audit
+- Understanding how using a coding language can help you achieve these
 - Explain why Git is essential for any coding work, and make a simple change under version control
 - Describe what a data dictionary and a `.gitignore` file are, and why they matter
 - Identify practical first steps using R or Python, SQL, Git and GitHub
@@ -62,11 +63,12 @@ By the end of this session you should be able to:
 
 # The curriculum
 
-## Presenter: Alex Martin
+## Clinical informatics curriculum
 
-## Clinical informatics curriculum pathway for FPT
-
-The curriculum is organised around six outcomes, each with capability descriptors, illustrative professional activities and links to the GPC (generic professional capabilities) domains.
+- 2019 Clinical Informatics FPT curriculum
+- Six outcomes
+- Capability descriptors, illustrative professional activities
+- Links to GPC (generic professional capabilities) domains
 
 ::: {.callout-note}
 Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informatics curriculum pathway for FPT_0.pdf`).
@@ -81,83 +83,144 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 5. Patient empowerment
 6. Emerging technologies
 
+::: {.callout}
+Examples of how this session might help
+:::
+
+
+# Clinical Informatics Pathway
+
 ## Outcome 1: Information governance and security
 
 **Capability descriptors**
 
-- Be aware of updated, clinically relevant governance procedures for digital technologies (e.g. personal mobile devices used to communicate patient information)
-- Practical cybersecurity knowledge (e.g. identifying phishing scams and the implications of breaches)
+1. Understand information governance requirements for digital technologies
+2. Understand practical cybersecurity
 
-**Illustrative activities**
+**Relevant illustrative activities**
 
-- Attend a trust information governance board meeting
-- Write and present a policy on procuring new clinical systems
-- Audit orphan or bespoke systems for GDPR compliance
-- Business case or project for single sign-on in areas such as the ED
+- Attend a Trust Information Governance Board meeting.
+- Develop a policy for procuring new clinical systems.
+- Audit legacy and bespoke systems for GDPR compliance.
+- Develop a business case or project for single sign-on to improve security and efficiency.
 
-*GPC domains 1, 2, 3, 6, 8, 9*
+::: {.callout}
+Example: Keeping data safe when using and sharing code.
+:::
+
+
+---
 
 ## Outcome 2: System use and clinician safety
 
 **Capability descriptors**
 
-- Logistics of hardware in practice (e.g. battery life, infection control)
-- Critically appraise new technologies, including good and bad system design (error traps, workarounds)
-- Purposes of electronic care records, and the structure and standards (including coding and classification) needed for those uses
+1. Logistics of hardware in practice e.g. battery life, infection control
+2. Ability to critically appraise new technologies
+3. Structures and standards for electronic care records, including coding
 
-**Illustrative activities**
+**Relevant illustrative activities**
 
-- Use electronic health records in routine practice, with an emphasis on e-prescribing
-- Appraise hardware, e.g. handheld devices
-- Develop reports from EHR data, e.g. audits of patient care
-- Take part in a clinical safety review of a clinical system or app
+- Use electronic health records in routine clinical practice with an emphasis on e-prescribing
+- Analyse data held in electronic health records, e.g. audits of patient care
+- Participate in a clinical safety review of a clinical system or app
 
 *GPC domains 1, 2, 3, 4, 5, 6, 9*
+
+::: {.callout}
+Example: Develop reports from EHR data, e.g. audits of patient care.
+:::
+
+
+---
 
 ## Outcome 3: Digital communication assessor
 
 **Capability descriptors**
 
-- Transfer and retrieval of digital patient data, including shared care, data protection and security
-- Remote data management and hardware use for safe remote working
-- Risks of under-communication (assuming information can be found by others) and over-communication (alert fatigue, excessive inbox notifications)
+1. Transfer and retrieval of digital patient data
+2. Knowledge of remote data management and hardware use
+3. Understanding the risks of over- and under-communication
 
 **Illustrative activities**
 
-- Survey clinicians on messaging use (e.g. WhatsApp)
-- Business case or project to find an acceptable alternative
-- Bring-your-own-device policy
-- Investigate DNA rates and implement text reminders
-- Advice and guidance solution (GP advice from hospital specialists)
-- Redesign referral systems or discharge letters
+- Investigate DNA rates and implement text reminders or other interactive solution
+- Implement advice and guidance solution (GP advice from hospital specialists)
+- Redesign of referral system or discharge letters
 
 *GPC domains 1, 2, 3, 5, 6, 7, 8, 9*
+
+::: {.callout}
+Example: Analyse DNA rates and implement a digital solution.
+:::
+
+
+---
 
 ## Outcome 4: Information and knowledge management
 
 **Capability descriptors**
 
-- Properties of different media
-- Decision support: finding and recording information sources digitally
-- Secondary use of data:
-  - nuances of digital recording, e.g. terminologies for high-quality data capture
-  - **accessing and using digitally recorded data for research and audit**
-  - **data analysis**
+1a. Understand the properties of different media.
+1b. Decision support – finding and recording sources of information digitally.
+3. Secondary use of data:
+   - Nuances of digital data recording, e.g. use of terminologies and nomenclatures for high-quality data capture
+   - Accessing and using digitally recorded data for research and audit
+   - Data analysis
 
 **Illustrative activities**
 
-- If the trust has an EPR, lead on digitising or improving a treatment pathway
-- Map the current state, define problems, design and implement solutions
-- Prioritise EPR developments by clinical importance
+- If trust has an EPR, lead on digitising or improving a treatment pathway
+- Map out current state, define problems, design and implement solutions
+- Prioritise EPR developments based on clinical importance
 - Design a new intelligence dashboard, e.g. for service performance and patient flow
 
 *GPC domains 1, 2, 3, 4, 5, 6, 8, 9*
 
-# Focus: Outcome 4 in practice
+::: {.callout}
+Example: Using a coding language for data extraction, analysis and visualisation
+:::
 
-## Presenter: Dan Weiand
 
-## Why Outcome 4 is relevant to you
+---
+
+## Outcome 5: Patient empowerment
+
+**Capability descriptors**
+
+1. Be able to empower patients to seek out and appraise informatics resources allowing them to independently manage their health
+2. Be aware of how patients utilise informatics resources and how this may be impacting their health, e.g. social media.
+
+**Illustrative activities**
+
+- Survey patients’ acceptability of apps, wearables and telemedicine
+- Create information leaflets or consent forms
+- Create patient information video, website or education session to improve digital literacy
+
+*GPC domains 1, 2, 3, 4, 5, 6, 7, 8, 9*
+
+
+---
+
+## Outcome 6: Emerging technologies
+
+**Capability descriptors**
+
+1. Be aware that technology evolves rapidly, requiring frequent updating to remain contemporaneous.
+2. Be aware of future directions of healthcare technology to encourage forward thinking and integration of these into routine practice.
+
+**Illustrative activities**
+
+- Implement video consultation in an outpatient service
+- Work with app developers to roll out telemedicine use to improve community care for a chronic condition
+- Create method for horizon scanning
+
+*GPC domains 1, 2, 3, 4, 5, 6, 8, 9*
+
+---
+
+
+# Outcome 4 in practice
 
 - Audit and research questions often arise in clinical practice
 - The data already exists in EPRs and laboratory systems
@@ -175,14 +238,14 @@ Source: HEE clinical informatics curriculum pathway for FPT (`Clinical Informati
 
 ## Relevance to your projects
 
-Most FPT projects already involve one or more of these steps:
-
+::: {.small-table}
 | Project stage | Example | Where code helps |
 |---------------|---------|------------------|
 | Digitising a service | Moving a referral or request process onto an EPR or form | Build the data capture and check it is complete |
 | Collecting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
 | Analysing data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
 | Sharing results | Monthly reports, dashboards, papers | Automate the report so it can be rerun |
+:::
 
 - Which of these are you doing now, or planning?
 - What data do you already have access to?
@@ -205,9 +268,6 @@ A RAP lets an analysis be repeated a regular intervals with minimal effort, and 
 - Outputs: ward-level compliance, patient-level data on non-compliant cases, statistical process control charts, weekly email alerts
 - Result: sustained improvement in compliance over the study period
 
-::: {.callout-note}
-Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
-:::
 
 ## Feedback drives change
 
@@ -219,12 +279,14 @@ Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
 
 ## Why R / Python?
 
-- Both are among the most commonly used languages for data science
-- Open source and free to use
+- Most commonly used languages for data science
+- Free and open source software (FOSS)
 - Used across industry and increasingly across the NHS
 - Large communities share peer-reviewed learning and resources on GitHub
 
 ## Core tools
+
+::: {.small-table}
 
 | Tool | Use |
 |------|-----|
@@ -235,9 +297,11 @@ Innovation winner, Excellence in Clinical Audit Awards 2026 (HQIP case study).
 | GitHub | Share, review and back up code |
 | Quarto | Produce reports, slides and documents from code |
 
+:::
+
 ## NHS-R (NHS-OA) training courses
 
-Free to NHS staff, with registration. Sessions run regularly and places are limited.
+Free to NHS staff
 
 - Introduction to R and RStudio
 - Intermediate R
@@ -296,20 +360,23 @@ Install packages through the NUTH SCCM-R group process (see Getting access at NU
 
 ## Example: digital request prioritisation project
 
-::: {.callout-note}
-Placeholder: replace the rows below with the live data dictionary for the digital request prioritisation project before the session.
-:::
+The `data_dig_req` dataset contains wrangled digital request information extracted from the Project Management Office (PMO) system.
+
+::: {.small-table}
 
 | Field | Description | Type | Allowed values | Source |
-|-------|-------------|------|----------------|--------|
-| `request_id` | Unique identifier for each request | Text | Unique, non-missing | Request system |
-| `date_received` | Date the request was logged | Date | Valid date, not in future | Request system |
-| `priority` | Agreed priority category | Categorical | e.g. High / Medium / Low | Prioritisation panel |
-| `service_area` | Service the request relates to | Categorical | Controlled list | Request system |
-| `date_closed` | Date the request was closed | Date | Blank if open | Request system |
+|---|---|---|---|---|
+| `digital_request_number` | Unique request identifier | Text | Unique, non-missing | PMO extract |
+| `directorate` | Responsible directorate | Categorical | Trust directorate list | PMO extract |
+| `urgency` | Urgency rating | Categorical | Critical / High / Medium / Low | PMO extract |
+| `impact` | Potential impact | Categorical | High / Medium / Low | PMO extract |
+| `board_priority_rank` | Board-assigned priority ranking | Numeric | 1 = highest priority | Prioritisation board |
 
-- Agree definitions before collecting data, not after
-- Store the dictionary in the same repository as the code, and version-control it with Git
+:::
+
+- Agree definitions before collecting data
+- Store the dictionary in the same repository as the code
+- Version control with Git
 
 # Data wrangling
 
@@ -317,7 +384,6 @@ Placeholder: replace the rows below with the live data dictionary for the digita
 
 - Problem: which patients who attended clinic had the blood test, and which did not?
 - We have two lists: patients seen in clinic, and patients with a blood test
-- This example uses synthetic data, not patient data
 
 ```r
 library(tidyverse)
@@ -342,15 +408,13 @@ seen_not_tested <- anti_join(clinic, bloods, by = "nhs_number")
 # Had the test, not seen in clinic
 tested_not_seen <- anti_join(bloods, clinic, by = "nhs_number")
 ```
-
+::: {.small-table}
 | Question | Result |
 |----------|--------|
 | Seen and tested | 222, 444 |
 | Seen, not tested | 111, 333 |
 | Tested, not seen | 555 |
-
-- In Python (pandas), the same check is `merge(..., how="outer", indicator=True)`
-- Check the counts at each step: they should add up to the number of patients you started with
+:::
 
 # Data visualisation with ggplot2
 
@@ -369,18 +433,14 @@ ggplot(attendance, aes(x = month, y = dna_rate)) +
   theme_minimal()
 ```
 
-::: {.callout-note}
-`attendance` is an illustrative data frame with one row per month. Use your own data frame in its place.
-:::
+# Example: Freeman hepatitis clinic
 
 # Version control with Git
 
 ## Why we recommend Git for all coding
 
 ::: {.callout-important}
-We would not recommend trying to code without Git.
-
-"It's quicker to learn Git than to fix the problems caused by not learning Git."
+It's quicker to learn Git than to fix the problems caused by not learning Git.
 :::
 
 - Git records every change to your code, so you can see what changed, when and why
@@ -401,43 +461,29 @@ Alex creates a test repository, Dan edits the document and sends it back for rev
 
 1. Alex creates a new test repository on GitHub with a README
 2. Alex clones it to a local machine
-3. Dan creates a branch and edits this presentation
+3. Dan creates a branch and makes an edit
 4. Dan commits and pushes the change
 5. Dan opens a pull request
 6. Alex reviews the change and merges it
 
+Example:
 ```bash
 git clone https://github.com/<owner>/<test-repo>.git
 cd <test-repo>
-
-git switch -c dan-edit-slides
+git switch -c dan-edit
 git add <file-edited>
-git commit -m "Clarify Outcome 4 slide"
-git push -u origin dan-edit-slides
+git commit -m "My edit"
+git push -u origin dan-edit
 ```
-
 ::: {.callout-tip}
 Use `git status` before every commit to check exactly which files you are about to save.
 :::
 
 ## Live demonstration: SQL from the data warehouse
-
 Dan will open the data warehouse and run a script to pull a set of data. The script will be saved in a Git repository so the extract can be rerun.
 
-```sql
--- Illustrative only: table and column names will differ in the live warehouse
-SELECT
-    patient_id,
-    test_code,
-    result_value,
-    result_date
-FROM lab_results
-WHERE test_code = 'HBA1C'
-  AND result_date >= '2026-01-01';
-```
-
 ::: {.callout-warning}
-For the demonstration we will use a non-identifiable or aggregated extract. Never save patient-identifiable query results in a repository.
+Never save patient-identifiable query results in a repository.
 :::
 
 # Using .gitignore
@@ -445,7 +491,7 @@ For the demonstration we will use a non-identifiable or aggregated extract. Neve
 ## What is a .gitignore file?
 
 - A plain text file, named `.gitignore`, in the root of a repository
-- Lists files and folders that Git should not track or upload to GitHub
+- Lists files and folders that Git should not track or upload to GitHub - clinic_patient_list.csv
 - Stops data, secrets and temporary files being committed by accident
 
 ## How to amend it
@@ -487,29 +533,21 @@ data/
 - Check your repository before every commit and/or push
 
 ::: {.callout-warning}
-Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems. Follow Trust information governance guidance.
+Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems.
 :::
 
 # Wrap-up
 
 ## Points to take away
 
-- Outcome 4 is where your data skills meet the curriculum
-- Start with data you already have access to
-- Consider starting with a small project that you can complete in a few weeks
+- Data skills: Outcome 4 in the 2019 curriculum
+- Start with a small project that you can complete in a few weeks
 - Write a data dictionary before you collect or analyse data
-- Aim to leverage what R is good at: e.g. reproducible analytical pipelines, data visualisation with ggplot2, merging data sets*, and statistical analysis
+- Aim to leverage what R is good at: e.g. reproducible analytical pipelines, data visualisation with ggplot2, merging data sets, statistical analysis
 - Use Git for all code: it is quicker to learn Git than to fix the problems caused by not learning Git
 - Use free training materials and community support
 - Keep your work reproducible and version-controlled, and your secrets secure
-
-*e.g. using ggplot2 for data viz, dplyr for data wrangling, tidyr for reshaping data, and readr for reading/writing data, or pandas for Python
-
-## Favourite quotes
-
-> "All models are wrong, but some are useful."
-
-> "Hard cases make bad law."
+- We wrote this presentation in R Markdown and version-controlled with Git
 
 ## Questions and discussion
 
