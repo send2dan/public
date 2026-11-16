@@ -56,7 +56,7 @@ format:
 By the end of this session you should be able to:
 
 - Describe the six capabilities of the clinical informatics FPT curriculum
-- Understanding how using a coding language can help you achieve these
+- Understand how coding can help achieve these outcomes
 - Explain why Git is essential for any coding work, and make a simple change under version control
 - Describe what a data dictionary and a `.gitignore` file are, and why they matter
 - Identify practical first steps using R or Python, SQL, Git and GitHub
@@ -200,6 +200,9 @@ Example: Using a coding language for data extraction, analysis and visualisation
 
 *GPC domains 1, 2, 3, 4, 5, 6, 7, 8, 9*
 
+::: {.callout}
+Use of data underpins patients' interactions with technology. 
+:::
 
 
 
@@ -217,6 +220,10 @@ Example: Using a coding language for data extraction, analysis and visualisation
 - Create method for horizon scanning
 
 *GPC domains 1, 2, 3, 4, 5, 6, 8, 9*
+
+::: {.callout}
+Using AI safely when coding
+:::
 
 
 
@@ -244,7 +251,7 @@ Example: Using a coding language for data extraction, analysis and visualisation
 |---------------|---------|------------------|
 | Collecting/extracting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
 | Wrangling/transforming data | Preparing data for analysis | Clean and transform the data |
-| Analysing/loading data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
+| Analysing data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
 | Sharing results | Monthly reports, dashboards, papers | Automate the report so it can be rerun |
 :::
 
@@ -611,10 +618,18 @@ data/
 - A `.gitignore` entry does not remove files that are already tracked. Stop tracking a file with `git rm --cached <file>`, then commit
 - Commit the `.gitignore` file itself so the whole team uses the same rules
 
-# Data safety
+# Data safety and information governance
+
+# Information governance
+- Lawful basis for using data (GDPR)
+  - Data use should proportionate and necessary
+
+- Do you need a Data Protection Impact Assessment (DPIA)?
+  - What data is needed, why it is needed, who will access it, where it will be stored and how long it will be retained
+
+- Caldicott principles
 
 ## Keep data and secrets out of GitHub
-
 - Use `.gitignore` to exclude data files, outputs and secrets (see previous section)
 - Store secrets in environment variables, not in code
 - Use a `.env` file for environment variables, including secrets, and never commit it
@@ -623,6 +638,30 @@ data/
 ::: {.callout-warning}
 Potentially patient-identifiable data must never be committed to a repository or shared outside approved systems.
 :::
+
+# Artificial intelligence
+
+## AI opportunities
+- You're probably already using Copilot, Claude, ChatGPT
+- Code generation – help write, explain, troubleshoot and improve scripts
+- Documentation assistance – draft data dictionaries, code comments, technical documentation and project reports
+- Data analysis support: help understand analytical methods, interpret code and explore ways to visualise data
+- Lowers the barrier to entry to begin coding
+
+
+## AI risks
+- Hallucinations: plausible but incorrect code, information, references
+- Confidentiality: don't upload patient identifiable information
+- Accountability: AI-generated code and analysis remain your responsibility
+- Information governance: does your trust have an AI policy?
+
+If ChatGPT writes an R script that calculates your clinic DNA rate, can you explain the denominator, validate the result and recognise if the code is wrong?
+
+::: {.callout-warning}
+Use AI tools to augment, rather than replace, you as a coder
+:::
+
+
 
 # Wrap-up
 
@@ -635,7 +674,7 @@ Potentially patient-identifiable data must never be committed to a repository or
 - Use Git for all code: it is quicker to learn Git than to fix the problems caused by not learning Git
 - Use free training materials and community support
 - Keep your work reproducible and version-controlled, and your secrets secure
-- We wrote this presentation in R Markdown and version-controlled with Git
+- This presentation was written in Quarto and version-controlled with Git
 
 # Actions for the next month
 
