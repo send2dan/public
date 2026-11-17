@@ -1,0 +1,41 @@
+Here are the optimal Windows environment variables tailored specifically to NVIDIA RTX PRO 1000 Blackwell (8 GB GDDR7 VRAM), Intel Core Ultra 7 265H, and 64 GB DDR5-5600 RAM.
+
+1. Recommended Ollama Environment Variables
+
+Environment Variable	Recommended Value	Why It Helps Your Hardware
+OLLAMA_FLASH_ATTENTION	1	Enables Flash Attention on your Blackwell GPU. Cuts VRAM usage on long prompts (such as your 131K-token SARD synthesis) and accelerates prompt prefill speed.
+OLLAMA_KV_CACHE_TYPE	q8_0	Quantises the KV context cache from FP16 to 8-bit with virtually zero loss in output quality. Halves context VRAM/RAM footprint so gemma4:12b stays inside your 8 GB VRAM during Script 1.
+OLLAMA_NUM_PARALLEL	2	Allows Ollama to process 2 concurrent requests at once, matching max_active = 2 in your parallel_chat_structured() call without overflowing your 8 GB VRAM.
+OLLAMA_MAX_LOADED_MODELS	1	Ensures Ollama unloads gemma4:12b cleanly before loading gemma4:26b when you move from Script 1 to Scripts 2 & 3, preventing VRAM contention.
+OLLAMA_KEEP_ALIVE	15m	Keeps the active Gemma 4 model warm in memory for 15 minutes between runs so you don't wait for model reloads while iterating in RStudio.
+
+2. How to Apply Them in PowerShell 7
+
+Run the following block in PowerShell 7 to set these variables permanently for your Windows user account and restart the Ollama background service so they take effect immediately:
+
+powershell
+# 1. Set permanent user environment variables for Ollama
+[System.Environment]::SetEnvironmentVariable("OLLAMA_FLASH_ATTENTION", "1", "User")
+[System.Environment]::SetEnvironmentVariable("OLLAMA_KV_CACHE_TYPE", "q8_0", "User")
+[System.Environment]::SetEnvironmentVariable("OLLAMA_NUM_PARALLEL", "2", "User")
+[System.Environment]::SetEnvironmentVariable("OLLAMA_MAX_LOADED_MODELS", "1", "User")
+[System.Environment]::SetEnvironmentVariable("OLLAMA_KEEP_ALIVE", "15m", "User")
+
+# 2. Restart Ollama to load the new settings
+Stop-Process -Name "ollama*" -Force -ErrorAction SilentlyContinue
+Start-Sleep -Seconds 2
+Start-Process "ollama" -ArgumentList "serve" -WindowStyle Hidden
+
+Write-Host "Ollama environment variables updated and server restarted."
+Use code with caution.
+
+3. Verifying Hardware Offload While Running
+
+Once you start Script 1 or Script 2 in RStudio, open a PowerShell tab and run ollama ps to verify that your Blackwell GPU is carrying the expected workload:
+
+powershell
+ollama ps
+
+• gemma4:12b (Script 1): Should report 100% GPU (or ~90%+ GPU) thanks to OLLAMA_FLASH_ATTENTION=1 and OLLAMA_KV_CACHE_TYPE=q8_0.
+• gemma4:26b (Scripts 2 & 3): Will show a hybrid split (roughly 35–45% GPU / 55–65% CPU across your 8 GB VRAM and 64 GB DDR5-5600 RAM). Because gemma4:26b is a Mixture-of-Experts model with only 4B active parameters per token, that hybrid split still runs smoothly on DDR5-5600.
+Would you like to test ollama ps on a quick 5-email slice of Script 1 to compare speed and output quality between local gemma4:12b and your earlier gemini-4-hydrogen run?
