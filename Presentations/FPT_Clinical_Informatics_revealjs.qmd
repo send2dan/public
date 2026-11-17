@@ -251,11 +251,11 @@ Using AI safely when coding
 |---------------|---------|------------------|
 | Collecting/extracting data | Audit forms, incident logs, request queues | Structure the data so it can be analysed later |
 | Wrangling/transforming data | Preparing data for analysis | Clean and transform the data |
-| Analysing data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
+| Analysing/"loading" data | Turnaround times, DNA rates, compliance | Clean, summarise and chart it in R or Python |
 | Sharing results | Monthly reports, dashboards, papers | Automate the report so it can be rerun |
 :::
 
-ETL: *Extract, Transform, Load* - This means taking data from a source, cleaning and transforming it, and loading it into a new format or system for analysis.
+**ETL**: *Extract, Transform, Load* - This means taking data from a source, cleaning and transforming it, and loading it into a new format or system for analysis.
 
 - Which of these are you doing now, or planning?
 - What data do you already have access to?
@@ -622,7 +622,7 @@ data/
 
 # Information governance
 - Lawful basis for using data (GDPR)
-  - Data use should proportionate and necessary
+  - Data use should be proportionate and necessary
 
 - Do you need a Data Protection Impact Assessment (DPIA)?
   - What data is needed, why it is needed, who will access it, where it will be stored and how long it will be retained
